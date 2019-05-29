@@ -1,0 +1,11 @@
+Year: []
+categories:
+- comedy: []
+- Drama: []
+- ignore: []
+pass: tvhpassword
+user: tvhusername
+videohome: /home/chris/Videos/kmedia/TV
+filmhome: /home/chris/Videos/kmedia/Films
+tvhipaddr: 127.0.0.1
+tvhport: 9981
