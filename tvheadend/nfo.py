@@ -18,6 +18,8 @@
 """
 nfo module for tvh application
 """
+
+import time
 from tvheadend.errors import errorRaise
 
 
@@ -54,8 +56,9 @@ def makeProgNfo(show):
     pnfo = ""
     try:
         ptags = nfoTags(show)
-        ptags["showtitle"] = show["subtitle"]
-        if show["series"] is not None:
+        if "subtitle" in show and show["subtitle"] is not None and len(show["subtitle"]) > 0:
+            ptags["showtitle"] = show["subtitle"]
+        if "series" in show and show["series"] is not None:
             ptags["series"] = show["series"]
         pnfo = makeNfoString(ptags)
     except Exception as e:
@@ -192,7 +195,7 @@ def hmsDisplay(seconds):
 def timestampDisplay(ts):
     ret = ""
     try:
-        ret = time.ctime(int(ts))
+        ret = time.ctime(ts)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorRaise(fname, e)
