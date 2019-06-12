@@ -54,7 +54,7 @@ setup(
             "Topic :: Utilities"
             ],
         keywords = "dvd copying ripping conversion",
-        packages = ["tvh"],
+        packages = ["tvheadend"],
         project_urls = {
             "Source": "https://github.com/ccdale/tvh",
             "Bug Reports": "https://github.com/ccdale/tvh/issues"
@@ -63,7 +63,8 @@ setup(
         entry_points ={
             "console_scripts": [
                 "tvh = tvheadend.tvhcmd:tvh",
-                "tvhb = tvheadend.tvhbatch:tvhbatch"
+                "tvhb = tvheadend.tvhbatch:tvhbatch",
+                "tvhnfo = tvheadend.tvhnfo:tvhnfo"
                 ]
             }
         )
