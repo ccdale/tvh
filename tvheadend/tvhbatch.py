@@ -25,6 +25,7 @@ import os
 import shutil
 import time
 import requests
+from requests.exceptions import ConnectionError
 import tvheadend.tvh as TVH
 import tvheadend.utils as UT
 import tvheadend.config as CONF
@@ -109,16 +110,22 @@ def moveShow(show, config, tvauth):
 
 
 def updateKodi():
-curl --data-binary '{ "jsonrpc": "2.0", "method": "VideoLibrary.Scan"}' -H 'content-type: application/json;' http://"${KODI_ARRAY[i]}":8080/jsonrpc
-    data = {"jsonrpc": "2.0", "method": "VideoLibrary.Scan"}
-    headers = {"content-type: application/json"}
-    url = "http://127.0.0.1:8080/jsonrpc"
-    resp = requests.post(url, data=data, headers=headers, timeout=10)
-    if resp.status_code < 399:
-        print("Kodi update starting")
-    else:
-        print("Failed to update Kodi")
-        print("response: {}".format(resp))
+    try:
+        data = {"jsonrpc": "2.0", "method": "VideoLibrary.Scan"}
+        headers = {"content-type": "application/json"}
+        url = "http://127.0.0.1:8080/jsonrpc"
+        resp = requests.post(url, data=data, headers=headers, timeout=10)
+        if resp.status_code < 399:
+            print("Kodi update starting")
+        else:
+            print("Failed to update Kodi")
+            print("response: {}".format(resp))
+    except ConnectionError as ce:
+        print("Kodi isn't running")
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorExit(fname, e)
+
 
 
 def tvhbatch():
