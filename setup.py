@@ -64,7 +64,8 @@ setup(
             "console_scripts": [
                 "tvh = tvheadend.tvhcmd:tvh",
                 "tvhb = tvheadend.tvhbatch:tvhbatch",
-                "tvhnfo = tvheadend.tvhnfo:tvhnfo"
+                "tvhnfo = tvheadend.tvhnfo:tvhnfo",
+                "tvhd" = "tvheadend.tvhdelete:tvhdelete"
                 ]
             }
         )

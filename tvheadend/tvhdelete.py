@@ -38,6 +38,10 @@ class TvhInputError(Exception):
 
 def tvhdelete(fn):
     try:
+        if len(sys.argv) == 2:
+            fn = sys.argv[1]
+        else:
+            raise(TvhInputError("Please supply a filename"))
         config = CONF.readConfig()
         ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
         tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
@@ -52,8 +56,4 @@ def tvhdelete(fn):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2:
-        fn = sys.argv[1]
-    else:
-        raise(TvhInputError("Please supply a filename"))
     tvhdelete(fn)
