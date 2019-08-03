@@ -36,7 +36,7 @@ class TvhInputError(Exception):
     pass
 
 
-def tvhdelete(fn):
+def tvhdelete():
     try:
         if len(sys.argv) == 2:
             fn = sys.argv[1]
@@ -56,4 +56,4 @@ def tvhdelete(fn):
 
 
 if __name__ == '__main__':
-    tvhdelete(fn)
+    tvhdelete()
