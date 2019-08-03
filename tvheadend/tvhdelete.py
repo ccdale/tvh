@@ -38,8 +38,8 @@ class TvhInputError(Exception):
 
 def tvhdelete():
     try:
-        if len(sys.argv) == 2:
-            fn = sys.argv[1]
+        if len(sys.argv) > 1:
+            showfiles = sys.argv[1:]
         else:
             raise(TvhInputError("Please supply a filename"))
         config = CONF.readConfig()
@@ -47,7 +47,7 @@ def tvhdelete():
         tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
         tot, ents = TVH.finishedRecordings(**tvhauth)
         for show in ents:
-            if show["filename"] == fn:
+            if show["filename"] in showfiles:
                 print("Deleting {}".format(fn))
                 TVH.deleteRecording(show["uuid"], **tvhauth)
     except Exception as e:
