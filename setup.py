@@ -65,7 +65,8 @@ setup(
                 "tvh = tvheadend.tvhcmd:tvh",
                 "tvhb = tvheadend.tvhbatch:tvhbatch",
                 "tvhnfo = tvheadend.tvhnfo:tvhnfo",
-                "tvhd = tvheadend.tvhdelete:tvhdelete"
+                "tvhd = tvheadend.tvhdelete:tvhdelete",
+                "tvhl = tvheadend.tvhlist:tvhlist"
                 ]
             }
         )
