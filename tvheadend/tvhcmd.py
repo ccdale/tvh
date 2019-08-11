@@ -30,6 +30,7 @@ from tvheadend.errors import errorExit
 
 
 def tvh():
+    print("tvheadend file utility version " + tvheadend.__version__)
     try:
         config = CONF.readConfig()
         tvheadend.user = config["user"]
