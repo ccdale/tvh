@@ -133,8 +133,8 @@ def updateKodi():
 
 
 def tvhbatch():
-    print("tvheadend batch utility version " + tvheadend.__version__)
     try:
+        print("tvheadend batch utility " + tvheadend.__version__)
         config = CONF.readConfig()
         tvheadend.user = config["user"]
         tvheadend.passw = config["pass"]

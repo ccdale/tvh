@@ -38,8 +38,8 @@ class TvhInputError(Exception):
 
 
 def tvhdelete():
-    print("tvheadend file deletion " + tvheadend.__version__)
     try:
+        print("tvheadend file deletion " + tvheadend.__version__)
         if len(sys.argv) > 1:
             showfiles = sys.argv[1:]
         else:

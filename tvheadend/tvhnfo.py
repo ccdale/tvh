@@ -38,8 +38,8 @@ class TvhInputError(Exception):
 
 
 def tvhnfo():
-    print("tvheadend nfo writer version " + tvheadend.__version__)
     try:
+        print("tvheadend nfo writer " + tvheadend.__version__)
         if len(sys.argv) > 1:
             fns = sys.argv[1:]
         else:

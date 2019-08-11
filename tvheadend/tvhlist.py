@@ -38,8 +38,8 @@ class TvhInputError(Exception):
 
 
 def tvhlist():
-    print("tvheadend file lister version " + tvheadend.__version__)
     try:
+        print("tvheadend file lister " + tvheadend.__version__)
         config = CONF.readConfig()
         tvheadend.user = config["user"]
         tvheadend.passw = config["pass"]
