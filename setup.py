@@ -34,7 +34,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 setup(
         name = "tvh",
         version = __version__,
-        description = "dvd copying and ripping management tool",
+        description = "tvheadend file management utility",
         long_description = long_description,
         url = "https://github.com/ccdale/tvh",
         author = "Christopher Allison",
@@ -53,13 +53,17 @@ setup(
             "Topic :: System :: Archiving :: Mirroring",
             "Topic :: Utilities"
             ],
-        keywords = "dvd copying ripping conversion",
+        keywords = "tvheadend",
         packages = ["tvheadend"],
         project_urls = {
             "Source": "https://github.com/ccdale/tvh",
             "Bug Reports": "https://github.com/ccdale/tvh/issues"
             },
         python_requires = ">=3",
+        install_requires=[
+            "requests",
+            "pyyaml"
+            ],
         entry_points ={
             "console_scripts": [
                 "tvh = tvheadend.tvhcmd:tvh",
