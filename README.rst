@@ -4,9 +4,10 @@ tvh and tvhb Applications
 Applications to assist categorising and moving tvheadend recordings into
 the Kodi TV Show / Movie file stores.
 
- \* `User Install <#uinstall>`__ \* `Make Targets <#maketargets>`__ \*
-`Commands <#commands>`__ \* `tvh <#tvh>`__ \* `tvhb <#tvhb>`__ \*
-`tvhl <#tvhl>`__ \* `tvhnfo <#tvhnfo>`__ \* `tvhd <#tvhd>`__
+ \* `User Install <#uinstall>`__ \* `Configuration <#config>`__ \* `Make
+Targets <#maketargets>`__ \* `Commands <#commands>`__ \* `tvh <#tvh>`__
+\* `tvhb <#tvhb>`__ \* `tvhl <#tvhl>`__ \* `tvhnfo <#tvhnfo>`__ \*
+`tvhd <#tvhd>`__
 
  ## User Install
 
@@ -16,7 +17,14 @@ To install for a normal user:
 
    make install
 
- ## Make Targets
+ ## `Configuration <#contents>`__
+
+Copy the default config file ``tvh.yaml`` to your ``~/.config``
+directory. Edit the copy, setting ``videohome`` and ``filmhome``
+appropriately. The categories will be the top-level directories under
+``videohome``.
+
+ ## `Make Targets <#contents>`__
 
 dev
 ~~~
@@ -72,6 +80,9 @@ Categorised recordings are displayed at the top of the output, and
 removed from the current list. Recordings with the same title are
 categorised together.
 
+Giving a recording a 4-digit date will mark it as a movie and it will be
+moved into Kodi’s movie file store, rather than the tv file store.
+
  ### `tvhb <#contents>`__
 
 Batch utility that reads the config file and moves any categorised
@@ -93,4 +104,4 @@ the current directory.
  ### `tvhd <#contents>`__
 
 Utility to delete recordings from tvheadend without moving them to Kodi.
-Takes a filename (only one) as it’s input.
+Takes a list of filenames to delete and asks tvheadend to delete them.
