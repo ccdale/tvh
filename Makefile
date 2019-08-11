@@ -1,5 +1,8 @@
 vfn=tvheadend/__init__.py
 dev:
+ifeq ($(strip $(VIRTUAL_ENV)),)
+	@echo "You need to be in a virtual environment"
+else
 	buildn=$$(sed -n 's/buildv = \([0-9]\+\)/\1/p' $(vfn) );\
 		   buildn=$$(( buildn + 1 ));\
 		   sed -i "/buildv =/s/[0-9]\+/$$buildn/" $(vfn)
@@ -8,6 +11,7 @@ dev:
 	git add README.rst
 	git commit -m "bumping build version"
 	pip install -e .
+endif
 
 install:
 	pip3 install . --user

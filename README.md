@@ -3,7 +3,17 @@
 Applications to assist categorising and moving tvheadend recordings into
 the Kodi TV Show / Movie file stores.
 
+<a name='contents'></a>
+* [User Install](#uinstall)
+* [Make Targets](#maketargets)
+* [Commands](#commands)
+    * [tvh](#tvh)
+    * [tvhb](#tvhb)
+    * [tvhl](#tvhl)
+    * [tvhnfo](#tvhnfo)
+    * [tvhd](#tvhd)
 
+<a name='unistall'></a>
 ## User Install
 
 To install for a normal user:
@@ -12,6 +22,7 @@ To install for a normal user:
 make install
 ```
 
+<a name='maketargets'></a>
 ## Make Targets
 
 ### dev
@@ -41,5 +52,53 @@ Runs `bdist` then does a test upload to `testpypi`
 Runs `bdist` then uploads to pypi
 
 
+<a name='commands'></a>
+## [Commands](#contents)
+
+<a name='tvh'></a>
+### [tvh](#contents)
+
+The main, interactive, utility.  This allows you to mark recordings for
+moving to the Kodi file stores.
+
+Using the config file it will 'remember' your choices and not display them
+in the future.  Recordings can be categorised, ignored or left alone.
+
+Ignored recordings are not displayed and not moved (they stay in your
+tvheadend list).
+
+Categorised recordings are displayed at the top of the output, and removed
+from the current list.  Recordings with the same title are categorised
+together.
+
+
+<a name='tvhb'></a>
+### [tvhb](#contents)
+
+Batch utility that reads the config file and moves any categorised
+recordings to the appropriate places in the Kodi file stores.  The
+recordings are removed from tvheadend.
+
+This utility is designed to be run from cron.
+
+<a name='tvhl'></a>
+### [tvhl](#contents)
+
+Utility to list all recordings and their filenames.
+
+
+<a name='tvhnfo'></a>
+### [tvhnfo](#contents)
+
+Utility to write a Kodi compatible nfo file with the recording
+information.  Takes a list of filenames and writes out the nfo files into
+the current directory.
+
+
+<a name='tvhd'></a>
+### [tvhd](#contents)
+
+Utility to delete recordings from tvheadend without moving them to Kodi.
+Takes a filename (only one) as it's input.
 
 [modeline]: # ( vim: set ft=markdown tw=74 fenc=utf-8 spell spl=en_gb mousemodel=popup: )
