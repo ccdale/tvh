@@ -36,6 +36,7 @@ setup(
         version = __version__,
         description = "tvheadend file management utility",
         long_description = long_description,
+        long_description_content_type="text/markdown",
         url = "https://github.com/ccdale/tvh",
         author = "Christopher Allison",
         author_email = "chris.charles.allison+tvh@gmail.com",
