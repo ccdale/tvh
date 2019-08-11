@@ -24,6 +24,7 @@ import sys
 import os
 import shutil
 import time
+import tvheadend
 import tvheadend.tvh as TVH
 import tvheadend.utils as UT
 import tvheadend.config as CONF
