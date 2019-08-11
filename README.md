@@ -5,6 +5,7 @@ the Kodi TV Show / Movie file stores.
 
 <a name='contents'></a>
 * [User Install](#uinstall)
+* [Configuration](#config)
 * [Make Targets](#maketargets)
 * [Commands](#commands)
     * [tvh](#tvh)
@@ -22,8 +23,16 @@ To install for a normal user:
 make install
 ```
 
+<a name='config'></a>
+## [Configuration](#contents)
+
+Copy the default config file `tvh.yaml` to your `~/.config` directory.
+Edit the copy, setting `videohome` and `filmhome` appropriately.  The
+categories will be the top-level directories under `videohome`.
+
+
 <a name='maketargets'></a>
-## Make Targets
+## [Make Targets](#contents)
 
 ### dev
 Checks that you are in virtual environment, bumps the build number,
@@ -71,6 +80,8 @@ Categorised recordings are displayed at the top of the output, and removed
 from the current list.  Recordings with the same title are categorised
 together.
 
+Giving a recording a 4-digit date will mark it as a movie and it will be
+moved into Kodi's movie file store, rather than the tv file store.
 
 <a name='tvhb'></a>
 ### [tvhb](#contents)
@@ -99,6 +110,6 @@ the current directory.
 ### [tvhd](#contents)
 
 Utility to delete recordings from tvheadend without moving them to Kodi.
-Takes a filename (only one) as it's input.
+Takes a list of filenames to delete and asks tvheadend to delete them.
 
 [modeline]: # ( vim: set ft=markdown tw=74 fenc=utf-8 spell spl=en_gb mousemodel=popup: )
