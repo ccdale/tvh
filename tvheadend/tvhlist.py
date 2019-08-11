@@ -37,6 +37,7 @@ class TvhInputError(Exception):
 
 
 def tvhlist():
+    print("tvheadend file lister version " + tvheadend.__version__)
     try:
         config = CONF.readConfig()
         tvheadend.user = config["user"]

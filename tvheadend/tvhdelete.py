@@ -24,6 +24,7 @@ import sys
 import os
 import shutil
 import time
+import tvheadend
 import tvheadend.tvh as TVH
 import tvheadend.utils as UT
 import tvheadend.config as CONF
@@ -37,15 +38,19 @@ class TvhInputError(Exception):
 
 
 def tvhdelete():
+    print("tvheadend file deletion " + tvheadend.__version__)
     try:
         if len(sys.argv) > 1:
             showfiles = sys.argv[1:]
         else:
             raise(TvhInputError("Please supply a filename"))
         config = CONF.readConfig()
-        ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
-        tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
-        tot, ents = TVH.finishedRecordings(**tvhauth)
+        tvheadend.user = config["user"]
+        tvheadend.passw = config["pass"]
+        tvheadend.ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        # ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        # tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
+        tot, ents = TVH.finishedRecordings()
         for show in ents:
             if show["filename"] in showfiles:
                 print("Deleting {}".format(show["filename"]))
