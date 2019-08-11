@@ -21,6 +21,7 @@ menu module for tvh application
 """
 
 import sys
+import tvheadend
 import tvheadend.tvh as TVH
 import tvheadend.utils as UT
 import tvheadend.config as CONF
@@ -31,9 +32,12 @@ from tvheadend.errors import errorExit
 def tvh():
     try:
         config = CONF.readConfig()
-        ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
-        tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
-        tot, ents = TVH.finishedRecordings(**tvhauth)
+        tvheadend.user = config["user"]
+        tvheadend.passw = config["pass"]
+        tvheadend.ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        # ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        # tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
+        tot, ents = TVH.finishedRecordings()
         exit = False
         while not exit:
             shows = CATS.setCategories(ents, config)

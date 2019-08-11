@@ -20,22 +20,21 @@ tvheadend module for tvh application
 """
 import sys
 import requests
+import tvheadend
 from tvheadend.errors import errorNotify
 
 class TVHError(Exception):
     pass
 
 
-ipaddr = "127.0.0.1:9981"
-
-
-def sendToTVH(ip, route, xuser="", xpass="", data=None):
+def sendToTVH(route,  data=None):
     """
     send a request to tvheadend
     """
     try:
-        auth = (xuser, xpass)
-        url = "http://" + ip + "/api/" + route
+        # auth = (xuser, xpass)
+        auth = (tvheadend.user, tvheadend.passw)
+        url = "http://" + tvheadend.ipaddr + "/api/" + route
         r = requests.post(url, data=data, auth=auth)
         # r = requests.get(url, auth=auth)
         if r.status_code is not 200:
@@ -46,7 +45,7 @@ def sendToTVH(ip, route, xuser="", xpass="", data=None):
         errorNotify(fname, e)
 
 
-def finishedRecordings(ip="127.0.0.1:9981", xuser="", xpass=""):
+def finishedRecordings():
     """
     grid_finished returns a dict
     """
@@ -54,7 +53,7 @@ def finishedRecordings(ip="127.0.0.1:9981", xuser="", xpass=""):
     total = 0
     try:
         data = {"limit": 100}
-        j = sendToTVH(ip, "dvr/entry/grid_finished", xuser, xpass, data)
+        j = sendToTVH("dvr/entry/grid_finished", data)
         if "entries" in j:
             entries = j["entries"]
         if "total" in j:
@@ -65,10 +64,10 @@ def finishedRecordings(ip="127.0.0.1:9981", xuser="", xpass=""):
     finally:
         return (total, entries)
 
-def deleteRecording(uuid, ip="127.0.0.1:9981", xuser="", xpass=""):
+def deleteRecording(uuid):
     try:
         data = {"uuid": uuid}
-        sendToTVH(ip, "dvr/entry/remove", xuser, xpass, data)
+        sendToTVH("dvr/entry/remove", data)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorNotify(fname, e)

@@ -24,6 +24,7 @@ import sys
 import os
 import shutil
 import time
+import tvheadend
 import tvheadend.tvh as TVH
 import tvheadend.utils as UT
 import tvheadend.config as CONF
@@ -38,16 +39,17 @@ class TvhInputError(Exception):
 
 def tvhnfo():
     try:
-        if len(sys.argv) == 2:
-            fn = sys.argv[1]
+        if len(sys.argv) > 1:
+            fns = sys.argv[1:]
         else:
             raise(TvhInputError("Please supply a filename"))
         config = CONF.readConfig()
-        ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
-        tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
-        tot, ents = TVH.finishedRecordings(**tvhauth)
+        tvheadend.user = config["user"]
+        tvheadend.passw = config["pass"]
+        tvheadend.ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        tot, ents = TVH.finishedRecordings()
         for show in ents:
-            if show["filename"] == fn:
+            if show["filename"] in fns:
                 UT.addBaseFn(show)
                 snfo = NFO.makeProgNfo(show)
                 nfofn = show["opbase"] + ".nfo"

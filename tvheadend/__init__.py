@@ -23,3 +23,7 @@ minorv = 1
 buildv = 2
 versionl = (majorv, minorv, buildv)
 __version__ = ".".join(str(x) for x in versionl)
+
+user = "unset"
+passw = "unset"
+ipaddr = "unset"

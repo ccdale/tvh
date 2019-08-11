@@ -26,6 +26,7 @@ import shutil
 import time
 import requests
 from requests.exceptions import ConnectionError
+import tvheadend
 import tvheadend.tvh as TVH
 import tvheadend.utils as UT
 import tvheadend.config as CONF
@@ -70,7 +71,7 @@ def removeFromYear(show, config):
         errorExit(fname, e)
 
 
-def moveShow(show, config, tvauth):
+def moveShow(show, config):
     try:
         then = time.time()
         tvhstat = os.stat(show["filename"])
@@ -97,7 +98,7 @@ def moveShow(show, config, tvauth):
                 print("copying {} took: {}".format(sizeof_fmt(cstat.st_size), NFO.hmsDisplay(int(time.time() - then))))
                 print("show copied to {} OK.".format(opfn))
                 print("deleting from tvheadend")
-                TVH.deleteRecording(show["uuid"], **tvauth)
+                TVH.deleteRecording(show["uuid"])
                 # it is safe to run removeFromYear for all shows
                 # as it tests whether this is a movie or not
                 removeFromYear(show, config)
@@ -114,12 +115,15 @@ def updateKodi():
         data = {"jsonrpc": "2.0", "method": "VideoLibrary.Scan"}
         headers = {"content-type": "application/json"}
         url = "http://127.0.0.1:8080/jsonrpc"
-        resp = requests.post(url, data=data, headers=headers, timeout=10)
+        resp = requests.post(url, json=data, headers=headers, timeout=10)
         if resp.status_code < 399:
             print("Kodi update starting")
+            print("response: {}".format(resp))
+            print("response text: {}".format(resp.text))
         else:
             print("Failed to update Kodi")
             print("response: {}".format(resp))
+            print("response text: {}".format(resp.text))
     except ConnectionError as ce:
         print("Kodi isn't running")
     except Exception as e:
@@ -131,14 +135,17 @@ def updateKodi():
 def tvhbatch():
     try:
         config = CONF.readConfig()
-        ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
-        tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
-        tot, ents = TVH.finishedRecordings(**tvhauth)
+        tvheadend.user = config["user"]
+        tvheadend.passw = config["pass"]
+        tvheadend.ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        # ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        # tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
+        tot, ents = TVH.finishedRecordings()
         shows = CATS.setCategories(ents, config)
         cn = 0
         for show in shows["shows"]:
             UT.addBaseFn(show)
-            moveShow(show, config, tvhauth)
+            moveShow(show, config)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)

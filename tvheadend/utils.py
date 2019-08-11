@@ -162,7 +162,7 @@ def addBaseFn(show):
             bfn += ")"
         else:
             bfn = show["title"]
-            bfn = delimitString(bfn, show["subtitle"])
+            # bfn = delimitString(bfn, show["subtitle"])
             bfn = delimitString(bfn, show["series"])
         show["opbase"] = bfn
     except Exception as e:
@@ -206,6 +206,8 @@ def displayNumberedShows(xdict):
             # dts = titleAndSubTitle(entry)
             if entry["opbase"] is not None:
                 msg += entry["opbase"]
+                if "subtitle" in entry and len(entry["subtitle"]) > 0:
+                    msg += " {}".format(entry["subtitle"])
                 print(msg)
             cn += 1
     except Exception as e:

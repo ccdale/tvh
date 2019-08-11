@@ -39,9 +39,10 @@ class TvhInputError(Exception):
 def tvhlist():
     try:
         config = CONF.readConfig()
-        ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
-        tvhauth = {"ip": ipaddr, "xuser": config["user"], "xpass": config["pass"]}
-        tot, ents = TVH.finishedRecordings(**tvhauth)
+        tvheadend.user = config["user"]
+        tvheadend.passw = config["pass"]
+        tvheadend.ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        tot, ents = TVH.finishedRecordings()
         for show in ents:
             UT.addBaseFn(show)
             msg = "{}".format(show["opbase"])
