@@ -21,6 +21,7 @@ tvheadend module for tvh application
 import sys
 import requests
 import tvheadend
+from operator import attrgetter, itemgetter
 from tvheadend.errors import errorNotify
 
 class TVHError(Exception):
@@ -71,3 +72,25 @@ def deleteRecording(uuid):
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorNotify(fname, e)
+
+
+def channels():
+    """
+    return a sorted list of enabled channels
+    """
+    try:
+        data = {"limit": 200}
+        j = sendToTVH("channel/grid", data)
+        if "entries" in j:
+            sents = sorted(j["entries"], key=itemgetter("number"), reverse=False)
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorNotify(fname, e)
+    finally:
+        return sents
+
+
+def channelPrograms(chan="BBC Four"):
+    """
+    return a time sorted dict of programs for the named channel
+    """
