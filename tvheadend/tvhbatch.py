@@ -90,8 +90,11 @@ def moveShow(show, config):
             snfo = NFO.makeProgNfo(show)
         basefn = "/".join([opdir, show["opbase"]])
         opfn = basefn + ".mpg"
+        mkopfn = basefn + ".mkv"
         if UT.fileExists(opfn):
-            logout("dest file already exists, not copying {}".format(opfn))
+            logout("kodi file already exists, not copying {}".format(opfn))
+        elif UT.fileExists(mkopfn):
+            logout("kodi file already exists, not copying {}".format(mkopfn))
         else:
             logout("making directory {}".format(opdir))
             UT.makePath(opdir)
