@@ -120,7 +120,7 @@ def moveShow(show, config):
 
 def convertToMkv(fqfn):
     if UT.fileExists(fqfn):
-        cmd=["/home/chris/bin/convert-ts-to-mkv.sh", "'{}'".format(fqfn)]
+        cmd=["/home/chris/bin/convert-ts-to-mkv.sh", "{}".format(fqfn)]
         proc = subprocess.run(cmd)
         if "returncode" in proc:
             if proc["returncode"] == 0:
