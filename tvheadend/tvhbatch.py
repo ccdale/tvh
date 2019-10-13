@@ -109,8 +109,11 @@ def moveShow(show, config):
                 # as it tests whether this is a movie or not
                 removeFromYear(show, config)
                 # logout("\n")
-                logout("converting to mkv")
-                convertToMkv(opfn)
+                if show["channelname"].endswith("HD"):
+                    logout("Not converting HD programme {}".format(show["title"]))
+                else:
+                    logout("converting {} to mkv".format(show["title"]))
+                    convertToMkv(opfn)
         else:
             raise(CopyFailure("Failed to copy {} to {}".format(show["filename"], opfn)))
     except Exception as e:
