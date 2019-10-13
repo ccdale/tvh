@@ -88,34 +88,37 @@ def moveShow(show, config):
         else:
             opdir = "/".join([config["videohome"], show["category"], show["title"]])
             snfo = NFO.makeProgNfo(show)
-        logout("making directory {}".format(opdir))
-        UT.makePath(opdir)
         basefn = "/".join([opdir, show["opbase"]])
         opfn = basefn + ".mpg"
-        nfofn = basefn + ".nfo"
-        logout("writing nfo to {}".format(nfofn))
-        with open(nfofn, "w") as nfn:
-            nfn.write(snfo)
-        logout("copying {} to {}".format(show["filename"], opfn))
-        shutil.copy2(show["filename"], opfn)
         if UT.fileExists(opfn):
-            cstat = os.stat(opfn)
-            if cstat.st_size == tvhstat.st_size:
-                logout("copying {} took: {}".format(sizeof_fmt(cstat.st_size), NFO.hmsDisplay(int(time.time() - then))))
-                logout("show copied to {} OK.".format(opfn))
-                logout("deleting from tvheadend")
-                TVH.deleteRecording(show["uuid"])
-                # it is safe to run removeFromYear for all shows
-                # as it tests whether this is a movie or not
-                removeFromYear(show, config)
-                # logout("\n")
-                if show["channelname"].endswith("HD"):
-                    logout("Not converting HD programme {}".format(show["title"]))
-                else:
-                    logout("converting {} to mkv".format(show["title"]))
-                    convertToMkv(opfn)
+            logout("dest file already exists, not copying {}".format(opfn))
         else:
-            raise(CopyFailure("Failed to copy {} to {}".format(show["filename"], opfn)))
+            logout("making directory {}".format(opdir))
+            UT.makePath(opdir)
+            nfofn = basefn + ".nfo"
+            logout("writing nfo to {}".format(nfofn))
+            with open(nfofn, "w") as nfn:
+                nfn.write(snfo)
+            logout("copying {} to {}".format(show["filename"], opfn))
+            shutil.copy2(show["filename"], opfn)
+            if UT.fileExists(opfn):
+                cstat = os.stat(opfn)
+                if cstat.st_size == tvhstat.st_size:
+                    logout("copying {} took: {}".format(sizeof_fmt(cstat.st_size), NFO.hmsDisplay(int(time.time() - then))))
+                    logout("show copied to {} OK.".format(opfn))
+                    logout("deleting from tvheadend")
+                    TVH.deleteRecording(show["uuid"])
+                    # it is safe to run removeFromYear for all shows
+                    # as it tests whether this is a movie or not
+                    removeFromYear(show, config)
+                    # logout("\n")
+                    if show["channelname"].endswith("HD"):
+                        logout("Not converting HD programme {}".format(show["title"]))
+                    else:
+                        logout("converting {} to mkv".format(show["title"]))
+                        convertToMkv(opfn)
+            else:
+                raise(CopyFailure("Failed to copy {} to {}".format(show["filename"], opfn)))
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
