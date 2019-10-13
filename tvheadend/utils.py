@@ -21,6 +21,8 @@ utils module for tvh application
 import sys
 import os
 import re
+import time
+import requests
 from pathlib import Path
 from tvheadend.errors import errorRaise
 import tvheadend.categories as CATS
@@ -245,3 +247,104 @@ def delimitString(xstr, addstr, delimeter=" - "):
         errorRaise(fname, e)
     finally:
         return ret
+
+def reduceTime(unit, secs):
+    rem = units = 0
+    if unit > 0:
+        units = int(secs / unit)
+        rem = int(secs % unit)
+    else:
+        raise ValueError("divide by zero requested in reduceTime: unit: {}, secs: {}".format(unit, secs))
+    return (units, rem)
+
+
+def displayValue(val, label, zero=True):
+    if zero and val == 0:
+        return ""
+    dlabel = label if val == 1 else label + "s"
+    return str(val) + " " + dlabel
+
+
+def hms(secs):
+    # print("hms: input: {} seconds".format(secs))
+    days = hours = minutes = seconds = 0
+    oneday = 86400
+    onehour = 3600
+    oneminute = 60
+    days, rem = reduceTime(oneday, secs)
+    # print("days: {} rem: {}".format(days, rem))
+    hours, rem = reduceTime(onehour, rem)
+    # print("hours: {} rem {}".format(hours, rem))
+    minutes, seconds = reduceTime(oneminute, rem)
+    # print("minutes: {} seconds: {}".format(minutes, seconds))
+    msg = ""
+    msg = displayValue(days, "day")
+    msg = addToStr(msg, displayValue(hours, "hour"))
+    msg = addToStr(msg, displayValue(minutes, "min"))
+    msg = addToStr(msg, displayValue(seconds, "sec"))
+    # print("hms output: {}".format(msg))
+    return msg
+
+
+def addToStr(xstr, addstr, delimiter=" "):
+    ostr = xstr + delimiter + addstr if len(xstr) else addstr
+    return ostr
+
+
+def progStartAndDur(start, stop):
+    dispstart = time.strftime("%H:%M", time.localtime(int(start)))
+    dmsg = hms(int(stop) - int(start))
+    return padStr(dispstart + " " + dmsg, 22, padleft=False)
+
+
+def displayProgramList(plist, hours=4, singlechannel=None):
+    print("singlechannel is {}".format(singlechannel))
+    mindur = 3600
+    minprog = None
+    now = int(time.time())
+    xlhours = hours * 3600
+    twentyfour = 3600 * 24
+    lhours = now + xlhours if singlechannel is None else now + twentyfour
+    print("lhours is {}".format((lhours - now)/3600))
+    chanproglist = {}
+    # sort by channel
+    for prog in plist:
+        if prog["start"] < lhours:
+            dur = prog["stop"] - prog["start"]
+            if dur < mindur:
+                mindur = dur
+                minprog = prog
+            if prog["channelName"] in chanproglist:
+                chanproglist[prog["channelName"]].append(prog)
+            else:
+                chanproglist[prog["channelName"]] = [prog]
+    cn = 0
+    if singlechannel is not None and singlechannel in chanproglist:
+        print(singlechannel, "next 24 hours")
+        for prog in chanproglist[singlechannel]:
+            cn += 1
+            sstart = progStartAndDur(prog["start"], prog["stop"])
+            print(progStartAndDur(prog["start"], prog["stop"]), prog["title"])
+    else:
+        for channel in chanproglist:
+            for prog in chanproglist[channel]:
+                # if "channelIcon" in prog and len(prog["channelIcon"]) > 0:
+                #     channelLogo(prog["channelName"], prog["channelIcon"])
+                cn += 1
+                sstart = progStartAndDur(prog["start"], prog["stop"])
+                print(padStr(prog["channelName"], 19, padleft=False), progStartAndDur(prog["start"], prog["stop"]), prog["title"])
+    print("{} programs".format(cn))
+    return (mindur, minprog)
+
+
+def channelLogo(channel, url):
+    if len(url) > 0:
+        imgs = "/home/chris/Pictures"
+        imgpath = imgs + "/{}.png".format(channel)
+        if not fileExists(imgpath):
+            print("Getting logo for {}".format(channel))
+            r = requests.get(url)
+            if r.status_code == 200:
+                print("Logo retrieved ok")
+                with open(imgpath, 'wb') as ifn:
+                    ifn.write(r.content)

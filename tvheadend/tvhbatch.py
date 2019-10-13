@@ -24,6 +24,7 @@ import sys
 import os
 import shutil
 import time
+import subprocess
 import requests
 from requests.exceptions import ConnectionError
 import tvheadend
@@ -37,6 +38,10 @@ from tvheadend.errors import errorExit
 
 class CopyFailure(Exception):
     pass
+
+def logout(msg):
+    xtime = datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S")
+    print("{} {}".format(msg))
 
 def sizeof_fmt(num, suffix='B'):
     """
@@ -75,40 +80,52 @@ def moveShow(show, config):
     try:
         then = time.time()
         tvhstat = os.stat(show["filename"])
-        print("{}: {}".format(show["opbase"], sizeof_fmt(tvhstat.st_size)))
+        logout("{}: {}".format(show["opbase"], sizeof_fmt(tvhstat.st_size)))
         if "year" in show:
             opdir = "/".join([config["filmhome"], show["title"][0:1].upper(), show["opbase"]])
             snfo = NFO.makeFilmNfo(show)
         else:
             opdir = "/".join([config["videohome"], show["category"], show["title"]])
             snfo = NFO.makeProgNfo(show)
-        print("making directory {}".format(opdir))
+        logout("making directory {}".format(opdir))
         UT.makePath(opdir)
         basefn = "/".join([opdir, show["opbase"]])
         opfn = basefn + ".mpg"
         nfofn = basefn + ".nfo"
-        print("writing nfo to {}".format(nfofn))
+        logout("writing nfo to {}".format(nfofn))
         with open(nfofn, "w") as nfn:
             nfn.write(snfo)
-        print("copying {} to {}".format(show["filename"], opfn))
+        logout("copying {} to {}".format(show["filename"], opfn))
         shutil.copy2(show["filename"], opfn)
         if UT.fileExists(opfn):
             cstat = os.stat(opfn)
             if cstat.st_size == tvhstat.st_size:
-                print("copying {} took: {}".format(sizeof_fmt(cstat.st_size), NFO.hmsDisplay(int(time.time() - then))))
-                print("show copied to {} OK.".format(opfn))
-                print("deleting from tvheadend")
+                logout("copying {} took: {}".format(sizeof_fmt(cstat.st_size), NFO.hmsDisplay(int(time.time() - then))))
+                logout("show copied to {} OK.".format(opfn))
+                logout("deleting from tvheadend")
                 TVH.deleteRecording(show["uuid"])
                 # it is safe to run removeFromYear for all shows
                 # as it tests whether this is a movie or not
                 removeFromYear(show, config)
-                print("\n")
+                # logout("\n")
+                logout("converting to mkv")
+                convertToMkv(opfn)
         else:
             raise(CopyFailure("Failed to copy {} to {}".format(show["filename"], opfn)))
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
 
+
+def convertToMkv(fqfn):
+    if UT.fileExists(fqfn):
+        cmd=["/home/chris/bin/convert-ts-to-mkv.sh", "'{}'".format(fqfn)]
+        proc = subprocess.run(cmd)
+        if "returncode" in proc:
+            if proc["returncode"] == 0:
+                logout("Converted {} to mkv".format(fqfn))
+            else:
+                logout("Error muxing {}".format(fqfn))
 
 def updateKodi():
     try:
@@ -117,15 +134,15 @@ def updateKodi():
         url = "http://127.0.0.1:8080/jsonrpc"
         resp = requests.post(url, json=data, headers=headers, timeout=10)
         if resp.status_code < 399:
-            print("Kodi update starting")
-            print("response: {}".format(resp))
-            print("response text: {}".format(resp.text))
+            logout("Kodi update starting")
+            logout("response: {}".format(resp))
+            logout("response text: {}".format(resp.text))
         else:
-            print("Failed to update Kodi")
-            print("response: {}".format(resp))
-            print("response text: {}".format(resp.text))
+            logout("Failed to update Kodi")
+            logout("response: {}".format(resp))
+            logout("response text: {}".format(resp.text))
     except ConnectionError as ce:
-        print("Kodi isn't running")
+        logout("Kodi isn't running")
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
@@ -134,7 +151,7 @@ def updateKodi():
 
 def tvhbatch():
     try:
-        print("tvheadend batch utility " + tvheadend.__version__)
+        logout("tvheadend batch utility " + tvheadend.__version__)
         config = CONF.readConfig()
         tvheadend.user = config["user"]
         tvheadend.passw = config["pass"]

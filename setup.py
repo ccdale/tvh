@@ -72,7 +72,7 @@ setup(
                 "tvhnfo = tvheadend.tvhnfo:tvhnfo",
                 "tvhd = tvheadend.tvhdelete:tvhdelete",
                 "tvhl = tvheadend.tvhlist:tvhlist",
-                "tvhc = tvheadend.tvhchannels:tvhChannels",
+                "tvhc = tvheadend.tvhchannels:tvhc",
                 ]
             }
         )
