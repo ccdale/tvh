@@ -42,7 +42,7 @@ class CopyFailure(Exception):
 
 def logout(msg):
     xtime = datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S")
-    print("{} {}".format(msg))
+    print("{} {}".format(xtime, msg))
 
 def sizeof_fmt(num, suffix='B'):
     """
