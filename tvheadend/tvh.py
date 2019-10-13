@@ -135,8 +135,8 @@ def channelPrograms(channel="BBC Four HD"):
         # if chans is not None:
             # for chan in chans:
                 # if chan["name"] == channel:
-        data = {"filter": xfilter}
-        # data = {"limit": "120"}
+        # data = {"filter": xfilter}
+        data = {"limit": "999"}
         j = sendToTVH("epg/events/grid", data)
         print(str(j["totalCount"]) + " programs")
         mindur, minprog = UT.displayProgramList(j["entries"], 24, channel)
@@ -158,6 +158,7 @@ def timeSlotPrograms(start=0, length=2):
         xfilter = [{"field": "stop", "type": "numeric", "value": str(now), "comparison": "gt"},
                 {"field": "start", "type": "numeric", "value": str(now + (3600 * length)), "comparison": "lt"}]
         data = {"filter": xfilter}
+        data = {"limit": "999"}
         j = sendToTVH("epg/events/grid", data)
         if "entries" in j:
             mindur, minprog = UT.displayProgramList(j["entries"], length)
