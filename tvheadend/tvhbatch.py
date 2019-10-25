@@ -131,11 +131,10 @@ def convertToMkv(fqfn):
     if UT.fileExists(fqfn):
         cmd=["/home/chris/bin/convert-ts-to-mkv.sh", "{}".format(fqfn)]
         proc = subprocess.run(cmd)
-        if "returncode" in proc:
-            if proc["returncode"] == 0:
-                logout("Converted {} to mkv".format(fqfn))
-            else:
-                logout("Error muxing {}".format(fqfn))
+        if proc.returncode == 0:
+            logout("Converted {} to mkv".format(fqfn))
+        else:
+            logout("Error muxing {}".format(fqfn))
 
 def updateKodi():
     try:
