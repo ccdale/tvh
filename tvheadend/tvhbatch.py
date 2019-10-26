@@ -91,10 +91,15 @@ def moveShow(show, config):
         basefn = "/".join([opdir, show["opbase"]])
         opfn = basefn + ".mpg"
         mkopfn = basefn + ".mkv"
+        existingfile = None
         if UT.fileExists(opfn):
-            logout("kodi file already exists, not copying {}".format(opfn))
+            existingfile = opfn
         elif UT.fileExists(mkopfn):
-            logout("kodi file already exists, not copying {}".format(mkopfn))
+            existingfile = mkopfn
+        if existingfile is not None:
+            logout("kodi file already exists, not copying {}".format(existingfile))
+            logout("deleting from tvheadend")
+            TVH.deleteRecording(show["uuid"])
         else:
             logout("making directory {}".format(opdir))
             UT.makePath(opdir)
