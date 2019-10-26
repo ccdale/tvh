@@ -54,7 +54,7 @@ def tvhdelete():
         for show in ents:
             if show["filename"] in showfiles:
                 print("Deleting {}".format(show["filename"]))
-                TVH.deleteRecording(show["uuid"], **tvhauth)
+                TVH.deleteRecording(show["uuid"])
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
