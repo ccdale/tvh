@@ -129,6 +129,14 @@ def rename(src, dest):
         errorRaise(fname, e)
 
 
+def fileSize(fqfn):
+    try:
+        if fileExists(fqfn):
+            return os.stat(fqfn).st_size
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorRaise(fname, e)
+
 def seriesId(show):
     show["series"] = None
     try:
