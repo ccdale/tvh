@@ -348,3 +348,15 @@ def channelLogo(channel, url):
                 print("Logo retrieved ok")
                 with open(imgpath, 'wb') as ifn:
                     ifn.write(r.content)
+
+
+def sizeof_fmt(num, suffix='B'):
+    """
+    from article by Fred Cirera: https://web.archive.org/web/20111010015624/http://blogmag.net/blog/read/38/Print_human_readable_file_size
+    and stackoverflow: https://stackoverflow.com/questions/1094841/reusable-library-to-get-human-readable-version-of-file-size
+    """
+    for unit in ['','K','M','G','T','P','E','Z']:
+        if abs(num) < 1024.0:
+            return "{:3.1f}{}{}".format(num, unit, suffix)
+        num /= 1024.0
+    return "{:3.1f}{}{}".format(num, "Y", suffix)

@@ -44,16 +44,6 @@ def logout(msg):
     xtime = datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S")
     print("{} {}".format(xtime, msg))
 
-def sizeof_fmt(num, suffix='B'):
-    """
-    from article by Fred Cirera: https://web.archive.org/web/20111010015624/http://blogmag.net/blog/read/38/Print_human_readable_file_size
-    and stackoverflow: https://stackoverflow.com/questions/1094841/reusable-library-to-get-human-readable-version-of-file-size
-    """
-    for unit in ['','K','M','G','T','P','E','Z']:
-        if abs(num) < 1024.0:
-            return "{:3.1f}{}{}".format(num, unit, suffix)
-        num /= 1024.0
-    return "{:3.1f}{}{}".format(num, "Y", suffix)
 
 
 def removeFromYear(show, config):
@@ -81,7 +71,7 @@ def moveShow(show, config):
     try:
         then = time.time()
         tvhstat = os.stat(show["filename"])
-        logout("{}: {}".format(show["opbase"], sizeof_fmt(tvhstat.st_size)))
+        logout("{}: {}".format(show["opbase"], UT.sizeof_fmt(tvhstat.st_size)))
         if "year" in show:
             opdir = "/".join([config["filmhome"], show["title"][0:1].upper(), show["opbase"]])
             snfo = NFO.makeFilmNfo(show)
@@ -112,7 +102,7 @@ def moveShow(show, config):
             if UT.fileExists(opfn):
                 cstat = os.stat(opfn)
                 if cstat.st_size == tvhstat.st_size:
-                    logout("copying {} took: {}".format(sizeof_fmt(cstat.st_size), NFO.hmsDisplay(int(time.time() - then))))
+                    logout("copying {} took: {}".format(UT.sizeof_fmt(cstat.st_size), NFO.hmsDisplay(int(time.time() - then))))
                     logout("show copied to {} OK.".format(opfn))
                     logout("deleting from tvheadend")
                     TVH.deleteRecording(show["uuid"])
