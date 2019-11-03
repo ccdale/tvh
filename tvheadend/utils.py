@@ -276,10 +276,11 @@ def displayValue(val, label, zero=True):
 def secondsFromHMS(shms):
     """
     convert "01:02:32.47" to seconds
-    ignoring the sub second part
     """
-    hrs = mins = secs = 0
+    hrs = mins = secs = extra = 0
     xtmp = shms.split(".")
+    if int(xtmp[1]) > 50:
+        extra = 1
     tmp = xtmp[0].split(":")
     cn = len(tmp)
     if cn == 3:
@@ -291,7 +292,7 @@ def secondsFromHMS(shms):
         secs = int(tmp[1])
     elif cn == 1:
         secs = int(tmp[0])
-    return (hrs * 3600) + (mins * 60) + secs
+    return (hrs * 3600) + (mins * 60) + secs + extra
 
 def hms(secs):
     # print("hms: input: {} seconds".format(secs))
