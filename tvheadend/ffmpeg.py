@@ -102,14 +102,52 @@ def fileDuration(finfo):
         sdur = UT.hms(dur)
     return (dur, sdur)
 
-def processStdOut(stdout, regex):
-    """
-    looking for the output lines from ffmpeg that look like
+def checkRemoveOutputFile(ofn):
+    if UT.fileExists(ofn):
+        size = UT.fileSize(ofn)
+        if size > 0:
+            msg = "Destination file '{}' exists: {}, not converting".format(ofn, UT.sizeof_fmt(size))
+            logout(msg)
+            raise ConvertFailure(msg)
+        else:
+            msg = "Deleting existing zero length destination file '{}'".format(ofn)
+            logout(msg)
+            os.remove(ofn)
 
-    frame=   71 fps=0.0 q=-0.0 size=       3kB time=00:00:03.43 bitrate=   7.7kbits/s speed=6.86x
+def makeCmd(tracks, ofn):
+    cmdstub = ["nice", "-n", "19", "ffmpeg", "-i", fqfn]
+    mapcmd = ["-map", "0:{}".format(tracks[0]), "-map", "0:{}".format(tracks[1])]
+    if withsubs:
+        mapcmd.append("-map")
+        mapcmd.append("0:{}".format(tracks[2]))
+    convcmd = ["-c:v", "libx265", "-crf", "28", "-acodec", "copy"]
+    if withsubs:
+        convcmd.append("-scodec")
+        convcmd.append("copy")
+    cmd = cmdstub + mapcmd + convcmd + [ofn]
+    msg = ""
+    for thing in cmd:
+        msg += " " + thing
+    return (cmd, msg)
 
-    """
-    pass
+def runConvert(cmd, fqfn, ofn, duration):
+    proc = subprocess.run(cmd, capture_output=True)
+    stderr = proc.stderr.decode("utf-8")
+    stdout = proc.stdout.decode("utf-8")
+    if proc.returncode == 0:
+        logout("Conversion was successful")
+        bname = os.path.basename(fqfn)
+        thebin = "/home/chris/Videos/kmedia/thebin/"
+        destfn = thebin + bname
+        logout("Deleting '{}' file (to {})".format(fqfn, thebin))
+        UT.rename(fqfn, destfn)
+    else:
+        msg = "Conversion of '{}' to '{}' failed".format(fqfn, ofn)
+        logout(msg + "\n\n" + stdout + "\n\n" + stderr)
+        logout("Removing failed out file '{}'".format(ofn))
+        if UT.fileExists(ofn):
+            os.remove(ofn)
+        raise ConvertFailure(msg)
 
 def convert(fqfn):
     try:
@@ -126,57 +164,38 @@ def convert(fqfn):
             withsubs = True if tracks[2] > 0 else False
             fn, fext = os.path.splitext(fqfn)
             ofn = fn + ".mkv"
-            if UT.fileExists(ofn):
-                size = UT.fileSize(ofn)
-                if size > 0:
-                    msg = "Destination file '{}' exists: {}, not converting".format(ofn, UT.sizeof_fmt(size))
-                    logout(msg)
-                    raise ConvertFailure(msg)
-                else:
-                    msg = "Deleting existing zero length destination file '{}'".format(ofn)
-                    logout(msg)
-                    os.remove(ofn)
-            cmdstub = ["nice", "-n", "19", "ffmpeg", "-i", fqfn]
-            mapcmd = ["-map", "0:{}".format(tracks[0]), "-map", "0:{}".format(tracks[1])]
-            if withsubs:
-                mapcmd.append("-map")
-                mapcmd.append("0:{}".format(tracks[2]))
-            convcmd = ["-c:v", "libx265", "-crf", "28", "-acodec", "copy"]
-            if withsubs:
-                convcmd.append("-scodec")
-                convcmd.append("copy")
-            cmd = cmdstub + mapcmd + convcmd + [ofn]
-            msg = ""
-            for thing in cmd:
-                msg += " " + thing
+            checkRemoveOutputFile(ofn)
+            cmd, msg = makeCmd(tracks, ofn)
             logout("command: {}".format(msg))
             xmsg = ", with subtitles," if withsubs else ""
             msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
             logout(msg)
+            dur, sdur = fileDuration(finfo)
             logout("file duration: {}".format(sdur))
-            proc = subprocess.run(cmd, capture_output=True)
-            stderr = proc.stderr.decode("utf-8")
-            stdout = proc.stdout.decode("utf-8")
-            if proc.returncode == 0:
-                logout("Conversion was successful")
-                bname = os.path.basename(fqfn)
-                thebin = "/home/chris/Videos/kmedia/thebin/"
-                destfn = thebin + bname
-                logout("Deleting '{}' file (to {})".format(fqfn, thebin))
-                UT.rename(fqfn, destfn)
-            else:
-                msg = "Conversion of '{}' to '{}' failed".format(fqfn, ofn)
-                logout(msg + "\n\n" + stdout + "\n\n" + stderr)
-                logout("Removing failed out file '{}'".format(ofn))
-                if UT.fileExists(ofn):
-                    os.remove(ofn)
-                raise ConvertFailure(msg)
+            runConvert(cmd, fqfn, ofn, dur)
         else:
             msg = "Cannot convert {}".format(fqfn)
             logout(msg)
             raise ConvertFailure(msg)
     except Exception as e:
         errorNotify("convert", e)
+
+def processStdOut(stdout, regex, duration):
+    """
+    looking for the output lines from ffmpeg that look like
+
+    frame=   71 fps=0.0 q=-0.0 size=       3kB time=00:00:03.43 bitrate=   7.7kbits/s speed=6.86x
+
+    using the python regex extensions to name the groups
+    (see https://docs.python.org/3/howto/regex.html#non-capturing-and-named-groups)
+
+    The regular expression is now in the convert function so that it is
+    only compiled once.
+    """
+    m = regex.match(stdout)
+    if m is not None:
+        xdict = m.groupdict()
+        print(xdict)
 
 def main():
     # finfo = fileInfo("/home/hts/Would-I-Lie-To-You_.ts")
