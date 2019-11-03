@@ -130,7 +130,7 @@ def makeCmd(tracks, ofn):
         msg += " " + thing
     return (cmd, msg)
 
-def runConvert(cmd, fqfn, ofn, duration):
+def runConvert(cmd, fqfn, ofn):
     proc = subprocess.run(cmd, capture_output=True)
     stderr = proc.stderr.decode("utf-8")
     stdout = proc.stdout.decode("utf-8")
@@ -148,6 +148,26 @@ def runConvert(cmd, fqfn, ofn, duration):
         if UT.fileExists(ofn):
             os.remove(ofn)
         raise ConvertFailure(msg)
+
+def runThreadConvert(cmd, fqfn, ofn, duration):
+    pass
+
+def processStdOut(stdout, regex, duration):
+    """
+    looking for the output lines from ffmpeg that look like
+
+    frame=   71 fps=0.0 q=-0.0 size=       3kB time=00:00:03.43 bitrate=   7.7kbits/s speed=6.86x
+
+    using the python regex extensions to name the groups
+    (see https://docs.python.org/3/howto/regex.html#non-capturing-and-named-groups)
+
+    The regular expression is now in the convert function so that it is
+    only compiled once.
+    """
+    m = regex.match(stdout)
+    if m is not None:
+        xdict = m.groupdict()
+        print(xdict)
 
 def convert(fqfn):
     try:
@@ -172,30 +192,13 @@ def convert(fqfn):
             logout(msg)
             dur, sdur = fileDuration(finfo)
             logout("file duration: {}".format(sdur))
-            runConvert(cmd, fqfn, ofn, dur)
+            runConvert(cmd, fqfn, ofn)
         else:
             msg = "Cannot convert {}".format(fqfn)
             logout(msg)
             raise ConvertFailure(msg)
     except Exception as e:
         errorNotify("convert", e)
-
-def processStdOut(stdout, regex, duration):
-    """
-    looking for the output lines from ffmpeg that look like
-
-    frame=   71 fps=0.0 q=-0.0 size=       3kB time=00:00:03.43 bitrate=   7.7kbits/s speed=6.86x
-
-    using the python regex extensions to name the groups
-    (see https://docs.python.org/3/howto/regex.html#non-capturing-and-named-groups)
-
-    The regular expression is now in the convert function so that it is
-    only compiled once.
-    """
-    m = regex.match(stdout)
-    if m is not None:
-        xdict = m.groupdict()
-        print(xdict)
 
 def main():
     # finfo = fileInfo("/home/hts/Would-I-Lie-To-You_.ts")
