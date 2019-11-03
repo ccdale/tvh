@@ -24,6 +24,7 @@ import sys
 import os
 import datetime
 import subprocess
+import re
 import json
 import tvheadend.utils as UT
 from tvheadend.errors import errorExit
@@ -45,7 +46,7 @@ def fileInfo(fqfn):
             proc = subprocess.run(cmd, capture_output=True)
             if proc.returncode == 0:
                 xstr = proc.stdout.decode("utf-8")
-                print(xstr)
+                # print(xstr)
                 finfo = json.loads(xstr)
     except Exception as e:
         errorNotify("fileInfo", e)
@@ -92,9 +93,38 @@ def canConvert(finfo):
         errorNotify("canConvert", e)
     return ret
 
+def fileDuration(finfo):
+    dur = 0
+    sdur =""
+    stream = getStreamType(finfo, "video")
+    if stream is not None and "duration" in stream:
+        dur = int(stream["duration"])
+        sdur = UT.hms(dur)
+    return (dur, sdur)
+
+def setupREs():
+    rexps = {}
+    rexps["frame"] = re.compile(r'frame=[\s]*\([0-9]+\)\s+fps.*')
+    rexps["fps"] = re.compile(r'.*fps=\([\d.]\)+\s+size.*')
+    rexps["size"] = re.compile(r'size=\s*\([0-9kmgB.]+\)\s+time.*')
+    rexps["time"] = re.compile(r'.*time=\([0-9:.]+\)\s+bitrate.*')
+    rexps["bitrate"] = re.compile(r'.*bitrate=\s*\([0-9.]+[km]bits/s\)\s+speed.*')
+    rexps["speed"] = re.compile(r'.*speed=\([0-9.]+x\).*')
+    return rexps
+
+def processStdOut(stdout, rexps):
+    """
+    looking for the output lines from ffmpeg that look like
+
+    frame=   71 fps=0.0 q=-0.0 size=       3kB time=00:00:03.43 bitrate=   7.7kbits/s speed=6.86x
+
+    """
+    pass
+
 def convert(fqfn):
     try:
         finfo = fileInfo(fqfn)
+        rexps = setupREs()
         if finfo is not None and canConvert(finfo):
             tracks = trackIndexes(finfo)
             withsubs = True if tracks[2] > 0 else False
@@ -103,7 +133,7 @@ def convert(fqfn):
             if UT.fileExists(ofn):
                 size = UT.fileSize(ofn)
                 if size > 0:
-                    msg = "Destination file '{}' exists: {} bytes, not converting".format(ofn, size)
+                    msg = "Destination file '{}' exists: {}, not converting".format(ofn, UT.sizeof_fmt(size))
                     logout(msg)
                     raise ConvertFailure(msg)
                 else:
@@ -127,6 +157,7 @@ def convert(fqfn):
             xmsg = ", with subtitles," if withsubs else ""
             msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
             logout(msg)
+            logout("file duration: {}".format(sdur))
             proc = subprocess.run(cmd, capture_output=True)
             stderr = proc.stderr.decode("utf-8")
             stdout = proc.stdout.decode("utf-8")
