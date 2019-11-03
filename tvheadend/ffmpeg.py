@@ -102,17 +102,7 @@ def fileDuration(finfo):
         sdur = UT.hms(dur)
     return (dur, sdur)
 
-def setupREs():
-    rexps = {}
-    rexps["frame"] = re.compile(r'frame=[\s]*\([0-9]+\)\s+fps.*')
-    rexps["fps"] = re.compile(r'.*fps=\([\d.]\)+\s+size.*')
-    rexps["size"] = re.compile(r'size=\s*\([0-9kmgB.]+\)\s+time.*')
-    rexps["time"] = re.compile(r'.*time=\([0-9:.]+\)\s+bitrate.*')
-    rexps["bitrate"] = re.compile(r'.*bitrate=\s*\([0-9.]+[km]bits/s\)\s+speed.*')
-    rexps["speed"] = re.compile(r'.*speed=\([0-9.]+x\).*')
-    return rexps
-
-def processStdOut(stdout, rexps):
+def processStdOut(stdout, regex):
     """
     looking for the output lines from ffmpeg that look like
 
@@ -124,7 +114,13 @@ def processStdOut(stdout, rexps):
 def convert(fqfn):
     try:
         finfo = fileInfo(fqfn)
-        rexps = setupREs()
+        rstr = r'frame=\s*(?P<frame>[0-9]+)\s+'
+        rstr += r'fps=(?P<fps>[0-9.]+)\s+.*'
+        rstr += r'size=\s*(?P<size>[0-9kmgB]+)\s+'
+        rstr += r'time=(?P<time>[0-9:.]+)\s+'
+        rstr += r'bitrate=\s*(?P<bitrate>[0-9.]+[km]bits/s)\s+'
+        rstr += r'speed=(?P<speed>[0-9.]+)x'
+        regex = re.compile(rstr)
         if finfo is not None and canConvert(finfo):
             tracks = trackIndexes(finfo)
             withsubs = True if tracks[2] > 0 else False
