@@ -276,6 +276,7 @@ def displayValue(val, label, zero=True):
 def secondsFromHMS(shms):
     """
     convert "01:02:32.47" to seconds
+    ignoring the sub second part
     """
     hrs = mins = secs = 0
     xtmp = shms.split(".")
