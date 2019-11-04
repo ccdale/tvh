@@ -42,97 +42,121 @@ def logout(msg):
     print("{} {}".format(xtime, msg))
 
 def fileInfo(fqfn):
-    finfo = None
     try:
-        if UT.fileExists(fqfn):
-            cmd = ["ffprobe", "-loglevel", "quiet", "-of", "json", "-show_streams", fqfn]
-            proc = subprocess.run(cmd, capture_output=True)
-            if proc.returncode == 0:
-                xstr = proc.stdout.decode("utf-8")
-                # print(xstr)
-                finfo = json.loads(xstr)
+        finfo = None
+        try:
+            if UT.fileExists(fqfn):
+                cmd = ["ffprobe", "-loglevel", "quiet", "-of", "json", "-show_streams", fqfn]
+                proc = subprocess.run(cmd, capture_output=True)
+                if proc.returncode == 0:
+                    xstr = proc.stdout.decode("utf-8")
+                    # print(xstr)
+                    finfo = json.loads(xstr)
+        except Exception as e:
+            errorNotify("fileInfo", e)
+        return finfo
     except Exception as e:
         errorNotify("fileInfo", e)
-    return finfo
 
 def getStreamType(finfo, stype="video"):
-    for stream in finfo["streams"]:
-        if "codec_type" in stream and stream["codec_type"] == stype:
-            return stream
-    return None
-
-def trackIndexes(finfo):
-    vtrack = atrack = strack = -1
     try:
         for stream in finfo["streams"]:
-            if stream["codec_type"] == "video":
-                vtrack = stream["index"]
-            elif stream["codec_type"] == "audio":
-                if int(stream["channels"]) > 1:
-                    atrack = stream["index"]
-            elif stream["codec_type"] == "subtitle":
-                strack = stream["index"]
+            if "codec_type" in stream and stream["codec_type"] == stype:
+                return stream
+        return None
+    except Exception as e:
+        errorNotify("getStreamType", e)
+
+def trackIndexes(finfo):
+    try:
+        vtrack = atrack = strack = -1
+        try:
+            for stream in finfo["streams"]:
+                if stream["codec_type"] == "video":
+                    vtrack = stream["index"]
+                elif stream["codec_type"] == "audio":
+                    if int(stream["channels"]) > 1:
+                        atrack = stream["index"]
+                elif stream["codec_type"] == "subtitle":
+                    strack = stream["index"]
+        except Exception as e:
+            errorNotify("trackIndexes", e)
+        return (vtrack, atrack, strack)
     except Exception as e:
         errorNotify("trackIndexes", e)
-    return (vtrack, atrack, strack)
 
 def hasSubtitles(finfo):
-    ret = False
     try:
-        stream = getStreamType(finfo, stype="subtitle")
-        if stream is not None:
-            ret = True
+        ret = False
+        try:
+            stream = getStreamType(finfo, stype="subtitle")
+            if stream is not None:
+                ret = True
+        except Exception as e:
+            errorNotify("hasSubtitles", e)
+        return ret
     except Exception as e:
         errorNotify("hasSubtitles", e)
-    return ret
 
 def canConvert(finfo):
-    ret = False
     try:
-        stream = getStreamType(finfo, "video")
-        if stream is not None and stream["codec_name"] == "mpeg2video":
-            ret = True
+        ret = False
+        try:
+            stream = getStreamType(finfo, "video")
+            if stream is not None and stream["codec_name"] == "mpeg2video":
+                ret = True
+        except Exception as e:
+            errorNotify("canConvert", e)
+        return ret
     except Exception as e:
         errorNotify("canConvert", e)
-    return ret
 
 def fileDuration(finfo):
-    dur = 0
-    sdur =""
-    stream = getStreamType(finfo, "video")
-    if stream is not None and "duration" in stream:
-        dur = int(stream["duration"])
-        sdur = UT.hms(dur)
-    return (dur, sdur)
+    try:
+        dur = 0
+        sdur =""
+        stream = getStreamType(finfo, "video")
+        if stream is not None and "duration" in stream:
+            dur = int(stream["duration"])
+            sdur = UT.hms(dur)
+        return (dur, sdur)
+    except Exception as e:
+        errorNotify("fileDuration", e)
 
 def checkRemoveOutputFile(ofn):
-    if UT.fileExists(ofn):
-        size = UT.fileSize(ofn)
-        if size > 0:
-            msg = "Destination file '{}' exists: {}, not converting".format(ofn, UT.sizeof_fmt(size))
-            logout(msg)
-            raise ConvertFailure(msg)
-        else:
-            msg = "Deleting existing zero length destination file '{}'".format(ofn)
-            logout(msg)
-            os.remove(ofn)
+    try:
+        if UT.fileExists(ofn):
+            size = UT.fileSize(ofn)
+            if size > 0:
+                msg = "Destination file '{}' exists: {}, not converting".format(ofn, UT.sizeof_fmt(size))
+                logout(msg)
+                raise ConvertFailure(msg)
+            else:
+                msg = "Deleting existing zero length destination file '{}'".format(ofn)
+                logout(msg)
+                os.remove(ofn)
+    except Exception as e:
+        errorNotify("checkRemoveOutputFile", e)
 
 def makeCmd(tracks, fqfn, ofn):
-    cmdstub = ["nice", "-n", "19", "ffmpeg", "-i", fqfn]
-    mapcmd = ["-map", "0:{}".format(tracks[0]), "-map", "0:{}".format(tracks[1])]
-    withsubs = True if tracks[2] > 0 else False
-    if withsubs:
-        mapcmd.append("-map")
-        mapcmd.append("0:{}".format(tracks[2]))
-    convcmd = ["-c:v", "libx265", "-crf", "28", "-acodec", "copy"]
-    if withsubs:
-        convcmd.append("-scodec")
-        convcmd.append("copy")
-    cmd = cmdstub + mapcmd + convcmd + [ofn]
-    msg = ""
-    for thing in cmd:
-        msg += " " + thing
-    return (cmd, msg)
+    try:
+        cmdstub = ["nice", "-n", "19", "ffmpeg", "-i", fqfn]
+        mapcmd = ["-map", "0:{}".format(tracks[0]), "-map", "0:{}".format(tracks[1])]
+        withsubs = True if tracks[2] > 0 else False
+        if withsubs:
+            mapcmd.append("-map")
+            mapcmd.append("0:{}".format(tracks[2]))
+        convcmd = ["-c:v", "libx265", "-crf", "28", "-acodec", "copy"]
+        if withsubs:
+            convcmd.append("-scodec")
+            convcmd.append("copy")
+        cmd = cmdstub + mapcmd + convcmd + [ofn]
+        msg = ""
+        for thing in cmd:
+            msg += " " + thing
+        return (cmd, msg)
+    except Exception as e:
+        errorNotify("makeCmd", e)
 
 def runConvert(cmd, fqfn, ofn):
     proc = subprocess.run(cmd, capture_output=True)
@@ -161,8 +185,7 @@ def runThreadConvert(cmd, fqfn, ofn, duration, regex):
         t.start()
         t.join()
     except Exception as e:
-        msg = "runThreadConvert: exception {}: {}".format(type(e).__name__, e)
-        raise ConvertFailure(msg)
+        errorNotify("runThreadConvert", e)
 
 def processProc(proc, regex, duration):
     """
@@ -193,8 +216,7 @@ def processProc(proc, regex, duration):
                     print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
             logout("Completed")
     except Exception as e:
-        msg = "processProc: Exception: {}: {}".format(type(e).__name__, e)
-        raise ConvertFailure(msg)
+        errorNotify("processProc", e)
 
 def convert(fqfn):
     try:
