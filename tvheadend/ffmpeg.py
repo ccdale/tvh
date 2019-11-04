@@ -24,6 +24,9 @@ import sys
 import os
 import datetime
 import subprocess
+import threading
+import time
+import datetime
 import re
 import json
 import tvheadend.utils as UT
@@ -149,10 +152,14 @@ def runConvert(cmd, fqfn, ofn):
             os.remove(ofn)
         raise ConvertFailure(msg)
 
-def runThreadConvert(cmd, fqfn, ofn, duration):
-    pass
+def runThreadConvert(cmd, fqfn, ofn, duration, regex):
+    print("")
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    t = threading.Thread(target=processProc, args=(proc, regex, duration))
+    t.start()
+    t.join()
 
-def processStdOut(stdout, regex, duration):
+def processProc(proc, regex, duration):
     """
     looking for the output lines from ffmpeg that look like
 
@@ -164,10 +171,21 @@ def processStdOut(stdout, regex, duration):
     The regular expression is now in the convert function so that it is
     only compiled once.
     """
-    m = regex.match(stdout)
-    if m is not None:
-        xdict = m.groupdict()
-        print(xdict)
+    for line in iter(proc.stdout.readline, b''):
+        m = regex.match(line.decode("utf-8"))
+        if m is not None:
+            xdict = m.groupdict()
+            if "time" in xdict:
+                now = int(time.time())
+                tsecs = UT.secondsFromHMS(xdict["time"])
+                pc = int((tsecs * 100) / duration)
+                tleft = int((duration - tsecs) / xdict["speed"])
+                stleft = UT.hms(tleft)
+                then = now + tleft
+                dtts = datetime.datetime.fromtimestamp(then)
+                sthen = dtts.strftime("%H:%M:%S")
+                print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
+        logout("Completed")
 
 def convert(fqfn):
     try:
@@ -192,7 +210,8 @@ def convert(fqfn):
             logout(msg)
             dur, sdur = fileDuration(finfo)
             logout("file duration: {}".format(sdur))
-            runConvert(cmd, fqfn, ofn)
+            # runConvert(cmd, fqfn, ofn)
+            runThreadConvert(cmd, fqfn, ofn, dur, regex)
         else:
             msg = "Cannot convert {}".format(fqfn)
             logout(msg)
