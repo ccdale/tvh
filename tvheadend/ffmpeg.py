@@ -181,7 +181,7 @@ def runConvert(cmd, fqfn, ofn):
 def runThreadConvert(cmd, fqfn, ofn, duration, regex):
     try:
         print("")
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, )
         t = threading.Thread(target=processProc, args=(proc, regex, duration))
         # wait a bit before processing output
         time.sleep(30)
@@ -207,19 +207,21 @@ def processProc(proc, regex, duration):
     try:
         for line in iter(proc.stdout.readline, b''):
             print(line)
-            m = regex.match(line.decode("utf-8"))
+            m = regex.match(line)
             if m is not None:
                 xdict = m.groupdict()
                 if "time" in xdict:
                     now = int(time.time())
                     tsecs = UT.secondsFromHMS(xdict["time"])
+                    tsecs = UT.secondsFromHMS(xdict["time"])
                     pc = int((tsecs * 100) / duration)
-                    tleft = int((duration - tsecs) / xdict["speed"])
-                    stleft = UT.hms(tleft)
-                    then = now + tleft
-                    dtts = datetime.datetime.fromtimestamp(then)
-                    sthen = dtts.strftime("%H:%M:%S")
-                    print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
+                    if "speed" in xdict:
+                        tleft = int((duration - tsecs) / xdict["speed"])
+                        stleft = UT.hms(tleft)
+                        then = now + tleft
+                        dtts = datetime.datetime.fromtimestamp(then)
+                        sthen = dtts.strftime("%H:%M:%S")
+                        print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
     except Exception as e:
         errorNotify("processProc", e)
 
