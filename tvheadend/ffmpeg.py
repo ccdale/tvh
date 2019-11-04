@@ -117,9 +117,10 @@ def checkRemoveOutputFile(ofn):
             logout(msg)
             os.remove(ofn)
 
-def makeCmd(tracks, ofn):
+def makeCmd(tracks, fqfn, ofn):
     cmdstub = ["nice", "-n", "19", "ffmpeg", "-i", fqfn]
     mapcmd = ["-map", "0:{}".format(tracks[0]), "-map", "0:{}".format(tracks[1])]
+    withsubs = True if tracks[2] > 0 else False
     if withsubs:
         mapcmd.append("-map")
         mapcmd.append("0:{}".format(tracks[2]))
@@ -153,11 +154,15 @@ def runConvert(cmd, fqfn, ofn):
         raise ConvertFailure(msg)
 
 def runThreadConvert(cmd, fqfn, ofn, duration, regex):
-    print("")
-    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    t = threading.Thread(target=processProc, args=(proc, regex, duration))
-    t.start()
-    t.join()
+    try:
+        print("")
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        t = threading.Thread(target=processProc, args=(proc, regex, duration))
+        t.start()
+        t.join()
+    except Exception as e:
+        msg = "runThreadConvert: exception {}: {}".format(type(e).__name__, e)
+        raise ConvertFailure(msg)
 
 def processProc(proc, regex, duration):
     """
@@ -203,7 +208,7 @@ def convert(fqfn):
             fn, fext = os.path.splitext(fqfn)
             ofn = fn + ".mkv"
             checkRemoveOutputFile(ofn)
-            cmd, msg = makeCmd(tracks, ofn)
+            cmd, msg = makeCmd(tracks, fqfn, ofn)
             logout("command: {}".format(msg))
             xmsg = ", with subtitles," if withsubs else ""
             msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
