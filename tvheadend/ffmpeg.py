@@ -183,7 +183,11 @@ def runThreadConvert(cmd, fqfn, ofn, duration, regex):
         print("")
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         t = threading.Thread(target=processProc, args=(proc, regex, duration))
+        # wait a bit before processing output
+        time.sleep(30)
+        # start the thread to read and process output from ffmpeg
         t.start()
+        # wait for ffmpeg to finish producing output
         t.join()
     except Exception as e:
         errorNotify("runThreadConvert", e)
@@ -202,6 +206,7 @@ def processProc(proc, regex, duration):
     """
     try:
         for line in iter(proc.stdout.readline, b''):
+            print(line)
             m = regex.match(line.decode("utf-8"))
             if m is not None:
                 xdict = m.groupdict()
@@ -215,7 +220,6 @@ def processProc(proc, regex, duration):
                     dtts = datetime.datetime.fromtimestamp(then)
                     sthen = dtts.strftime("%H:%M:%S")
                     print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
-            logout("Completed")
     except Exception as e:
         errorNotify("processProc", e)
 
