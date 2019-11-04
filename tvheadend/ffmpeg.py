@@ -176,21 +176,25 @@ def processProc(proc, regex, duration):
     The regular expression is now in the convert function so that it is
     only compiled once.
     """
-    for line in iter(proc.stdout.readline, b''):
-        m = regex.match(line.decode("utf-8"))
-        if m is not None:
-            xdict = m.groupdict()
-            if "time" in xdict:
-                now = int(time.time())
-                tsecs = UT.secondsFromHMS(xdict["time"])
-                pc = int((tsecs * 100) / duration)
-                tleft = int((duration - tsecs) / xdict["speed"])
-                stleft = UT.hms(tleft)
-                then = now + tleft
-                dtts = datetime.datetime.fromtimestamp(then)
-                sthen = dtts.strftime("%H:%M:%S")
-                print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
-        logout("Completed")
+    try:
+        for line in iter(proc.stdout.readline, b''):
+            m = regex.match(line.decode("utf-8"))
+            if m is not None:
+                xdict = m.groupdict()
+                if "time" in xdict:
+                    now = int(time.time())
+                    tsecs = UT.secondsFromHMS(xdict["time"])
+                    pc = int((tsecs * 100) / duration)
+                    tleft = int((duration - tsecs) / xdict["speed"])
+                    stleft = UT.hms(tleft)
+                    then = now + tleft
+                    dtts = datetime.datetime.fromtimestamp(then)
+                    sthen = dtts.strftime("%H:%M:%S")
+                    print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
+            logout("Completed")
+    except Exception as e:
+        msg = "processProc: Exception: {}: {}".format(type(e).__name__, e)
+        raise ConvertFailure(msg)
 
 def convert(fqfn):
     try:
