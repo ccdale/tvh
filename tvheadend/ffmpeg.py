@@ -117,7 +117,8 @@ def fileDuration(finfo):
         sdur =""
         stream = getStreamType(finfo, "video")
         if stream is not None and "duration" in stream:
-            dur = int(stream["duration"])
+            xtmp = stream["duration"].split(".")
+            dur = int(xtmp[0])
             sdur = UT.hms(dur)
         return (dur, sdur)
     except Exception as e:
