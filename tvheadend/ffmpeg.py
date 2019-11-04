@@ -260,8 +260,8 @@ def convert(fqfn):
             logout(msg)
             dur, sdur = fileDuration(finfo)
             logout("file duration: {}".format(sdur))
-            # runConvert(cmd, fqfn, ofn)
-            runThreadConvert(cmd, fqfn, ofn, dur, regex)
+            runConvert(cmd, fqfn, ofn)
+            # runThreadConvert(cmd, fqfn, ofn, dur, regex)
         else:
             msg = "Cannot convert {}".format(fqfn)
             logout(msg)
