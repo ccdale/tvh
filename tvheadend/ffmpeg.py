@@ -213,16 +213,27 @@ def processProc(proc, regex, duration):
                 xdict = m.groupdict()
                 if "time" in xdict:
                     now = int(time.time())
+                    # print("getting tsecs")
                     tsecs = UT.secondsFromHMS(xdict["time"])
-                    tsecs = UT.secondsFromHMS(xdict["time"])
+                    # print("getting pc")
                     pc = int((tsecs * 100) / duration)
                     if "speed" in xdict:
-                        tleft = int((duration - tsecs) / xdict["speed"])
+                        # print("getting tleft")
+                        tleft = int((duration - tsecs) / float(xdict["speed"]))
+                        # print("getting stleft")
                         stleft = UT.hms(tleft)
+                        # print("calc then")
                         then = now + tleft
+                        # print("getting dtts")
                         dtts = datetime.datetime.fromtimestamp(then)
+                        # print("getting sthen")
                         sthen = dtts.strftime("%H:%M:%S")
+                        # print("outputting")
                         print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
+            # print("\nsleeping")
+            time.sleep(10)
+            # print("flushing")
+            proc.stdout.flush()
     except Exception as e:
         errorNotify("processProc", e)
 
