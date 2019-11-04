@@ -189,6 +189,7 @@ def runThreadConvert(cmd, fqfn, ofn, duration, regex):
         t.start()
         # wait for ffmpeg to finish producing output
         t.join()
+        print("")
     except Exception as e:
         errorNotify("runThreadConvert", e)
 
