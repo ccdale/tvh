@@ -184,7 +184,7 @@ def runThreadConvert(cmd, fqfn, ofn, duration, regex):
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, )
         t = threading.Thread(target=processProc, args=(proc, regex, duration))
         # wait a bit before processing output
-        time.sleep(30)
+        time.sleep(10)
         # start the thread to read and process output from ffmpeg
         t.start()
         # wait for ffmpeg to finish producing output
@@ -205,8 +205,8 @@ def processProc(proc, regex, duration):
     only compiled once.
     """
     try:
-        for line in iter(proc.stdout.readline, b''):
-            print(line)
+        for line in iter(proc.stdout.readline, ''):
+            # print(line)
             m = regex.match(line)
             if m is not None:
                 xdict = m.groupdict()
