@@ -34,6 +34,7 @@ import tvheadend.utils as UT
 import tvheadend.config as CONF
 import tvheadend.categories as CATS
 import tvheadend.nfo as NFO
+import tvheadend.ffmpeg as FFMPEG
 from tvheadend.errors import errorExit
 
 
@@ -114,7 +115,8 @@ def moveShow(show, config):
                         logout("Not converting HD programme {}".format(show["title"]))
                     else:
                         logout("converting {} to mkv".format(show["title"]))
-                        convertToMkv(opfn)
+                        # convertToMkv(opfn)
+                        FFMPEG.convert(opfn)
             else:
                 raise(CopyFailure("Failed to copy {} to {}".format(show["filename"], opfn)))
     except Exception as e:
