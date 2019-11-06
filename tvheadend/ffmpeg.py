@@ -270,20 +270,6 @@ def convert(fqfn):
         errorNotify("convert", e)
 
 def main():
-    # finfo = fileInfo("/home/hts/Would-I-Lie-To-You_.ts")
-    # finfo = fileInfo("/home/hts/The-Protectors.ts")
-    # finfo = fileInfo("/home/hts/World-War-Weird-S02E05.ts")
-    # print(finfo)
-    # if canConvert(finfo):
-    #     print("can convert")
-    # else:
-    #     print("cannot convert")
-    # if hasSubtitles(finfo):
-    #     print("has subtitles")
-    # else:
-    #     print("doesn't have subtitles")
-    # convert("/home/chris/Videos/kmedia/incoming/Abandoned Engineering - Escobar's Ruin - S04E06.mpg")
-    # finfo = fileInfo("/home/chris/Videos/kmedia/incoming/Abandoned Engineering - S04E06.mpg")
     if len(sys.argv) > 1:
         convert(sys.argv[1])
     else:
