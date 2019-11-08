@@ -281,7 +281,7 @@ def convert(fqfn):
                 if cconv == 1:
                     cmd, msg = makeCmd(tracks, fqfn, ofn)
                 else:
-                    cmd, msg = makeHDCmd(tracks, fqfn, ofn
+                    cmd, msg = makeHDCmd(tracks, fqfn, ofn)
                 logout("command: {}".format(msg))
                 xmsg = ", with subtitles," if withsubs else ""
                 msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
