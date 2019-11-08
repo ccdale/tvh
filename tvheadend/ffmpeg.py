@@ -72,13 +72,14 @@ def trackIndexes(finfo):
         vtrack = atrack = strack = -1
         try:
             for stream in finfo["streams"]:
-                if stream["codec_type"] == "video":
-                    vtrack = stream["index"]
-                elif stream["codec_type"] == "audio":
-                    if int(stream["channels"]) > 1:
-                        atrack = stream["index"]
-                elif stream["codec_type"] == "subtitle":
-                    strack = stream["index"]
+                if "codec_type" in stream:
+                    if stream["codec_type"] == "video":
+                        vtrack = stream["index"]
+                    elif stream["codec_type"] == "audio":
+                        if int(stream["channels"]) > 1:
+                            atrack = stream["index"]
+                    elif stream["codec_type"] == "subtitle":
+                        strack = stream["index"]
         except Exception as e:
             errorNotify("trackIndexes", e)
         return (vtrack, atrack, strack)
