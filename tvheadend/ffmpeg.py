@@ -188,7 +188,12 @@ def runConvert(cmd, fqfn, ofn):
     thebin = "/home/chris/Videos/kmedia/thebin/"
     outfn = thebin + "tvhf.out"
     out = open(outfn, "wb")
+    status=["/home/chris/bin/statusconvert.sh"]
+    logout("starting status command")
+    pstatus = subprocess.Popen(status)
     proc = subprocess.run(cmd, stderr=subprocess.STDOUT, stdout=out)
+    logout("wait for status command to finish")
+    pstatus.wait()
     if proc.returncode == 0:
         out.close()
         logout("Conversion was successful")
