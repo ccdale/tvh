@@ -191,15 +191,28 @@ def runConvert(cmd, fqfn, ofn):
     status=["/home/chris/bin/statusconvert.sh"]
     logout("starting status command")
     pstatus = subprocess.Popen(status)
+    logout("starting ffmpeg")
     proc = subprocess.run(cmd, stderr=subprocess.STDOUT, stdout=out)
     logout("wait for status command to finish")
     pstatus.wait()
     if proc.returncode == 0:
         out.close()
         logout("Conversion was successful")
-        destfn = thebin + bname
-        logout("Deleting '{}' file (to {})".format(fqfn, thebin))
-        UT.rename(fqfn, destfn)
+        insize = UT.fileSize(fqfn)
+        sinsize = UT.sizeof_fmt(insize)
+        outsize = UT.fileSize(ofn)
+        soutsize = UT.sizeof_fmt(outsize)
+        logout("Input size: {}, output size: {}".format(sinsize, soutsize))
+        if outsize > insize:
+            logout("input size is smaller than output size, keeping input file")
+            obname = os.path.basename(ofn)
+            destfn = thebin + bname
+            logout("Deleting '{}' file (to {})".format(ofn, thebin))
+            UT.rename(ofn, destfn)
+        else:
+            destfn = thebin + bname
+            logout("Deleting '{}' file (to {})".format(fqfn, thebin))
+            UT.rename(fqfn, destfn)
     else:
         out.close()
         outlog = thebin + bname + "-tvhf.log"
