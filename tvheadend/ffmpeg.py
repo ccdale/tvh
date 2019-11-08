@@ -184,19 +184,23 @@ def makeCmd(tracks, fqfn, ofn):
         errorNotify("makeCmd", e)
 
 def runConvert(cmd, fqfn, ofn):
-    proc = subprocess.run(cmd, capture_output=True)
-    stderr = proc.stderr.decode("utf-8")
-    stdout = proc.stdout.decode("utf-8")
+    bname = os.path.basename(fqfn)
+    thebin = "/home/chris/Videos/kmedia/thebin/"
+    outfn = thebin + "tvhf.out"
+    out = open(outfn, "wb")
+    proc = subprocess.run(cmd, stderr=subprocess.STDOUT, stdout=out)
     if proc.returncode == 0:
+        out.close()
         logout("Conversion was successful")
-        bname = os.path.basename(fqfn)
-        thebin = "/home/chris/Videos/kmedia/thebin/"
         destfn = thebin + bname
         logout("Deleting '{}' file (to {})".format(fqfn, thebin))
         UT.rename(fqfn, destfn)
     else:
-        msg = "Conversion of '{}' to '{}' failed".format(fqfn, ofn)
-        logout(msg + "\n\n" + stdout + "\n\n" + stderr)
+        out.close()
+        outlog = thebin + bname + "-tvhf.log"
+        UT.rename(outfn, outlog)
+        msg = "Conversion of '{}' to '{}' failed, output in {}".format(fqfn, ofn, outlog)
+        logout(msg)
         logout("Removing failed out file '{}'".format(ofn))
         if UT.fileExists(ofn):
             os.remove(ofn)
