@@ -103,8 +103,11 @@ def canConvert(finfo):
         ret = False
         try:
             stream = getStreamType(finfo, "video")
-            if stream is not None and stream["codec_name"] == "mpeg2video":
-                ret = True
+            if stream is not None:
+                if stream["codec_name"] == "mpeg2video":
+                    ret = 1
+                elif stream["codec_name"] == "h264":
+                    ret =2
         except Exception as e:
             errorNotify("canConvert", e)
         return ret
@@ -139,19 +142,39 @@ def checkRemoveOutputFile(ofn):
     except Exception as e:
         errorNotify("checkRemoveOutputFile", e)
 
-def makeCmd(tracks, fqfn, ofn):
+def makeStub(tracks, fqfn):
     try:
         cmdstub = ["nice", "-n", "19", "ffmpeg", "-i", fqfn]
         mapcmd = ["-map", "0:{}".format(tracks[0]), "-map", "0:{}".format(tracks[1])]
+        ascmd = ["-acodec", "copy"]
         withsubs = True if tracks[2] > 0 else False
         if withsubs:
             mapcmd.append("-map")
             mapcmd.append("0:{}".format(tracks[2]))
-        convcmd = ["-c:v", "libx265", "-crf", "28", "-acodec", "copy"]
-        if withsubs:
-            convcmd.append("-scodec")
-            convcmd.append("copy")
-        cmd = cmdstub + mapcmd + convcmd + [ofn]
+            ascmd.append("-scodec")
+            ascmd.append("copy")
+        return (cmdstub, mapcmd, ascmd)
+    except Exception as e:
+        errorNotify("makeStub", e)
+
+def makeHDCmd(tracks, fqfn, ofn):
+    try:
+        cmdstub, mapcmd, ascmd = makeStub(tracks, fqfn)
+        convcmd = ["-c:v", "libx265", "-preset", "ultrafast", "-x265-params"]
+        convcmd.append("crf=22:qcomp=0.8:aq-mode=1:aq_strength=1.0:qg-size=16:psy-rd=0.7:psy-rdoq=5.0:rdoq-level=1:merange=44")
+        cmd = cmdstub + mapcmd + convcmd + ascmd + [ofn]
+        msg = ""
+        for thing in cmd:
+            msg += " " + thing
+        return (cmd, msg)
+    except Exception as e:
+        errorNotify("makeHDCmd", e)
+
+def makeCmd(tracks, fqfn, ofn):
+    try:
+        cmdstub, mapcmd, ascmd = makeStub(tracks, fqfn)
+        convcmd = ["-c:v", "libx265", "-crf", "28"]
+        cmd = cmdstub + mapcmd + convcmd + ascmd + [ofn]
         msg = ""
         for thing in cmd:
             msg += " " + thing
@@ -248,20 +271,25 @@ def convert(fqfn):
         rstr += r'speed=(?P<speed>[0-9.]+)x'
         regex = re.compile(rstr)
         if finfo is not None and canConvert(finfo):
-            tracks = trackIndexes(finfo)
-            withsubs = True if tracks[2] > 0 else False
-            fn, fext = os.path.splitext(fqfn)
-            ofn = fn + ".mkv"
-            checkRemoveOutputFile(ofn)
-            cmd, msg = makeCmd(tracks, fqfn, ofn)
-            logout("command: {}".format(msg))
-            xmsg = ", with subtitles," if withsubs else ""
-            msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
-            logout(msg)
-            dur, sdur = fileDuration(finfo)
-            logout("file duration: {}".format(sdur))
-            runConvert(cmd, fqfn, ofn)
-            # runThreadConvert(cmd, fqfn, ofn, dur, regex)
+            cconv = canConvert(finfo)
+            if cconv:
+                tracks = trackIndexes(finfo)
+                withsubs = True if tracks[2] > 0 else False
+                fn, fext = os.path.splitext(fqfn)
+                ofn = fn + ".mkv"
+                checkRemoveOutputFile(ofn)
+                if cconv == 1:
+                    cmd, msg = makeCmd(tracks, fqfn, ofn)
+                else:
+                    cmd, msg = makeHDCmd(tracks, fqfn, ofn
+                logout("command: {}".format(msg))
+                xmsg = ", with subtitles," if withsubs else ""
+                msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
+                logout(msg)
+                dur, sdur = fileDuration(finfo)
+                logout("file duration: {}".format(sdur))
+                runConvert(cmd, fqfn, ofn)
+                # runThreadConvert(cmd, fqfn, ofn, dur, regex)
         else:
             msg = "Cannot convert {}".format(fqfn)
             logout(msg)
