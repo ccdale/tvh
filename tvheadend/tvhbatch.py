@@ -68,6 +68,23 @@ def removeFromYear(show, config):
         errorExit(fname, e)
 
 
+def cleanYears(config):
+    try:
+        txy = []
+        xy = config["Year"]
+        if xy is not None:
+            while len(xy) > 0:
+                ty = xy.pop()
+                for key in ty.keys():
+                    if len(ty[key]) == 0:
+                        logout("Remove empty year: {}".format(key))
+                    else:
+                        txy.append(ty)
+        config["Year"] = txy
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorExit(fname, e)
+
 def moveShow(show, config):
     try:
         then = time.time()
@@ -174,6 +191,7 @@ def tvhbatch():
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
     finally:
+        cleanYears(config)
         CONF.writeConfig(config)
         updateKodi()
 
