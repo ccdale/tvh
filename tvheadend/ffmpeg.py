@@ -34,19 +34,30 @@ from tvheadend.errors import errorExit
 from tvheadend.errors import errorRaise
 from tvheadend.errors import errorNotify
 
+
 class ConvertFailure(Exception):
     pass
+
 
 def logout(msg):
     xtime = datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S")
     print("{} {}".format(xtime, msg))
+
 
 def fileInfo(fqfn):
     try:
         finfo = None
         try:
             if UT.fileExists(fqfn):
-                cmd = ["ffprobe", "-loglevel", "quiet", "-of", "json", "-show_streams", fqfn]
+                cmd = [
+                    "ffprobe",
+                    "-loglevel",
+                    "quiet",
+                    "-of",
+                    "json",
+                    "-show_streams",
+                    fqfn,
+                ]
                 proc = subprocess.run(cmd, capture_output=True)
                 if proc.returncode == 0:
                     xstr = proc.stdout.decode("utf-8")
@@ -58,6 +69,7 @@ def fileInfo(fqfn):
     except Exception as e:
         errorNotify("fileInfo", e)
 
+
 def getStreamType(finfo, stype="video"):
     try:
         for stream in finfo["streams"]:
@@ -66,6 +78,7 @@ def getStreamType(finfo, stype="video"):
         return None
     except Exception as e:
         errorNotify("getStreamType", e)
+
 
 def trackIndexes(finfo):
     try:
@@ -86,6 +99,7 @@ def trackIndexes(finfo):
     except Exception as e:
         errorNotify("trackIndexes", e)
 
+
 def hasSubtitles(finfo):
     try:
         ret = False
@@ -99,6 +113,7 @@ def hasSubtitles(finfo):
     except Exception as e:
         errorNotify("hasSubtitles", e)
 
+
 def canConvert(finfo):
     try:
         ret = False
@@ -108,17 +123,18 @@ def canConvert(finfo):
                 if stream["codec_name"] == "mpeg2video":
                     ret = 1
                 elif stream["codec_name"] == "h264":
-                    ret =2
+                    ret = 2
         except Exception as e:
             errorNotify("canConvert", e)
         return ret
     except Exception as e:
         errorNotify("canConvert", e)
 
+
 def fileDuration(finfo):
     try:
         dur = 0
-        sdur =""
+        sdur = ""
         stream = getStreamType(finfo, "video")
         if stream is not None and "duration" in stream:
             xtmp = stream["duration"].split(".")
@@ -128,12 +144,15 @@ def fileDuration(finfo):
     except Exception as e:
         errorNotify("fileDuration", e)
 
+
 def checkRemoveOutputFile(ofn):
     try:
         if UT.fileExists(ofn):
             size = UT.fileSize(ofn)
             if size > 0:
-                msg = "Destination file '{}' exists: {}, not converting".format(ofn, UT.sizeof_fmt(size))
+                msg = "Destination file '{}' exists: {}, not converting".format(
+                    ofn, UT.sizeof_fmt(size)
+                )
                 logout(msg)
                 raise ConvertFailure(msg)
             else:
@@ -142,6 +161,7 @@ def checkRemoveOutputFile(ofn):
                 os.remove(ofn)
     except Exception as e:
         errorNotify("checkRemoveOutputFile", e)
+
 
 def makeStub(tracks, fqfn):
     try:
@@ -158,11 +178,14 @@ def makeStub(tracks, fqfn):
     except Exception as e:
         errorNotify("makeStub", e)
 
+
 def makeHDCmd(tracks, fqfn, ofn):
     try:
         cmdstub, mapcmd, ascmd = makeStub(tracks, fqfn)
         convcmd = ["-c:v", "libx265", "-preset", "ultrafast", "-x265-params"]
-        convcmd.append("crf=22:qcomp=0.8:aq-mode=1:aq_strength=1.0:qg-size=16:psy-rd=0.7:psy-rdoq=5.0:rdoq-level=1:merange=44")
+        convcmd.append(
+            "crf=22:qcomp=0.8:aq-mode=1:aq_strength=1.0:qg-size=16:psy-rd=0.7:psy-rdoq=5.0:rdoq-level=1:merange=44"
+        )
         cmd = cmdstub + mapcmd + convcmd + ascmd + [ofn]
         msg = ""
         for thing in cmd:
@@ -170,6 +193,7 @@ def makeHDCmd(tracks, fqfn, ofn):
         return (cmd, msg)
     except Exception as e:
         errorNotify("makeHDCmd", e)
+
 
 def makeCmd(tracks, fqfn, ofn):
     try:
@@ -183,12 +207,13 @@ def makeCmd(tracks, fqfn, ofn):
     except Exception as e:
         errorNotify("makeCmd", e)
 
+
 def runConvert(cmd, fqfn, ofn):
     bname = os.path.basename(fqfn)
     thebin = "/home/chris/Videos/kmedia/thebin/"
     outfn = thebin + "tvhf.out"
     out = open(outfn, "wb")
-    status=["/home/chris/bin/statusconvert.sh"]
+    status = ["/home/chris/bin/statusconvert.sh"]
     logout("starting status command")
     pstatus = subprocess.Popen(status)
     logout("starting ffmpeg")
@@ -217,17 +242,25 @@ def runConvert(cmd, fqfn, ofn):
         out.close()
         outlog = thebin + bname + "-tvhf.log"
         UT.rename(outfn, outlog)
-        msg = "Conversion of '{}' to '{}' failed, output in {}".format(fqfn, ofn, outlog)
+        msg = "Conversion of '{}' to '{}' failed, output in {}".format(
+            fqfn, ofn, outlog
+        )
         logout(msg)
         logout("Removing failed out file '{}'".format(ofn))
         if UT.fileExists(ofn):
             os.remove(ofn)
         raise ConvertFailure(msg)
 
+
 def runThreadConvert(cmd, fqfn, ofn, duration, regex):
     try:
         print("")
-        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True, )
+        proc = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            universal_newlines=True,
+        )
         t = threading.Thread(target=processProc, args=(proc, regex, duration))
         # wait a bit before processing output
         time.sleep(10)
@@ -238,6 +271,7 @@ def runThreadConvert(cmd, fqfn, ofn, duration, regex):
         print("")
     except Exception as e:
         errorNotify("runThreadConvert", e)
+
 
 def processProc(proc, regex, duration):
     """
@@ -252,7 +286,7 @@ def processProc(proc, regex, duration):
     only compiled once.
     """
     try:
-        for line in iter(proc.stdout.readline, ''):
+        for line in iter(proc.stdout.readline, ""):
             # print(line)
             m = regex.match(line)
             if m is not None:
@@ -275,7 +309,10 @@ def processProc(proc, regex, duration):
                         # print("getting sthen")
                         sthen = dtts.strftime("%H:%M:%S")
                         # print("outputting")
-                        print("\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft), end='')
+                        print(
+                            "\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft),
+                            end="",
+                        )
             # print("\nsleeping")
             time.sleep(10)
             # print("flushing")
@@ -283,15 +320,16 @@ def processProc(proc, regex, duration):
     except Exception as e:
         errorNotify("processProc", e)
 
+
 def convert(fqfn):
     try:
         finfo = fileInfo(fqfn)
-        rstr = r'frame=\s*(?P<frame>[0-9]+)\s+'
-        rstr += r'fps=(?P<fps>[0-9.]+)\s+.*'
-        rstr += r'size=\s*(?P<size>[0-9kmgB]+)\s+'
-        rstr += r'time=(?P<time>[0-9:.]+)\s+'
-        rstr += r'bitrate=\s*(?P<bitrate>[0-9.]+[km]bits/s)\s+'
-        rstr += r'speed=(?P<speed>[0-9.]+)x'
+        rstr = r"frame=\s*(?P<frame>[0-9]+)\s+"
+        rstr += r"fps=(?P<fps>[0-9.]+)\s+.*"
+        rstr += r"size=\s*(?P<size>[0-9kmgB]+)\s+"
+        rstr += r"time=(?P<time>[0-9:.]+)\s+"
+        rstr += r"bitrate=\s*(?P<bitrate>[0-9.]+[km]bits/s)\s+"
+        rstr += r"speed=(?P<speed>[0-9.]+)x"
         regex = re.compile(rstr)
         if finfo is not None and canConvert(finfo):
             cconv = canConvert(finfo)
@@ -320,11 +358,13 @@ def convert(fqfn):
     except Exception as e:
         errorNotify("convert", e)
 
+
 def main():
     if len(sys.argv) > 1:
         convert(sys.argv[1])
     else:
         print("ffmpeg.py <filename>")
+
 
 if __name__ == "__main__":
     main()
