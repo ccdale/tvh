@@ -23,6 +23,7 @@ import os
 import re
 import time
 import requests
+import hashlib
 from pathlib import Path
 from tvheadend.errors import errorRaise
 import tvheadend.categories as CATS
@@ -84,6 +85,7 @@ def dfExists(dfn):
         fname = sys._getframe().f_code.co_name
         errorRaise(fname, e)
 
+
 def makePath(pn):
     try:
         if not dirExists(pn):
@@ -123,7 +125,7 @@ def rename(src, dest):
             p = Path(src)
             p.rename(dest)
         else:
-            raise(FileDoesNotExist("src file does not exist: {}".format(src)))
+            raise (FileDoesNotExist("src file does not exist: {}".format(src)))
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorRaise(fname, e)
@@ -136,6 +138,7 @@ def fileSize(fqfn):
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorRaise(fname, e)
+
 
 def seriesId(show):
     show["series"] = None
@@ -244,6 +247,7 @@ def mainMenu(shows, config):
     finally:
         return ret
 
+
 def delimitString(xstr, addstr, delimeter=" - "):
     ret = xstr
     try:
@@ -256,13 +260,18 @@ def delimitString(xstr, addstr, delimeter=" - "):
     finally:
         return ret
 
+
 def reduceTime(unit, secs):
     rem = units = 0
     if unit > 0:
         units = int(secs / unit)
         rem = int(secs % unit)
     else:
-        raise ValueError("divide by zero requested in reduceTime: unit: {}, secs: {}".format(unit, secs))
+        raise ValueError(
+            "divide by zero requested in reduceTime: unit: {}, secs: {}".format(
+                unit, secs
+            )
+        )
     return (units, rem)
 
 
@@ -293,6 +302,7 @@ def secondsFromHMS(shms):
     elif cn == 1:
         secs = int(tmp[0])
     return (hrs * 3600) + (mins * 60) + secs + extra
+
 
 def hms(secs):
     # print("hms: input: {} seconds".format(secs))
@@ -334,7 +344,7 @@ def displayProgramList(plist, hours=4, singlechannel=None):
     xlhours = hours * 3600
     twentyfour = 3600 * 24
     lhours = now + xlhours if singlechannel is None else now + twentyfour
-    print("lhours is {}".format((lhours - now)/3600))
+    print("lhours is {}".format((lhours - now) / 3600))
     chanproglist = {}
     # sort by channel
     for prog in plist:
@@ -361,7 +371,11 @@ def displayProgramList(plist, hours=4, singlechannel=None):
                 #     channelLogo(prog["channelName"], prog["channelIcon"])
                 cn += 1
                 sstart = progStartAndDur(prog["start"], prog["stop"])
-                print(padStr(prog["channelName"], 19, padleft=False), progStartAndDur(prog["start"], prog["stop"]), prog["title"])
+                print(
+                    padStr(prog["channelName"], 19, padleft=False),
+                    progStartAndDur(prog["start"], prog["stop"]),
+                    prog["title"],
+                )
     print("{} programs".format(cn))
     return (mindur, minprog)
 
@@ -375,17 +389,37 @@ def channelLogo(channel, url):
             r = requests.get(url)
             if r.status_code == 200:
                 print("Logo retrieved ok")
-                with open(imgpath, 'wb') as ifn:
+                with open(imgpath, "wb") as ifn:
                     ifn.write(r.content)
 
 
-def sizeof_fmt(num, suffix='B'):
+def sizeof_fmt(num, suffix="B"):
     """
     from article by Fred Cirera: https://web.archive.org/web/20111010015624/http://blogmag.net/blog/read/38/Print_human_readable_file_size
     and stackoverflow: https://stackoverflow.com/questions/1094841/reusable-library-to-get-human-readable-version-of-file-size
     """
-    for unit in ['','K','M','G','T','P','E','Z']:
+    for unit in ["", "K", "M", "G", "T", "P", "E", "Z"]:
         if abs(num) < 1024.0:
             return "{:3.1f}{}{}".format(num, unit, suffix)
         num /= 1024.0
     return "{:3.1f}{}{}".format(num, "Y", suffix)
+
+
+def getFileHash(fqfn, blocksize=65536):
+    """
+    returns the sha256 hash of the named file
+
+    uses fileSize (above) to test that the file exists
+    """
+    try:
+        fnsize = fileSize(fqfn)
+        sha = hashlib.sha256()
+        with open(fqfn, "rb") as ifn:
+            fbuf = ifn.read(blocksize)
+            while len(fbuf) > 0:
+                sha.update(fbuf)
+                fbuf = ifn.read(blocksize)
+        return (sha.hexdigest(), fnsize)
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorRaise(fname, e)
