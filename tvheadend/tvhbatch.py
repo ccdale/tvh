@@ -37,9 +37,11 @@ import tvheadend.categories as CATS
 import tvheadend.nfo as NFO
 import tvheadend.ffmpeg as FFMPEG
 import tvheadend.tvhlog
+import tvheadend.tvhdb
 from tvheadend.errors import errorExit
 
 log = tvheadend.tvhlog.log
+dbfn = "/home/chris/Videos/kmedia/tvh/tvh.db"
 
 
 class CopyFailure(Exception):
@@ -134,8 +136,14 @@ def moveShow(show, config):
                         )
                     )
                     log.info("show copied to {} OK.".format(opfn))
+                    fhash = FUT.getFileHash(show["filename"])
                     log.info("deleting from tvheadend")
                     TVH.deleteRecording(show["uuid"])
+                    log.info("updating DB")
+                    db = tvheadend.tvhdb.TVHDb(dbfn)
+                    sql = "insert into files (name,size,hash) values ("
+                    sql += "'{}',{},'{}'".format(opfn, tvhstat.st_size, fhash)
+                    db.doSql(sql)
                     # it is safe to run removeFromYear for all shows
                     # as it tests whether this is a movie or not
                     removeFromYear(show, config)
@@ -143,9 +151,9 @@ def moveShow(show, config):
                     # if show["channelname"].endswith("HD"):
                     #     log.info("Not converting HD programme {}".format(show["title"]))
                     # else:
-                    log.info("converting {} to mkv".format(show["title"]))
+                    # log.info("converting {} to mkv".format(show["title"]))
                     # convertToMkv(opfn)
-                    FFMPEG.convert(opfn)
+                    # FFMPEG.convert(opfn)
             else:
                 raise (
                     CopyFailure(
@@ -168,7 +176,7 @@ def convertToMkv(fqfn):
 
 
 def updateKodi():
-    try:
+        try:
         data = {"jsonrpc": "2.0", "method": "VideoLibrary.Scan"}
         headers = {"content-type": "application/json"}
         url = "http://127.0.0.1:8080/jsonrpc"
