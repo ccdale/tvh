@@ -30,6 +30,7 @@ import datetime
 import re
 import json
 import tvheadend.utils as UT
+import tvheadend.fileutils as FUT
 import tvheadend.tvhlog
 from tvheadend.errors import errorExit
 from tvheadend.errors import errorRaise
@@ -51,7 +52,7 @@ def fileInfo(fqfn):
     try:
         finfo = None
         try:
-            if UT.fileExists(fqfn):
+            if FUT.fileExists(fqfn):
                 cmd = [
                     "ffprobe",
                     "-loglevel",
@@ -150,11 +151,11 @@ def fileDuration(finfo):
 
 def checkRemoveOutputFile(ofn):
     try:
-        if UT.fileExists(ofn):
-            size = UT.fileSize(ofn)
+        if FUT.fileExists(ofn):
+            size = FUT.fileSize(ofn)
             if size > 0:
                 msg = "Destination file '{}' exists: {}, not converting".format(
-                    ofn, UT.sizeof_fmt(size)
+                    ofn, FUT.sizeof_fmt(size)
                 )
                 log.info(msg)
                 raise ConvertFailure(msg)
@@ -226,31 +227,31 @@ def runConvert(cmd, fqfn, ofn):
     if proc.returncode == 0:
         out.close()
         log.info("Conversion was successful")
-        insize = UT.fileSize(fqfn)
-        sinsize = UT.sizeof_fmt(insize)
-        outsize = UT.fileSize(ofn)
-        soutsize = UT.sizeof_fmt(outsize)
+        insize = FUT.fileSize(fqfn)
+        sinsize = FUT.sizeof_fmt(insize)
+        outsize = FUT.fileSize(ofn)
+        soutsize = FUT.sizeof_fmt(outsize)
         log.info("Input size: {}, output size: {}".format(sinsize, soutsize))
         if outsize > insize:
             log.info("input size is smaller than output size, keeping input file")
             obname = os.path.basename(ofn)
             destfn = thebin + bname
             log.info("Deleting '{}' file (to {})".format(ofn, thebin))
-            UT.rename(ofn, destfn)
+            FUT.rename(ofn, destfn)
         else:
             destfn = thebin + bname
             log.info("Deleting '{}' file (to {})".format(fqfn, thebin))
-            UT.rename(fqfn, destfn)
+            FUT.rename(fqfn, destfn)
     else:
         out.close()
         outlog = thebin + bname + "-tvhf.log"
-        UT.rename(outfn, outlog)
+        FUT.rename(outfn, outlog)
         msg = "Conversion of '{}' to '{}' failed, output in {}".format(
             fqfn, ofn, outlog
         )
         log.info(msg)
         log.info("Removing failed out file '{}'".format(ofn))
-        if UT.fileExists(ofn):
+        if FUT.fileExists(ofn):
             os.remove(ofn)
         raise ConvertFailure(msg)
 

@@ -1,7 +1,11 @@
 # vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=indent ft=python:
 
 import sqlite3
+import time
 import tvheadend.tvhlog
+import tvheadend.utils as UT
+from tvheadend.errors import errorRaise
+from tvheadend.errors import errorNotify
 
 log = tvheadend.tvhlog.log
 
@@ -14,13 +18,39 @@ class DBUpdateError(Exception):
     pass
 
 
+class DBLockError(Exception):
+    pass
+
+
 class TVHDb(object):
     def __init__(self, dbfilename):
         log.debug("Db starting")
         self.dbpath = dbfilename
+        self.lockfn = dbfilename + ".LOCKED"
 
     def get_connection(self):
-        self.connection = sqlite3.connect(self.dbpath)
+        try:
+            self.connection = sqlite3.connect(self.dbpath)
+        except Exception as e:
+            fname = sys._getframe().f_code.co_name
+            errorRaise(fname, e)
+
+    def aquireLock(self):
+        try:
+            cn = 0
+            while UT.fileExists(self.lockfn):
+                time.sleep(1)
+                cn += 1
+                if cn > 10:
+                    raise DBLockError("Timeout waiting for locked DB")
+
+        except Exception as e:
+            fname = sys._getframe().f_code.co_name
+            errorRaise(fname, e)
+        pass
+
+    def releaseLock(self):
+        pass
 
     def doSql(self, sql, dictionary=1, one=0):
         self.get_connection()

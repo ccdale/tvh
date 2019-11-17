@@ -25,6 +25,7 @@ import time
 import requests
 import hashlib
 from pathlib import Path
+import tvheadend.fileutils as FUT
 from tvheadend.errors import errorRaise
 import tvheadend.categories as CATS
 
@@ -54,87 +55,6 @@ def padStr(xstr, xlen=2, pad=" ", padleft=True):
             else:
                 zstr += pad
         return zstr
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)
-
-
-def fileExists(fn):
-    try:
-        return Path(fn).is_file()
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)
-
-
-def dirExists(dn):
-    try:
-        return Path(dn).is_dir()
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)
-
-
-def dfExists(dfn):
-    try:
-        ret = Path(dfn).is_file()
-        if not ret:
-            ret = Path(dfn).is_dir()
-        return ret
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)
-
-
-def makePath(pn):
-    try:
-        if not dirExists(pn):
-            p = Path(pn)
-            ret = False
-            p.mkdir(mode=0o755, parents=True, exist_ok=True)
-            ret = True
-        else:
-            ret = True
-        return ret
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)
-
-
-def makeFilePath(fn):
-    try:
-        pfn = os.path.basename(fn)
-        ret = makePath(pfn)
-        return ret
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)
-
-
-def absPath(fn):
-    try:
-        return os.path.abspath(os.path.expanduser(fn))
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)
-
-
-def rename(src, dest):
-    try:
-        if dfExists(src):
-            p = Path(src)
-            p.rename(dest)
-        else:
-            raise (FileDoesNotExist("src file does not exist: {}".format(src)))
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)
-
-
-def fileSize(fqfn):
-    try:
-        if fileExists(fqfn):
-            return os.stat(fqfn).st_size
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorRaise(fname, e)
@@ -384,42 +304,10 @@ def channelLogo(channel, url):
     if len(url) > 0:
         imgs = "/home/chris/Pictures"
         imgpath = imgs + "/{}.png".format(channel)
-        if not fileExists(imgpath):
+        if not FUT.fileExists(imgpath):
             print("Getting logo for {}".format(channel))
             r = requests.get(url)
             if r.status_code == 200:
                 print("Logo retrieved ok")
                 with open(imgpath, "wb") as ifn:
                     ifn.write(r.content)
-
-
-def sizeof_fmt(num, suffix="B"):
-    """
-    from article by Fred Cirera: https://web.archive.org/web/20111010015624/http://blogmag.net/blog/read/38/Print_human_readable_file_size
-    and stackoverflow: https://stackoverflow.com/questions/1094841/reusable-library-to-get-human-readable-version-of-file-size
-    """
-    for unit in ["", "K", "M", "G", "T", "P", "E", "Z"]:
-        if abs(num) < 1024.0:
-            return "{:3.1f}{}{}".format(num, unit, suffix)
-        num /= 1024.0
-    return "{:3.1f}{}{}".format(num, "Y", suffix)
-
-
-def getFileHash(fqfn, blocksize=65536):
-    """
-    returns the sha256 hash of the named file
-
-    uses fileSize (above) to test that the file exists
-    """
-    try:
-        fnsize = fileSize(fqfn)
-        sha = hashlib.sha256()
-        with open(fqfn, "rb") as ifn:
-            fbuf = ifn.read(blocksize)
-            while len(fbuf) > 0:
-                sha.update(fbuf)
-                fbuf = ifn.read(blocksize)
-        return (sha.hexdigest(), fnsize)
-    except Exception as e:
-        fname = sys._getframe().f_code.co_name
-        errorRaise(fname, e)

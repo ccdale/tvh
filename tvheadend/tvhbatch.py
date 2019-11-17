@@ -31,6 +31,7 @@ from requests.exceptions import ConnectionError
 import tvheadend
 import tvheadend.tvh as TVH
 import tvheadend.utils as UT
+import tvheadend.fileutils as FUT
 import tvheadend.config as CONF
 import tvheadend.categories as CATS
 import tvheadend.nfo as NFO
@@ -41,10 +42,10 @@ from tvheadend.errors import errorExit
 class CopyFailure(Exception):
     pass
 
+
 def logout(msg):
     xtime = datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S")
     print("{} {}".format(xtime, msg))
-
 
 
 def removeFromYear(show, config):
@@ -85,13 +86,16 @@ def cleanYears(config):
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
 
+
 def moveShow(show, config):
     try:
         then = time.time()
         tvhstat = os.stat(show["filename"])
-        logout("{}: {}".format(show["opbase"], UT.sizeof_fmt(tvhstat.st_size)))
+        logout("{}: {}".format(show["opbase"], FUT.sizeof_fmt(tvhstat.st_size)))
         if "year" in show:
-            opdir = "/".join([config["filmhome"], show["title"][0:1].upper(), show["opbase"]])
+            opdir = "/".join(
+                [config["filmhome"], show["title"][0:1].upper(), show["opbase"]]
+            )
             snfo = NFO.makeFilmNfo(show)
         else:
             opdir = "/".join([config["videohome"], show["category"], show["title"]])
@@ -100,9 +104,9 @@ def moveShow(show, config):
         opfn = basefn + ".mpg"
         mkopfn = basefn + ".mkv"
         existingfile = None
-        if UT.fileExists(opfn):
+        if FUT.fileExists(opfn):
             existingfile = opfn
-        elif UT.fileExists(mkopfn):
+        elif FUT.fileExists(mkopfn):
             existingfile = mkopfn
         if existingfile is not None:
             logout("kodi file already exists, not copying {}".format(existingfile))
@@ -110,17 +114,22 @@ def moveShow(show, config):
             TVH.deleteRecording(show["uuid"])
         else:
             logout("making directory {}".format(opdir))
-            UT.makePath(opdir)
+            FUT.makePath(opdir)
             nfofn = basefn + ".nfo"
             logout("writing nfo to {}".format(nfofn))
             with open(nfofn, "w") as nfn:
                 nfn.write(snfo)
             logout("copying {} to {}".format(show["filename"], opfn))
             shutil.copy2(show["filename"], opfn)
-            if UT.fileExists(opfn):
+            if FUT.fileExists(opfn):
                 cstat = os.stat(opfn)
                 if cstat.st_size == tvhstat.st_size:
-                    logout("copying {} took: {}".format(UT.sizeof_fmt(cstat.st_size), NFO.hmsDisplay(int(time.time() - then))))
+                    logout(
+                        "copying {} took: {}".format(
+                            FUT.sizeof_fmt(cstat.st_size),
+                            NFO.hmsDisplay(int(time.time() - then)),
+                        )
+                    )
                     logout("show copied to {} OK.".format(opfn))
                     logout("deleting from tvheadend")
                     TVH.deleteRecording(show["uuid"])
@@ -135,20 +144,25 @@ def moveShow(show, config):
                     # convertToMkv(opfn)
                     FFMPEG.convert(opfn)
             else:
-                raise(CopyFailure("Failed to copy {} to {}".format(show["filename"], opfn)))
+                raise (
+                    CopyFailure(
+                        "Failed to copy {} to {}".format(show["filename"], opfn)
+                    )
+                )
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
 
 
 def convertToMkv(fqfn):
-    if UT.fileExists(fqfn):
-        cmd=["/home/chris/bin/convert-ts-to-mkv.sh", "{}".format(fqfn)]
+    if FUT.fileExists(fqfn):
+        cmd = ["/home/chris/bin/convert-ts-to-mkv.sh", "{}".format(fqfn)]
         proc = subprocess.run(cmd)
         if proc.returncode == 0:
             logout("Converted {} to mkv".format(fqfn))
         else:
             logout("Error muxing {}".format(fqfn))
+
 
 def updateKodi():
     try:
@@ -169,7 +183,6 @@ def updateKodi():
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
-
 
 
 def tvhbatch():
@@ -195,5 +208,6 @@ def tvhbatch():
         CONF.writeConfig(config)
         updateKodi()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     tvhbatch()
