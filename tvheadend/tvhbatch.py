@@ -176,7 +176,7 @@ def convertToMkv(fqfn):
 
 
 def updateKodi():
-        try:
+    try:
         data = {"jsonrpc": "2.0", "method": "VideoLibrary.Scan"}
         headers = {"content-type": "application/json"}
         url = "http://127.0.0.1:8080/jsonrpc"
