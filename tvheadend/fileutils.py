@@ -100,6 +100,14 @@ def rename(src, dest):
         errorRaise(fname, e)
 
 
+def fileDelete(fqfn):
+    try:
+        os.unlink(fqfn)
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorRaise(fname, e)
+
+
 def fileSize(fqfn):
     try:
         if fileExists(fqfn):

@@ -3,7 +3,7 @@
 import sqlite3
 import time
 import tvheadend.tvhlog
-import tvheadend.utils as UT
+import tvheadend.fileutils as FUT
 from tvheadend.errors import errorRaise
 from tvheadend.errors import errorNotify
 
@@ -30,7 +30,16 @@ class TVHDb(object):
 
     def get_connection(self):
         try:
+            self.aquireLock()
             self.connection = sqlite3.connect(self.dbpath)
+        except Exception as e:
+            fname = sys._getframe().f_code.co_name
+            errorRaise(fname, e)
+
+    def close_connection(self):
+        try:
+            self.connection.close()
+            self.releaseLock()
         except Exception as e:
             fname = sys._getframe().f_code.co_name
             errorRaise(fname, e)
@@ -38,12 +47,12 @@ class TVHDb(object):
     def aquireLock(self):
         try:
             cn = 0
-            while UT.fileExists(self.lockfn):
+            while FUT.fileExists(self.lockfn):
                 time.sleep(1)
                 cn += 1
                 if cn > 10:
                     raise DBLockError("Timeout waiting for locked DB")
-
+            FUT.fileTouch(self.lockfn)
         except Exception as e:
             fname = sys._getframe().f_code.co_name
             errorRaise(fname, e)
@@ -69,7 +78,7 @@ class TVHDb(object):
                 log.error("dosql error: {}: {}".format(type(E).__name__, E))
                 log.error("dosql sql: {}".format(sql))
                 rows = {}
-        self.connection.close()
+        self.close_connection()
         return rows
 
     def doUpdateSql(self, sql):
@@ -80,7 +89,7 @@ class TVHDb(object):
                 cursor = self.connection.cursor()
                 log.debug("Update SQL: {}".format(sql))
                 cursor.execute(sql)
-            self.connection.close()
+            self.close_connection()
             ret = True
         except Exception as e:
             log.error("update sql error: sql {}".format(sql))
@@ -95,7 +104,7 @@ class TVHDb(object):
                 cursor = self.connection.cursor()
                 log.debug("Insert SQL: {}".format(sql))
                 cursor.execute(sql)
-            self.connection.close()
+            self.close_connection()
             ret = True
         except Exception as e:
             log.error("insert sql error: sql {}".format(sql))
