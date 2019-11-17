@@ -36,7 +36,10 @@ import tvheadend.config as CONF
 import tvheadend.categories as CATS
 import tvheadend.nfo as NFO
 import tvheadend.ffmpeg as FFMPEG
+import tvheadend.tvhlog
 from tvheadend.errors import errorExit
+
+log = tvheadend.tvhlog.log
 
 
 class CopyFailure(Exception):
@@ -78,7 +81,7 @@ def cleanYears(config):
                 ty = xy.pop()
                 for key in ty.keys():
                     if len(ty[key]) == 0:
-                        logout("Remove empty year: {}".format(key))
+                        log.info("Remove empty year: {}".format(key))
                     else:
                         txy.append(ty)
         config["Year"] = txy
@@ -91,7 +94,7 @@ def moveShow(show, config):
     try:
         then = time.time()
         tvhstat = os.stat(show["filename"])
-        logout("{}: {}".format(show["opbase"], FUT.sizeof_fmt(tvhstat.st_size)))
+        log.info("{}: {}".format(show["opbase"], FUT.sizeof_fmt(tvhstat.st_size)))
         if "year" in show:
             opdir = "/".join(
                 [config["filmhome"], show["title"][0:1].upper(), show["opbase"]]
@@ -109,38 +112,38 @@ def moveShow(show, config):
         elif FUT.fileExists(mkopfn):
             existingfile = mkopfn
         if existingfile is not None:
-            logout("kodi file already exists, not copying {}".format(existingfile))
-            logout("deleting from tvheadend")
+            log.info("kodi file already exists, not copying {}".format(existingfile))
+            log.info("deleting from tvheadend")
             TVH.deleteRecording(show["uuid"])
         else:
-            logout("making directory {}".format(opdir))
+            log.info("making directory {}".format(opdir))
             FUT.makePath(opdir)
             nfofn = basefn + ".nfo"
-            logout("writing nfo to {}".format(nfofn))
+            log.info("writing nfo to {}".format(nfofn))
             with open(nfofn, "w") as nfn:
                 nfn.write(snfo)
-            logout("copying {} to {}".format(show["filename"], opfn))
+            log.info("copying {} to {}".format(show["filename"], opfn))
             shutil.copy2(show["filename"], opfn)
             if FUT.fileExists(opfn):
                 cstat = os.stat(opfn)
                 if cstat.st_size == tvhstat.st_size:
-                    logout(
+                    log.info(
                         "copying {} took: {}".format(
                             FUT.sizeof_fmt(cstat.st_size),
                             NFO.hmsDisplay(int(time.time() - then)),
                         )
                     )
-                    logout("show copied to {} OK.".format(opfn))
-                    logout("deleting from tvheadend")
+                    log.info("show copied to {} OK.".format(opfn))
+                    log.info("deleting from tvheadend")
                     TVH.deleteRecording(show["uuid"])
                     # it is safe to run removeFromYear for all shows
                     # as it tests whether this is a movie or not
                     removeFromYear(show, config)
-                    # logout("\n")
+                    # log.info("\n")
                     # if show["channelname"].endswith("HD"):
-                    #     logout("Not converting HD programme {}".format(show["title"]))
+                    #     log.info("Not converting HD programme {}".format(show["title"]))
                     # else:
-                    logout("converting {} to mkv".format(show["title"]))
+                    log.info("converting {} to mkv".format(show["title"]))
                     # convertToMkv(opfn)
                     FFMPEG.convert(opfn)
             else:
@@ -159,9 +162,9 @@ def convertToMkv(fqfn):
         cmd = ["/home/chris/bin/convert-ts-to-mkv.sh", "{}".format(fqfn)]
         proc = subprocess.run(cmd)
         if proc.returncode == 0:
-            logout("Converted {} to mkv".format(fqfn))
+            log.info("Converted {} to mkv".format(fqfn))
         else:
-            logout("Error muxing {}".format(fqfn))
+            log.info("Error muxing {}".format(fqfn))
 
 
 def updateKodi():
@@ -171,15 +174,15 @@ def updateKodi():
         url = "http://127.0.0.1:8080/jsonrpc"
         resp = requests.post(url, json=data, headers=headers, timeout=10)
         if resp.status_code < 399:
-            logout("Kodi update starting")
-            logout("response: {}".format(resp))
-            logout("response text: {}".format(resp.text))
+            log.info("Kodi update starting")
+            log.info("response: {}".format(resp))
+            log.info("response text: {}".format(resp.text))
         else:
-            logout("Failed to update Kodi")
-            logout("response: {}".format(resp))
-            logout("response text: {}".format(resp.text))
+            log.info("Failed to update Kodi")
+            log.info("response: {}".format(resp))
+            log.info("response text: {}".format(resp.text))
     except ConnectionError as ce:
-        logout("Kodi isn't running")
+        log.info("Kodi isn't running")
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
@@ -187,7 +190,7 @@ def updateKodi():
 
 def tvhbatch():
     try:
-        logout("tvheadend batch utility " + tvheadend.__version__)
+        log.info("tvheadend batch utility " + tvheadend.__version__)
         config = CONF.readConfig()
         tvheadend.user = config["user"]
         tvheadend.passw = config["pass"]
