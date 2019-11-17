@@ -23,7 +23,6 @@ import os
 import re
 import time
 import requests
-import hashlib
 from pathlib import Path
 import tvheadend.fileutils as FUT
 from tvheadend.errors import errorRaise

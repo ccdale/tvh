@@ -20,6 +20,7 @@ utils module for tvh application
 """
 import os
 import sys
+import hashlib
 from pathlib import Path
 from tvheadend.errors import errorRaise
 
