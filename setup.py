@@ -20,6 +20,7 @@ setup module for tvh application
 """
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
+
 # To use a consistent encoding
 from codecs import open
 from os import path
@@ -28,52 +29,49 @@ from tvheadend import __version__
 here = path.abspath(path.dirname(__file__))
 
 # Get the long description from the README file
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+with open(path.join(here, "README.md"), encoding="utf-8") as f:
     long_description = f.read()
 
 setup(
-        name = "tvh",
-        version = __version__,
-        description = "tvheadend file management utility",
-        long_description = long_description,
-        long_description_content_type="text/markdown",
-        url = "https://github.com/ccdale/tvh",
-        author = "Christopher Allison",
-        author_email = "chris.charles.allison+tvh@gmail.com",
-        classifiers = [
-            "Development Status :: 4 - Beta",
-            "Environment :: Console",
-            "Intended Audience :: End Users/Desktop",
-            "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
-            "Natural Language :: English",
-            "Operating System :: POSIX :: Linux",
-            "Programming Language :: Python :: 3",
-            "Topic :: System :: Archiving",
-            "Topic :: System :: Archiving :: Backup",
-            "Topic :: System :: Archiving :: Compression",
-            "Topic :: System :: Archiving :: Mirroring",
-            "Topic :: Utilities"
-            ],
-        keywords = "tvheadend",
-        packages = ["tvheadend"],
-        project_urls = {
-            "Source": "https://github.com/ccdale/tvh",
-            "Bug Reports": "https://github.com/ccdale/tvh/issues"
-            },
-        python_requires = ">=3",
-        install_requires=[
-            "requests",
-            "pyyaml"
-            ],
-        entry_points ={
-            "console_scripts": [
-                "tvh = tvheadend.tvhcmd:tvh",
-                "tvhb = tvheadend.tvhbatch:tvhbatch",
-                "tvhnfo = tvheadend.tvhnfo:tvhnfo",
-                "tvhd = tvheadend.tvhdelete:tvhdelete",
-                "tvhl = tvheadend.tvhlist:tvhlist",
-                "tvhc = tvheadend.tvhchannels:tvhc",
-                "tvhf = tvheadend.ffmpeg:main",
-                ]
-            }
-        )
+    name="tvh",
+    version=__version__,
+    description="tvheadend file management utility",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/ccdale/tvh",
+    author="Christopher Allison",
+    author_email="chris.charles.allison+tvh@gmail.com",
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "Environment :: Console",
+        "Intended Audience :: End Users/Desktop",
+        "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+        "Natural Language :: English",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 3",
+        "Topic :: System :: Archiving",
+        "Topic :: System :: Archiving :: Backup",
+        "Topic :: System :: Archiving :: Compression",
+        "Topic :: System :: Archiving :: Mirroring",
+        "Topic :: Utilities",
+    ],
+    keywords="tvheadend",
+    packages=["tvheadend"],
+    project_urls={
+        "Source": "https://github.com/ccdale/tvh",
+        "Bug Reports": "https://github.com/ccdale/tvh/issues",
+    },
+    python_requires=">=3",
+    install_requires=["requests", "pyyaml", "sqlite3",],
+    entry_points={
+        "console_scripts": [
+            "tvh = tvheadend.tvhcmd:tvh",
+            "tvhb = tvheadend.tvhbatch:tvhbatch",
+            "tvhnfo = tvheadend.tvhnfo:tvhnfo",
+            "tvhd = tvheadend.tvhdelete:tvhdelete",
+            "tvhl = tvheadend.tvhlist:tvhlist",
+            "tvhc = tvheadend.tvhchannels:tvhc",
+            "tvhf = tvheadend.ffmpeg:main",
+        ]
+    },
+)
