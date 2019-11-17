@@ -27,6 +27,7 @@ class TVHDb(object):
         log.debug("Db starting")
         self.dbpath = dbfilename
         self.lockfn = dbfilename + ".LOCKED"
+        self.locktime = 30
 
     def get_connection(self):
         try:
@@ -50,16 +51,19 @@ class TVHDb(object):
             while FUT.fileExists(self.lockfn):
                 time.sleep(1)
                 cn += 1
-                if cn > 10:
+                if cn > self.locktime:
                     raise DBLockError("Timeout waiting for locked DB")
             FUT.fileTouch(self.lockfn)
         except Exception as e:
             fname = sys._getframe().f_code.co_name
             errorRaise(fname, e)
-        pass
 
     def releaseLock(self):
-        pass
+        try:
+            FUT.fileDelete(self.lockfn)
+        except Exception as e:
+            fname = sys._getframe().f_code.co_name
+            errorRaise(fname, e)
 
     def doSql(self, sql, dictionary=1, one=0):
         self.get_connection()
