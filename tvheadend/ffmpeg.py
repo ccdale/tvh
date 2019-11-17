@@ -30,9 +30,12 @@ import datetime
 import re
 import json
 import tvheadend.utils as UT
+import tvheadend.tvhlog
 from tvheadend.errors import errorExit
 from tvheadend.errors import errorRaise
 from tvheadend.errors import errorNotify
+
+log = tvheadend.tvhlog.log
 
 
 class ConvertFailure(Exception):
@@ -153,11 +156,11 @@ def checkRemoveOutputFile(ofn):
                 msg = "Destination file '{}' exists: {}, not converting".format(
                     ofn, UT.sizeof_fmt(size)
                 )
-                logout(msg)
+                log.info(msg)
                 raise ConvertFailure(msg)
             else:
                 msg = "Deleting existing zero length destination file '{}'".format(ofn)
-                logout(msg)
+                log.info(msg)
                 os.remove(ofn)
     except Exception as e:
         errorNotify("checkRemoveOutputFile", e)
@@ -214,29 +217,29 @@ def runConvert(cmd, fqfn, ofn):
     outfn = thebin + "tvhf.out"
     out = open(outfn, "wb")
     status = ["/home/chris/bin/statusconvert.sh"]
-    logout("starting status command")
+    log.info("starting status command")
     pstatus = subprocess.Popen(status)
-    logout("starting ffmpeg")
+    log.info("starting ffmpeg")
     proc = subprocess.run(cmd, stderr=subprocess.STDOUT, stdout=out)
-    logout("wait for status command to finish")
+    log.info("wait for status command to finish")
     pstatus.wait()
     if proc.returncode == 0:
         out.close()
-        logout("Conversion was successful")
+        log.info("Conversion was successful")
         insize = UT.fileSize(fqfn)
         sinsize = UT.sizeof_fmt(insize)
         outsize = UT.fileSize(ofn)
         soutsize = UT.sizeof_fmt(outsize)
-        logout("Input size: {}, output size: {}".format(sinsize, soutsize))
+        log.info("Input size: {}, output size: {}".format(sinsize, soutsize))
         if outsize > insize:
-            logout("input size is smaller than output size, keeping input file")
+            log.info("input size is smaller than output size, keeping input file")
             obname = os.path.basename(ofn)
             destfn = thebin + bname
-            logout("Deleting '{}' file (to {})".format(ofn, thebin))
+            log.info("Deleting '{}' file (to {})".format(ofn, thebin))
             UT.rename(ofn, destfn)
         else:
             destfn = thebin + bname
-            logout("Deleting '{}' file (to {})".format(fqfn, thebin))
+            log.info("Deleting '{}' file (to {})".format(fqfn, thebin))
             UT.rename(fqfn, destfn)
     else:
         out.close()
@@ -245,8 +248,8 @@ def runConvert(cmd, fqfn, ofn):
         msg = "Conversion of '{}' to '{}' failed, output in {}".format(
             fqfn, ofn, outlog
         )
-        logout(msg)
-        logout("Removing failed out file '{}'".format(ofn))
+        log.info(msg)
+        log.info("Removing failed out file '{}'".format(ofn))
         if UT.fileExists(ofn):
             os.remove(ofn)
         raise ConvertFailure(msg)
@@ -343,17 +346,17 @@ def convert(fqfn):
                     cmd, msg = makeCmd(tracks, fqfn, ofn)
                 else:
                     cmd, msg = makeHDCmd(tracks, fqfn, ofn)
-                logout("command: {}".format(msg))
+                log.info("command: {}".format(msg))
                 xmsg = ", with subtitles," if withsubs else ""
                 msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
-                logout(msg)
+                log.info(msg)
                 dur, sdur = fileDuration(finfo)
-                logout("file duration: {}".format(sdur))
+                log.info("file duration: {}".format(sdur))
                 runConvert(cmd, fqfn, ofn)
                 # runThreadConvert(cmd, fqfn, ofn, dur, regex)
         else:
             msg = "Cannot convert {}".format(fqfn)
-            logout(msg)
+            log.info(msg)
             raise ConvertFailure(msg)
     except Exception as e:
         errorNotify("convert", e)
