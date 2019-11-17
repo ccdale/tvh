@@ -62,7 +62,7 @@ setup(
         "Bug Reports": "https://github.com/ccdale/tvh/issues",
     },
     python_requires=">=3",
-    install_requires=["requests", "pyyaml", "sqlite3",],
+    install_requires=["requests", "pyyaml",],
     entry_points={
         "console_scripts": [
             "tvh = tvheadend.tvhcmd:tvh",
