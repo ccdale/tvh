@@ -154,7 +154,8 @@ def getFileHash(fqfn, blocksize=65536):
 
 def fileTouch(fqfn, exists=True):
     try:
-        pth = Path.touch(fqfn, exist_ok=exists)
+        junk = open(fqfn, "w").close()
+        # pth = Path.touch(fqfn, exist_ok=exists)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorRaise(fname, e)
