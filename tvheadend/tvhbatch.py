@@ -136,13 +136,13 @@ def moveShow(show, config):
                         )
                     )
                     log.info("show copied to {} OK.".format(opfn))
-                    fhash = FUT.getFileHash(show["filename"])
+                    fhash, fsize = FUT.getFileHash(show["filename"])
                     log.info("deleting from tvheadend")
                     TVH.deleteRecording(show["uuid"])
                     log.info("updating DB")
                     db = tvheadend.tvhdb.TVHDb(dbfn)
                     sql = "insert into files (name,size,hash) values ("
-                    sql += "'{}',{},'{}'".format(opfn, tvhstat.st_size, fhash)
+                    sql += "'{}',{},'{}'".format(opfn, fsize, fhash)
                     db.doSql(sql)
                     # it is safe to run removeFromYear for all shows
                     # as it tests whether this is a movie or not
