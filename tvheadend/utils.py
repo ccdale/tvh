@@ -25,12 +25,9 @@ import time
 import requests
 from pathlib import Path
 import tvheadend.fileutils as FUT
+from tvheadend.fileutils import FileDoesNotExist
 from tvheadend.errors import errorRaise
 import tvheadend.categories as CATS
-
-
-class FileDoesNotExist(Exception):
-    pass
 
 
 def askMe(q, default):
