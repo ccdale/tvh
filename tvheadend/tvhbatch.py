@@ -179,10 +179,10 @@ def convertToMkv(fqfn):
 
 def updateKodi():
     try:
-        data = {"jsonrpc": "2.0", "method": "VideoLibrary.Scan"}
+        data = {"jsonrpc": "2.0", "method": "VideoLibrary.Scan", "id": "1"}
         headers = {"content-type": "application/json"}
         url = "http://127.0.0.1:8080/jsonrpc"
-        resp = requests.post(url, data=data, headers=headers, timeout=10)
+        resp = requests.post(url, json=data, headers=headers, timeout=10)
         if resp.status_code < 399:
             log.info("Kodi update starting")
             log.info("response: {}".format(resp))
