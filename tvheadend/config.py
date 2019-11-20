@@ -37,15 +37,14 @@ def writeConfig(config):
 
 
 def readConfig():
-    config = {}
     try:
+        config = {}
         yamlfn = "tvh.yaml"
         home = Path.home()
         configfn = home.joinpath(".config", yamlfn)
         with open(str(configfn), "r") as cfn:
             config = yaml.safe_load(cfn)
+        return config
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e, 1)
-    finally:
-        return config
