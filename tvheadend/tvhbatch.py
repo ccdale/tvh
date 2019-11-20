@@ -141,9 +141,11 @@ def moveShow(show, config):
                     TVH.deleteRecording(show["uuid"])
                     log.info("updating DB")
                     db = tvheadend.tvhdb.TVHDb(dbfn)
-                    sql = "insert into files (name,size,hash) values ("
-                    sql += "'{}',{},'{}')".format(opfn, fsize, fhash)
-                    db.doSql(sql)
+                    # sql = "insert into files (name,size,hash) values ("
+                    # sql += "'{}',{},'{}')".format(opfn, fsize, fhash)
+                    # db.doSql(sql)
+                    sql = "insert into files (name,size,hash) values (?, ?, ?)"
+                    db.doInsertSql(sql, (opfn, fsize, fhash,))
                     # it is safe to run removeFromYear for all shows
                     # as it tests whether this is a movie or not
                     removeFromYear(show, config)
