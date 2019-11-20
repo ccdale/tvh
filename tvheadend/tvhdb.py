@@ -100,18 +100,22 @@ class TVHDb(object):
             log.error("update sql error: {}: {}".format(type(e).__name__, e))
         return ret
 
-    def doInsertSql(self, sql):
+    def doInsertSql(self, sql, squence=None):
         ret = False
         self.get_connection()
         try:
             with self.connection:
                 cursor = self.connection.cursor()
-                log.debug("Insert SQL: {}".format(sql))
-                cursor.execute(sql)
+                if squence is not None:
+                    log.debug("insert sql sequence: {}, {}".format(sql, squence))
+                    cursor.execute(sql, squence)
+                else:
+                    log.debug("Insert SQL: {}".format(sql))
+                    cursor.execute(sql)
             self.close_connection()
             ret = True
         except Exception as e:
-            log.error("insert sql error: sql {}".format(sql))
+            log.error("insert sql error: sql {}, {}".format(sql, squence))
             log.error("insert sql error: {}: {}".format(type(e).__name__, e))
         return ret
 
