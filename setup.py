@@ -72,6 +72,7 @@ setup(
             "tvhl = tvheadend.tvhlist:tvhlist",
             "tvhc = tvheadend.tvhchannels:tvhc",
             "tvhf = tvheadend.ffmpeg:main",
+            "tvhw = tvheadend.tvhwatch:tvhwatch",
         ]
     },
 )
