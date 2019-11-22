@@ -22,6 +22,7 @@ watch module for tvh application
 
 import sys
 import os
+import time
 import tvheadend
 import tvheadend.tvhlog
 import tvheadend.tvhdb
