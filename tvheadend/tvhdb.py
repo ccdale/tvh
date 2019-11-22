@@ -85,14 +85,37 @@ class TVHDb(object):
         self.close_connection()
         return rows
 
-    def doUpdateSql(self, sql):
+    def doDeleteSql(self, sql, squence=None):
         ret = False
         self.get_connection()
         try:
             with self.connection:
                 cursor = self.connection.cursor()
-                log.debug("Update SQL: {}".format(sql))
-                cursor.execute(sql)
+                if squence is not None:
+                    log.debug("Delete SQL sequence: {}, {}".format(sql, squence))
+                    cursor.execute(sql, squence)
+                else:
+                    log.debug("Delete SQL: {}".format(sql))
+                    cursor.execute(sql)
+            self.close_connection()
+            ret = True
+        except Exception as e:
+            log.error("update sql error: sql {}".format(sql))
+            log.error("update sql error: {}: {}".format(type(e).__name__, e))
+        return ret
+
+    def doUpdateSql(self, sql, squence=None):
+        ret = False
+        self.get_connection()
+        try:
+            with self.connection:
+                cursor = self.connection.cursor()
+                if squence is not None:
+                    log.debug("update SQL sequence: {}, {}".format(sql, squence))
+                    cursor.execute(sql, squence)
+                else:
+                    log.debug("Update SQL: {}".format(sql))
+                    cursor.execute(sql)
             self.close_connection()
             ret = True
         except Exception as e:
