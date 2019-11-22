@@ -70,7 +70,7 @@ def processFiles(db):
     try:
         ret = False
         cn = filesWaiting(db)
-        log.info("{} files to process.".format(cn)
+        log.info("{} files to process.".format(cn))
         while cn > 0:
             frow = getFirstFile(db)
             if FUT.fileExists(frow["name"]):
@@ -85,11 +85,12 @@ def processFiles(db):
                 ret = True
                 break
             cn = filesWaiting(db)
-            log.info("{} files to process.".format(cn)
+            log.info("{} files to process.".format(cn))
         return ret
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorRaise(fname, e)
+
 
 def tvhwatch():
     try:
