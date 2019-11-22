@@ -69,7 +69,7 @@ def filesWaiting(db):
 
 def processFiles(db):
     try:
-        ret = False
+        ret = True if FUT.fileExists(stopnext) else False
         cn = filesWaiting(db)
         log.info("{} files to process.".format(cn))
         while cn > 0:
