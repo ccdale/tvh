@@ -81,6 +81,7 @@ def processFiles(db):
                     )
                 )
                 FF.convert(frow["name"])
+            log.info("updating DB, deleting {}".format(os.path.basename(frow["name"])))
             deleteFirstFile(db, frow["name"], frow["hash"])
             if FUT.fileExists(stopnext):
                 ret = True
