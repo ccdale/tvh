@@ -191,7 +191,7 @@ def makeHDCmd(tracks, fqfn, ofn):
             "crf=22:qcomp=0.8:aq-mode=1:aq_strength=1.0:qg-size=16:psy-rd=0.7:psy-rdoq=5.0:rdoq-level=1:merange=44"
         )
         cmd = cmdstub + mapcmd + convcmd + ascmd + [ofn]
-        msg = ""
+        msg = "HD Command:"
         for thing in cmd:
             msg += " " + thing
         return (cmd, msg)
@@ -204,7 +204,7 @@ def makeCmd(tracks, fqfn, ofn):
         cmdstub, mapcmd, ascmd = makeStub(tracks, fqfn)
         convcmd = ["-c:v", "libx265", "-crf", "28"]
         cmd = cmdstub + mapcmd + convcmd + ascmd + [ofn]
-        msg = ""
+        msg = "SD Command:"
         for thing in cmd:
             msg += " " + thing
         return (cmd, msg)
@@ -347,7 +347,7 @@ def convert(fqfn):
                     cmd, msg = makeCmd(tracks, fqfn, ofn)
                 else:
                     cmd, msg = makeHDCmd(tracks, fqfn, ofn)
-                log.info("command: {}".format(msg))
+                log.info("{}".format(msg))
                 xmsg = ", with subtitles," if withsubs else ""
                 msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
                 log.info(msg)
