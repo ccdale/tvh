@@ -29,6 +29,9 @@ import tvheadend.tvhdb
 import tvheadend.config as CONF
 import tvheadend.fileutils as FUT
 import tvheadend.ffmpeg as FF
+from tvheadend.errors import errorRaise
+from tvheadend.errors import errorNotify
+from tvheadend.errors import errorExit
 
 log = tvheadend.tvhlog.log
 stopnext = "/home/chris/Videos/kmedia/tvh/stopnext"
