@@ -1,5 +1,6 @@
 # vim: set expandtab tabstop=4 shiftwidth=4 softtabstop=4 foldmethod=indent ft=python:
 
+import sys
 import sqlite3
 import time
 import tvheadend.tvhlog
