@@ -49,11 +49,14 @@ class TVHDb(object):
     def aquireLock(self):
         try:
             cn = 0
-            while FUT.fileExists(self.lockfn):
+            tempfn = self.lockfn
+            while FUT.fileExists(tempfn):
                 time.sleep(1)
                 cn += 1
                 if cn > self.locktime:
                     raise DBLockError("Timeout waiting for locked DB")
+                tempfn = "wibble, there is a bug, that doesn't seem to notice the file is missing, if the string is the same"
+                tempfn = self.lockfn
             FUT.fileTouch(self.lockfn)
         except Exception as e:
             fname = sys._getframe().f_code.co_name
