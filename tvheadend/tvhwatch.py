@@ -71,8 +71,8 @@ def processFiles(db):
     try:
         ret = True if FUT.fileExists(stopnext) else False
         cn = filesWaiting(db)
-        log.info("{} files to process.".format(cn))
         while cn > 0:
+            log.info("{} files to process.".format(cn))
             frow = getFirstFile(db)
             if FUT.fileExists(frow["name"]):
                 log.info(
@@ -87,7 +87,6 @@ def processFiles(db):
                 ret = True
                 break
             cn = filesWaiting(db)
-            log.info("{} files to process.".format(cn))
         return ret
     except Exception as e:
         fname = sys._getframe().f_code.co_name
