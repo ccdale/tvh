@@ -14,6 +14,13 @@ from tvheadend.errors import errorExit
 log = tvheadend.tvhlog.log
 
 
+USAGE = """
+Usage:
+
+    doTSfile "<fqfn1>" "<fqfn2>" ... "<fqfnn>"
+"""
+
+
 def processFile(fn, db):
     try:
         fhash, fsize = FUT.getFileHash(fn)
@@ -33,6 +40,8 @@ def doFile():
         if len(sys.argv) > 1:
             for fn in sys.argv[1:]:
                 processFile(fn, db)
+        else:
+            sys.exit(USAGE)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
