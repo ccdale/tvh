@@ -17,7 +17,7 @@ log = tvheadend.tvhlog.log
 USAGE = """
 Usage:
 
-    doTSfile "<fqfn1>" "<fqfn2>" ... "<fqfnn>"
+    tvhfile "<fqfn1>" "<fqfn2>" ... "<fqfnn>"
 """
 
 
