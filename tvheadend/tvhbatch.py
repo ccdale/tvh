@@ -98,9 +98,11 @@ def moveShow(show, config):
         tvhstat = os.stat(show["filename"])
         log.info("{}: {}".format(show["opbase"], FUT.sizeof_fmt(tvhstat.st_size)))
         if "year" in show:
-            opdir = "/".join(
-                [config["filmhome"], show["title"][0:1].upper(), show["opbase"]]
-            )
+            if show["title"].startswith("The "):
+                letter = show["title"][4:5].upper()
+            else:
+                letter = show["title"][0:1].upper()
+            opdir = "/".join([config["filmhome"], letter, show["opbase"]])
             snfo = NFO.makeFilmNfo(show)
         else:
             opdir = "/".join([config["videohome"], show["category"], show["title"]])
