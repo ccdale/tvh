@@ -257,9 +257,11 @@ def processProc(proc, regex, duration, outq):
     """
     global olines
     try:
+        pc = 0
+        sthen = stleft = ""
         for line in iter(proc.stdout.readline, ""):
             # print(line)
-            canoutput = False
+            # canoutput = False
             m = regex.match(line)
             if m is not None:
                 xdict = m.groupdict()
@@ -275,11 +277,10 @@ def processProc(proc, regex, duration, outq):
                         then = now + tleft
                         dtts = datetime.datetime.fromtimestamp(then)
                         sthen = dtts.strftime("%H:%M:%S")
-                        canoutput = True
+                        # canoutput = True
             else:
                 olines.append(line)
-            if canoutput:
-                outq.put(f"Complete: {pc}% ETA: {sthen} ({stleft})")
+            outq.put(f"Complete: {pc}% ETA: {sthen} ({stleft})")
     except Exception as e:
         errorNotify("processProc", e)
 
