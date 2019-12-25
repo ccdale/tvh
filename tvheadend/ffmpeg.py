@@ -29,6 +29,7 @@ import time
 import datetime
 import re
 import json
+import queue
 import tvheadend.utils as UT
 import tvheadend.fileutils as FUT
 import tvheadend.tvhlog
@@ -260,24 +261,36 @@ def runThreadConvert(cmd, fqfn, ofn, duration, regex):
     try:
         print("")
         proc = subprocess.Popen(
-            cmd,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            universal_newlines=True,
+            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
         )
-        t = threading.Thread(target=processProc, args=(proc, regex, duration))
+        outq = queue.Queue()
+        t = threading.Thread(target=processProc, args=(proc, regex, duration, outq))
         # wait a bit before processing output
         time.sleep(10)
         # start the thread to read and process output from ffmpeg
         t.start()
-        # wait for ffmpeg to finish producing output
-        t.join()
-        print("")
+        try:
+            print("")
+            while True:
+                try:
+                    line = outq.get(block=False)
+                    # log.info(line)
+                    print(f"\r{line:>56}", end="")
+                except queue.Empty:
+                    time.sleep(10)
+                if proc.poll() is not None:
+                    print("")
+                    break
+        finally:
+            rc = proc.returncode
+            # wait for ffmpeg to finish producing output
+            t.join()
+            return rc
     except Exception as e:
         errorNotify("runThreadConvert", e)
 
 
-def processProc(proc, regex, duration):
+def processProc(proc, regex, duration, outq):
     """
     looking for the output lines from ffmpeg that look like
 
@@ -292,6 +305,7 @@ def processProc(proc, regex, duration):
     try:
         for line in iter(proc.stdout.readline, ""):
             # print(line)
+            canoutput = False
             m = regex.match(line)
             if m is not None:
                 xdict = m.groupdict()
@@ -313,19 +327,19 @@ def processProc(proc, regex, duration):
                         # print("getting sthen")
                         sthen = dtts.strftime("%H:%M:%S")
                         # print("outputting")
-                        print(
-                            "\rComplete: {}% ETA: {} ({})".format(pc, sthen, stleft),
-                            end="",
-                        )
+                        canoutput = True
+            if canoutput:
+                outq.put(f"Complete: {pc}% ETA: {sthen} ({stleft})")
             # print("\nsleeping")
-            time.sleep(10)
+            # time.sleep(10)
             # print("flushing")
-            proc.stdout.flush()
+            # proc.stdout.flush()
     except Exception as e:
         errorNotify("processProc", e)
 
 
 def convert(fqfn):
+    rc = 1
     try:
         finfo = fileInfo(fqfn)
         rstr = r"frame=\s*(?P<frame>[0-9]+)\s+"
@@ -353,19 +367,21 @@ def convert(fqfn):
                 log.info(msg)
                 dur, sdur = fileDuration(finfo)
                 log.info("file duration: {}".format(sdur))
-                runConvert(cmd, fqfn, ofn)
-                # runThreadConvert(cmd, fqfn, ofn, dur, regex)
+                # runConvert(cmd, fqfn, ofn)
+                rc = runThreadConvert(cmd, fqfn, ofn, dur, regex)
         else:
             msg = "Cannot convert {}".format(fqfn)
             log.info(msg)
             raise ConvertFailure(msg)
     except Exception as e:
         errorNotify("convert", e)
+    return rc
 
 
 def main():
     if len(sys.argv) > 1:
-        convert(sys.argv[1])
+        rc = convert(sys.argv[1])
+        sys.exit(rc)
     else:
         print("ffmpeg.py <filename>")
 

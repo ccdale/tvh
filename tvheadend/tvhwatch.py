@@ -107,7 +107,7 @@ def tvhwatch():
                 FUT.fileDelete(stopnext)
                 log.info("Stop file found, stopping now")
                 break
-            time.sleep(300)
+            time.sleep(30)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
