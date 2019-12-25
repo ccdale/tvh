@@ -293,6 +293,7 @@ def tidy(rc, fqfn, ofn):
     global olines
     global thebin
     bname = os.path.basename(fqfn)
+    olog = thebin + bname + "-tvhf.log"
     if rc == 0:
         log.info("Conversion was successful")
         insize = FUT.fileSize(fqfn)
@@ -310,6 +311,9 @@ def tidy(rc, fqfn, ofn):
             destfn = thebin + bname
             log.info("Deleting '{}' file (to {})".format(fqfn, thebin))
             FUT.rename(fqfn, destfn)
+        with open(olog, "w") as olfn:
+            olfn.writelines(olines)
+        log.info(f"ffmpeg output in {olog}")
         olines = []
     else:
         olog = thebin + bname + "-tvhf.log"
