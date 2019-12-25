@@ -203,6 +203,8 @@ def updateKodi():
 def tvhbatch():
     try:
         log.info("tvheadend batch utility " + tvheadend.__version__)
+        # update kodi from last time, as hopefully, the transcode process will have done it's job
+        updateKodi()
         config = CONF.readConfig()
         tvheadend.user = config["user"]
         tvheadend.passw = config["pass"]
@@ -221,7 +223,8 @@ def tvhbatch():
     finally:
         cleanYears(config)
         CONF.writeConfig(config)
-        updateKodi()
+        #  don't update kodi now, need to wait for the transcoder to finish
+        # updateKodi()
 
 
 if __name__ == "__main__":
