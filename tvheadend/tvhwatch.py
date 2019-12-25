@@ -22,6 +22,7 @@ watch module for tvh application
 
 import sys
 import os
+import signal
 import time
 import tvheadend
 import tvheadend.tvhlog
@@ -35,6 +36,10 @@ from tvheadend.errors import errorExit
 
 log = tvheadend.tvhlog.log
 stopnext = "/home/chris/Videos/kmedia/tvh/stopnext"
+
+
+def sigintHandler(sig, frame):
+    FF.stopProcessing()
 
 
 def deleteFirstFile(db, name, xhash):
