@@ -40,10 +40,17 @@ from tvheadend.errors import errorNotify
 log = tvheadend.tvhlog.log
 olines = []
 thebin = "/home/chris/Videos/kmedia/thebin/"
+gpid = -1
 
 
 class ConvertFailure(Exception):
     pass
+
+
+def stopProcessing():
+    global gpid
+    if gpid > 0:
+        os.kill(gpid)
 
 
 def fileInfo(fqfn):
@@ -211,11 +218,13 @@ def makeCmd(tracks, fqfn, ofn):
 
 
 def runThreadConvert(cmd, fqfn, ofn, duration, regex):
+    global gpid
     try:
         print("")
         proc = subprocess.Popen(
             cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
         )
+        gpid = proc.pid
         outq = queue.Queue()
         t = threading.Thread(target=processProc, args=(proc, regex, duration, outq))
         # wait a bit before processing output
@@ -285,7 +294,7 @@ def processProc(proc, regex, duration, outq):
         errorNotify("processProc", e)
 
 
-def tidy(rc, fqfn, ofn):
+def tidy(rc):
     """
     tidies up after ffmpeg.
     rc = ffmpeg returncode
