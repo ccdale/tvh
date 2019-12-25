@@ -83,7 +83,7 @@ def processFiles(db):
                         os.path.basename(frow["name"]), FUT.sizeof_fmt(frow["size"])
                     )
                 )
-                FF.convert(frow["name"])
+                rc = FF.convert(frow["name"])
             log.info("updating DB, deleting {}".format(os.path.basename(frow["name"])))
             deleteFirstFile(db, frow["name"], frow["hash"])
             if FUT.fileExists(stopnext):

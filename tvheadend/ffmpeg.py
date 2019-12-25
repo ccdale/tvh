@@ -38,15 +38,12 @@ from tvheadend.errors import errorRaise
 from tvheadend.errors import errorNotify
 
 log = tvheadend.tvhlog.log
+olines = []
+thebin = "/home/chris/Videos/kmedia/thebin/"
 
 
 class ConvertFailure(Exception):
     pass
-
-
-def logout(msg):
-    xtime = datetime.datetime.now().strftime("%d.%b %Y %H:%M:%S")
-    print("{} {}".format(xtime, msg))
 
 
 def fileInfo(fqfn):
@@ -213,50 +210,6 @@ def makeCmd(tracks, fqfn, ofn):
         errorNotify("makeCmd", e)
 
 
-def runConvert(cmd, fqfn, ofn):
-    bname = os.path.basename(fqfn)
-    thebin = "/home/chris/Videos/kmedia/thebin/"
-    outfn = thebin + "tvhf.out"
-    out = open(outfn, "wb")
-    status = ["/home/chris/bin/statusconvert.sh"]
-    log.info("starting status command")
-    pstatus = subprocess.Popen(status)
-    log.info("starting ffmpeg")
-    proc = subprocess.run(cmd, stderr=subprocess.STDOUT, stdout=out)
-    log.info("wait for status command to finish")
-    pstatus.wait()
-    if proc.returncode == 0:
-        out.close()
-        log.info("Conversion was successful")
-        insize = FUT.fileSize(fqfn)
-        sinsize = FUT.sizeof_fmt(insize)
-        outsize = FUT.fileSize(ofn)
-        soutsize = FUT.sizeof_fmt(outsize)
-        log.info("Input size: {}, output size: {}".format(sinsize, soutsize))
-        if outsize > insize:
-            log.info("input size is smaller than output size, keeping input file")
-            obname = os.path.basename(ofn)
-            destfn = thebin + bname
-            log.info("Deleting '{}' file (to {})".format(ofn, thebin))
-            FUT.rename(ofn, destfn)
-        else:
-            destfn = thebin + bname
-            log.info("Deleting '{}' file (to {})".format(fqfn, thebin))
-            FUT.rename(fqfn, destfn)
-    else:
-        out.close()
-        outlog = thebin + bname + "-tvhf.log"
-        FUT.rename(outfn, outlog)
-        msg = "Conversion of '{}' to '{}' failed, output in {}".format(
-            fqfn, ofn, outlog
-        )
-        log.info(msg)
-        log.info("Removing failed out file '{}'".format(ofn))
-        if FUT.fileExists(ofn):
-            os.remove(ofn)
-        raise ConvertFailure(msg)
-
-
 def runThreadConvert(cmd, fqfn, ofn, duration, regex):
     try:
         print("")
@@ -302,6 +255,7 @@ def processProc(proc, regex, duration, outq):
     The regular expression is now in the convert function so that it is
     only compiled once.
     """
+    global olines
     try:
         for line in iter(proc.stdout.readline, ""):
             # print(line)
@@ -316,26 +270,56 @@ def processProc(proc, regex, duration, outq):
                     # print("getting pc")
                     pc = int((tsecs * 100) / duration)
                     if "speed" in xdict:
-                        # print("getting tleft")
                         tleft = int((duration - tsecs) / float(xdict["speed"]))
-                        # print("getting stleft")
                         stleft = UT.hms(tleft)
-                        # print("calc then")
                         then = now + tleft
-                        # print("getting dtts")
                         dtts = datetime.datetime.fromtimestamp(then)
-                        # print("getting sthen")
                         sthen = dtts.strftime("%H:%M:%S")
-                        # print("outputting")
                         canoutput = True
+            else:
+                olines.append(line)
             if canoutput:
                 outq.put(f"Complete: {pc}% ETA: {sthen} ({stleft})")
-            # print("\nsleeping")
-            # time.sleep(10)
-            # print("flushing")
-            # proc.stdout.flush()
     except Exception as e:
         errorNotify("processProc", e)
+
+
+def tidy(rc, fqfn, ofn):
+    """
+    tidies up after ffmpeg.
+    rc = ffmpeg returncode
+    """
+    global olines
+    global thebin
+    bname = os.path.basename(fqfn)
+    if rc == 0:
+        log.info("Conversion was successful")
+        insize = FUT.fileSize(fqfn)
+        sinsize = FUT.sizeof_fmt(insize)
+        outsize = FUT.fileSize(ofn)
+        soutsize = FUT.sizeof_fmt(outsize)
+        log.info("Input size: {}, output size: {}".format(sinsize, soutsize))
+        if outsize > insize:
+            log.info("input size is smaller than output size, keeping input file")
+            obname = os.path.basename(ofn)
+            destfn = thebin + bname
+            log.info("Deleting '{}' file (to {})".format(ofn, thebin))
+            FUT.rename(ofn, destfn)
+        else:
+            destfn = thebin + bname
+            log.info("Deleting '{}' file (to {})".format(fqfn, thebin))
+            FUT.rename(fqfn, destfn)
+        olines = []
+    else:
+        olog = thebin + bname + "-tvhf.log"
+        with open(olog, "w") as olfn:
+            olfn.writelines(olines)
+        olines = []
+        msg = f"Conversion of {fqfn} to {ofn} failed, output in {olog}"
+        log.error(msg)
+        if FUT.fileExists(ofn):
+            os.remove(ofn)
+        raise ConvertFailure(msg)
 
 
 def convert(fqfn):
@@ -367,8 +351,8 @@ def convert(fqfn):
                 log.info(msg)
                 dur, sdur = fileDuration(finfo)
                 log.info("file duration: {}".format(sdur))
-                # runConvert(cmd, fqfn, ofn)
                 rc = runThreadConvert(cmd, fqfn, ofn, dur, regex)
+                tidy(rc, fqfn, ofn)
         else:
             msg = "Cannot convert {}".format(fqfn)
             log.info(msg)
