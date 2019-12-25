@@ -258,6 +258,8 @@ def processProc(proc, regex, duration, outq):
 
     frame=   71 fps=0.0 q=-0.0 size=       3kB time=00:00:03.43 bitrate=   7.7kbits/s speed=6.86x
 
+    frame=34458 fps= 35 q=-0.0 size= 1031676kB time=00:22:59.64 bitrate=6125.9kbits/s speed= 1.4x
+
     using the python regex extensions to name the groups
     (see https://docs.python.org/3/howto/regex.html#non-capturing-and-named-groups)
 
@@ -341,11 +343,11 @@ def convert(fqfn):
     try:
         finfo = fileInfo(fqfn)
         rstr = r"frame=\s*(?P<frame>[0-9]+)\s+"
-        rstr += r"fps=(?P<fps>[0-9.]+)\s+.*"
+        rstr += r"fps=\s*(?P<fps>[0-9.]+)\s+.*"
         rstr += r"size=\s*(?P<size>[0-9kmgB]+)\s+"
         rstr += r"time=(?P<time>[0-9:.]+)\s+"
         rstr += r"bitrate=\s*(?P<bitrate>[0-9.]+[km]bits/s)\s+"
-        rstr += r"speed=(?P<speed>[0-9.]+)x"
+        rstr += r"speed=\s*(?P<speed>[0-9.]+)x"
         regex = re.compile(rstr)
         if finfo is not None and canConvert(finfo):
             cconv = canConvert(finfo)
