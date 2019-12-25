@@ -296,7 +296,7 @@ def processProc(proc, regex, duration, outq):
         errorNotify("processProc", e)
 
 
-def tidy(rc):
+def tidy(rc, fqfn, ofn):
     """
     tidies up after ffmpeg.
     rc = ffmpeg returncode
