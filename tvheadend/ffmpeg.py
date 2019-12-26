@@ -159,7 +159,7 @@ def checkRemoveOutputFile(ofn):
         if FUT.fileExists(ofn):
             size = FUT.fileSize(ofn)
             if size > 0:
-                msg = f"Destination file '{ofn}' exists: {FUT.sizeof_fmt(size}, not converting"
+                msg = f"Destination file '{ofn}' exists: {FUT.sizeof_fmt(size)}, not converting"
                 log.info(msg)
                 raise ConvertFailure(msg)
             else:
