@@ -191,10 +191,11 @@ def makeStub(tracks, fqfn):
 def makeHDCmd(tracks, fqfn, ofn):
     try:
         cmdstub, mapcmd, ascmd = makeStub(tracks, fqfn)
-        convcmd = ["-c:v", "libx265", "-preset", "ultrafast", "-x265-params"]
-        convcmd.append(
-            "crf=22:qcomp=0.8:aq-mode=1:aq_strength=1.0:qg-size=16:psy-rd=0.7:psy-rdoq=5.0:rdoq-level=1:merange=44"
-        )
+        # convcmd = ["-c:v", "libx265", "-preset", "ultrafast", "-x265-params"]
+        # convcmd.append(
+        #     "crf=22:qcomp=0.8:aq-mode=1:aq_strength=1.0:qg-size=16:psy-rd=0.7:psy-rdoq=5.0:rdoq-level=1:merange=44"
+        # )
+        convcmd = ["-vcodec", "copy"]
         cmd = cmdstub + mapcmd + convcmd + ascmd + [ofn]
         msg = "HD Command:"
         for thing in cmd:
