@@ -62,7 +62,7 @@ setup(
         "Bug Reports": "https://github.com/ccdale/tvh/issues",
     },
     python_requires=">=3",
-    install_requires=["requests", "pyyaml",],
+    install_requires=["requests", "pyyaml", "PyGObject"],
     entry_points={
         "console_scripts": [
             "tvh = tvheadend.tvhcmd:tvh",
@@ -74,6 +74,7 @@ setup(
             "tvhf = tvheadend.ffmpeg:main",
             "tvhw = tvheadend.tvhwatch:tvhwatch",
             "tvhfile = tvheadend.doTSfile:doFile",
+            "tvhg = tvheadend.tvhgui:main",
         ]
     },
 )
