@@ -175,14 +175,12 @@ def checkRemoveOutputFile(ofn):
 def makeStub(tracks, fqfn):
     try:
         cmdstub = ["nice", "-n", "19", "ffmpeg", "-i", fqfn]
-        mapcmd = ["-map", "0:{}".format(tracks[0]), "-map", "0:{}".format(tracks[1])]
+        mapcmd = ["-map", f"0:{tracks[0]}", "-map", f"0:{tracks[1]}"]
         ascmd = ["-acodec", "copy"]
         withsubs = True if tracks[2] > 0 else False
         if withsubs:
-            mapcmd.append("-map")
-            mapcmd.append("0:{}".format(tracks[2]))
-            ascmd.append("-scodec")
-            ascmd.append("copy")
+            mapcmd += ["-map", f"0:{tracks[2]}"]
+            ascmd += ["-scodec", "copy"]
         return (cmdstub, mapcmd, ascmd)
     except Exception as e:
         errorNotify("makeStub", e)
