@@ -293,7 +293,7 @@ def processProc(proc, regex, duration, outq):
         errorNotify("processProc", e)
 
 
-def tidy(rc, fqfn, ofn):
+def tidy(rc, fqfn, ofn, sizecheck=True):
     """
     tidies up after ffmpeg.
     rc = ffmpeg returncode
@@ -309,12 +309,17 @@ def tidy(rc, fqfn, ofn):
         outsize = FUT.fileSize(ofn)
         soutsize = FUT.sizeof_fmt(outsize)
         log.info(f"Input size: {sinsize}, output size: {soutsize}")
-        if outsize > insize:
-            log.info("input size is smaller than output size, keeping input file")
-            obname = os.path.basename(ofn)
-            destfn = thebin + bname
-            log.info(f"Deleting '{ofn}' file (to {thebin})")
-            FUT.rename(ofn, destfn)
+        if sizecheck:
+            if outsize > insize:
+                log.info("input size is smaller than output size, keeping input file")
+                obname = os.path.basename(ofn)
+                destfn = thebin + bname
+                log.info(f"Deleting '{ofn}' file (to {thebin})")
+                FUT.rename(ofn, destfn)
+            else:
+                destfn = thebin + bname
+                log.info(f"Deleting '{fqfn}' file (to {thebin})")
+                FUT.rename(fqfn, destfn)
         else:
             destfn = thebin + bname
             log.info(f"Deleting '{fqfn}' file (to {thebin})")
@@ -356,8 +361,10 @@ def convert(fqfn):
                 checkRemoveOutputFile(ofn)
                 if cconv == 1:
                     cmd, msg = makeCmd(tracks, fqfn, ofn)
+                    sizecheck = True
                 else:
                     cmd, msg = makeHDCmd(tracks, fqfn, ofn)
+                    sizecheck = False
                 log.info(msg)
                 xmsg = ", with subtitles," if withsubs else ""
                 msg = f"Converting{xmsg} '{fqfn}' to '{ofn}'"
@@ -365,7 +372,7 @@ def convert(fqfn):
                 dur, sdur = fileDuration(finfo)
                 log.info(f"file duration: {sdur}")
                 rc = runThreadConvert(cmd, fqfn, ofn, dur, regex)
-                tidy(rc, fqfn, ofn)
+                tidy(rc, fqfn, ofn, sizecheck=sizecheck)
         else:
             msg = f"Cannot convert {fqfn}"
             log.info(msg)
