@@ -28,11 +28,12 @@ from operator import attrgetter, itemgetter
 import tvheadend.utils as UT
 from tvheadend.errors import errorNotify
 
+
 class TVHError(Exception):
     pass
 
 
-def sendToTVH(route,  data=None):
+def sendToTVH(route, data=None):
     """
     send a request to tvheadend
     """
@@ -62,6 +63,59 @@ def sendToTVH(route,  data=None):
 def finishedRecordings():
     """
     grid_finished returns a dict
+
+    single program looks like:
+    {
+        'uuid': 'a64b50c335f01c0df1a49f11a0f8d3f4',
+        'enabled': True,
+        'start': 1576749600,
+        'start_extra': 0,
+        'start_real': 1576749570,
+        'stop': 1576751400,
+        'stop_extra': 0,
+        'stop_real': 1576752300,
+        'duration': 2700,
+        'channel': 'c5827940c7ae3d76ea80df053112dc9c',
+        'channel_icon': '',
+        'channelname': 'BBC ONE HD',
+        'title': {'eng': 'Homes Under the Hammer'},
+        'disp_title': 'Homes Under the Hammer',
+        'subtitle': {'eng': 'A house with a stream but close to a railway line in Handsacre in Staffordshire and a large three-storey property in Plymouth are sold under the hammer. [S] [HD]'},
+        'disp_subtitle': 'A house with a stream but close to a railway line in Handsacre in Staffordshire and a large three-storey property in Plymouth are sold under the hammer. [S] [HD]',
+        'description': {'eng': 'A house with a stream but close to a railway line in Handsacre in Staffordshire and a large three-storey property in Plymouth are sold under the hammer. [S] [HD]'},
+        'disp_description': 'A house with a stream but close to a railway line in Handsacre in Staffordshire and a large three-storey property in Plymouth are sold under the hammer. [S] [HD]',
+        'pri': 2,
+        'retention': 0,
+        'removal': 0,
+        'playposition': 0,
+        'playcount': 0,
+        'config_name': 'ee86fd19903e87679e5fdfe243966ad0',
+        'owner': 'chris',
+        'creator': 'chris',
+        'filename': '/home/hts/Railway/Homes-Under-the-Hammer.ts',
+        'directory': 'Railway',
+        'errorcode': 0,
+        'errors': 0,
+        'data_errors': 0,
+        'dvb_eid': 0,
+        'noresched': True,
+        'norerecord': False,
+        'fileremoved': 0,
+        'autorec': '0dee37cd9707da051618045a73c9aa43',
+        'autorec_caption': 'railway',
+        'timerec': '',
+        'timerec_caption': '',
+        'parent': '',
+        'child': '',
+        'content_type': 2,
+        'broadcast': 0,
+        'url': 'dvrfile/a64b50c335f01c0df1a49f11a0f8d3f4',
+        'filesize': 1045284324,
+        'status': 'Completed OK',
+        'sched_status': 'completed',
+        'duplicate': 0,
+        'comment': 'Auto recording: railway'
+    }
     """
     entries = None
     total = 0
@@ -77,6 +131,7 @@ def finishedRecordings():
         errorNotify(fname, e)
     finally:
         return (total, entries)
+
 
 def deleteRecording(uuid):
     try:
@@ -130,11 +185,18 @@ def channelPrograms(channel="BBC Four HD"):
         # chans = channels()
         now = int(time.time())
         # xfilter = [ { "field": "name", "type": "string", "value": channel, "comparison": "eq", } ]
-        xfilter = [{"field": "stop", "type": "numeric", "value": str(now), "comparison": "gt"},
-                {"field": "start", "type": "numeric", "value": str(now + (3600 * 24)), "comparison": "lt"}]
+        xfilter = [
+            {"field": "stop", "type": "numeric", "value": str(now), "comparison": "gt"},
+            {
+                "field": "start",
+                "type": "numeric",
+                "value": str(now + (3600 * 24)),
+                "comparison": "lt",
+            },
+        ]
         # if chans is not None:
-            # for chan in chans:
-                # if chan["name"] == channel:
+        # for chan in chans:
+        # if chan["name"] == channel:
         # data = {"filter": xfilter}
         data = {"limit": "999"}
         j = sendToTVH("epg/events/grid", data)
@@ -144,7 +206,7 @@ def channelPrograms(channel="BBC Four HD"):
         print("{}".format(minprog))
         # break
         # else:
-            # print("chans is none")
+        # print("chans is none")
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorNotify(fname, e)
@@ -155,8 +217,15 @@ def timeSlotPrograms(start=0, length=2):
         now = int(time.time())
         if start == 0:
             start = int(time.time())
-        xfilter = [{"field": "stop", "type": "numeric", "value": str(now), "comparison": "gt"},
-                {"field": "start", "type": "numeric", "value": str(now + (3600 * length)), "comparison": "lt"}]
+        xfilter = [
+            {"field": "stop", "type": "numeric", "value": str(now), "comparison": "gt"},
+            {
+                "field": "start",
+                "type": "numeric",
+                "value": str(now + (3600 * length)),
+                "comparison": "lt",
+            },
+        ]
         data = {"filter": xfilter}
         data = {"limit": "999"}
         j = sendToTVH("epg/events/grid", data)
