@@ -3,7 +3,7 @@
 import gi
 
 gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk, GdkPixbuf
+from gi.repository import Gtk, Pango
 
 import os
 import sys
@@ -25,6 +25,9 @@ class CurrentPrograms(Gtk.Grid):
     def __init__(self, window):
         super().__init__()
         self.win = window
+        self.set_row_spacing(12)
+        self.set_column_spacing(10)
+        self.set_column_homogeneous(True)
         self.progData()
 
     def progData(self):
@@ -52,6 +55,9 @@ class CurrentPrograms(Gtk.Grid):
         tree = Gtk.TreeView(model=store)
         # when a row is selected, it emits a signal
         tree.get_selection().connect("changed", self.on_changed)
+        # set the TreeView to expand both horizontally and vertically
+        tree.set_hexpand(True)
+        tree.set_vexpand(True)
         for i, coltitle in enumerate(cols):
             if i < 5:
                 rend = Gtk.CellRendererText()
@@ -62,9 +68,11 @@ class CurrentPrograms(Gtk.Grid):
         # label for description
         self.label = Gtk.Label()
         self.label.set_text("")
+        # self.label.set_property("Wrap", True)
+        self.label.set_line_wrap(True)
+        self.label.set_line_wrap_mode(Pango.WrapMode.WORD)
         self.attach(swin, 0, 0, 1, 1)
         self.attach(self.label, 0, 1, 1, 1)
-        self.set_row_spacing(2)
 
     def on_changed(self, selection):
         # get the model and the iterator that points at the data in the model

@@ -355,7 +355,7 @@ def convert(fqfn):
         regex = re.compile(rstr)
         if finfo is not None and canConvert(finfo):
             cconv = canConvert(finfo)
-            if cconv:
+            if cconv == 1:
                 tracks = trackIndexes(finfo)
                 withsubs = True if tracks[2] > 0 else False
                 fn, fext = os.path.splitext(fqfn)
@@ -375,9 +375,12 @@ def convert(fqfn):
                 log.info(f"file duration: {sdur}")
                 rc = runThreadConvert(cmd, fqfn, ofn, dur, regex)
                 tidy(rc, fqfn, ofn, sizecheck=sizecheck)
+            elif cconv == 2:
+                msg = f"Not converting HD stream {fqfn}"
+                log.warning(msg)
         else:
             msg = f"Cannot convert {fqfn}"
-            log.info(msg)
+            log.error(msg)
             raise ConvertFailure(msg)
     except Exception as e:
         errorNotify("convert", e)
