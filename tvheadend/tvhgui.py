@@ -34,8 +34,17 @@ class CurrentPrograms(Gtk.Grid):
         total, progs = TVH.finishedRecordings()
         self.win.setTitle(f"{total} Current Recordings")
         sprogs = sorted(progs, key=lambda i: (i["start"], i["channelname"]))
-        store = Gtk.ListStore(str, str, str, str, str, str)
-        cols = ["Channel", "Time", "Duration", "Title", "Sub-Title", "Description"]
+        store = Gtk.ListStore(str, str, str, str, str, str, str, str)
+        cols = [
+            "Channel",
+            "Time",
+            "Duration",
+            "Title",
+            "Sub-Title",
+            "Description",
+            "filename",
+            "uuid",
+        ]
         for prog in sprogs:
             tstr, durstr = UT.progFullStartAndDur(prog["start"], prog["stop"])
             if prog["disp_subtitle"] == prog["disp_description"]:
@@ -50,6 +59,8 @@ class CurrentPrograms(Gtk.Grid):
                     prog["disp_title"],
                     subtitle,
                     prog["disp_description"],
+                    prog["filename"],
+                    prog["uuid"],
                 ]
             )
         tree = Gtk.TreeView(model=store)
