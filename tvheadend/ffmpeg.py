@@ -266,7 +266,7 @@ def processProc(proc, regex, duration, outq):
     global olines
     try:
         pc = 0
-        sthen = stleft = ""
+        sthen = stleft = ssize = ""
         for line in iter(proc.stdout.readline, ""):
             # print(line)
             # canoutput = False
@@ -285,10 +285,12 @@ def processProc(proc, regex, duration, outq):
                         then = now + tleft
                         dtts = datetime.datetime.fromtimestamp(then)
                         sthen = dtts.strftime("%H:%M:%S")
-                        # canoutput = True
+                    if "size" in xdict:
+                        tsz = xdict["size"].split("k")
+                        ssize = FUT.sizeof_fmt(int(int(tsz[0]) * 1000))
             else:
                 olines.append(line)
-            outq.put(f"Complete: {pc}% ETA: {sthen} ({stleft})")
+            outq.put(f"Complete: {pc}% {ssize} ETA: {sthen} ({stleft})")
     except Exception as e:
         errorNotify("processProc", e)
 
