@@ -159,13 +159,11 @@ def checkRemoveOutputFile(ofn):
         if FUT.fileExists(ofn):
             size = FUT.fileSize(ofn)
             if size > 0:
-                msg = "Destination file '{}' exists: {}, not converting".format(
-                    ofn, FUT.sizeof_fmt(size)
-                )
+                msg = f"Destination file '{ofn}' exists: {FUT.sizeof_fmt(size}, not converting"
                 log.info(msg)
                 raise ConvertFailure(msg)
             else:
-                msg = "Deleting existing zero length destination file '{}'".format(ofn)
+                msg = "Deleting existing zero length destination file '{ofn}'"
                 log.info(msg)
                 os.remove(ofn)
     except Exception as e:
@@ -310,16 +308,16 @@ def tidy(rc, fqfn, ofn):
         sinsize = FUT.sizeof_fmt(insize)
         outsize = FUT.fileSize(ofn)
         soutsize = FUT.sizeof_fmt(outsize)
-        log.info("Input size: {}, output size: {}".format(sinsize, soutsize))
+        log.info(f"Input size: {sinsize}, output size: {soutsize}")
         if outsize > insize:
             log.info("input size is smaller than output size, keeping input file")
             obname = os.path.basename(ofn)
             destfn = thebin + bname
-            log.info("Deleting '{}' file (to {})".format(ofn, thebin))
+            log.info(f"Deleting '{ofn}' file (to {thebin})")
             FUT.rename(ofn, destfn)
         else:
             destfn = thebin + bname
-            log.info("Deleting '{}' file (to {})".format(fqfn, thebin))
+            log.info(f"Deleting '{fqfn}' file (to {thebin})")
             FUT.rename(fqfn, destfn)
         with open(olog, "w") as olfn:
             olfn.writelines(olines)
@@ -360,16 +358,16 @@ def convert(fqfn):
                     cmd, msg = makeCmd(tracks, fqfn, ofn)
                 else:
                     cmd, msg = makeHDCmd(tracks, fqfn, ofn)
-                log.info("{}".format(msg))
+                log.info(msg)
                 xmsg = ", with subtitles," if withsubs else ""
-                msg = "Converting{} '{}' to '{}'".format(xmsg, fqfn, ofn)
+                msg = f"Converting{xmsg} '{fqfn}' to '{ofn}'"
                 log.info(msg)
                 dur, sdur = fileDuration(finfo)
-                log.info("file duration: {}".format(sdur))
+                log.info(f"file duration: {sdur}")
                 rc = runThreadConvert(cmd, fqfn, ofn, dur, regex)
                 tidy(rc, fqfn, ofn)
         else:
-            msg = "Cannot convert {}".format(fqfn)
+            msg = f"Cannot convert {fqfn}"
             log.info(msg)
             raise ConvertFailure(msg)
     except Exception as e:
