@@ -22,7 +22,7 @@ import sys
 import os
 import re
 import time
-import datetime
+from datetime import datetime
 import requests
 from pathlib import Path
 import tvheadend.fileutils as FUT
