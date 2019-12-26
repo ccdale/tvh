@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
 
-import os
-import sys
-
 import gi
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GdkPixbuf
 
+import os
+import sys
 import tvheadend
 from tvheadend import __version__ as verstr
 import tvheadend.tvh as TVH
