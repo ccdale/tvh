@@ -39,6 +39,13 @@ class CurrentPrograms(Gtk.Grid):
         self.set_column_homogeneous(True)
         self.progs = None
         self.cuuid = None
+        self.model = None
+        self.iter = None
+        self.drama = []
+        self.documentary = []
+        self.music = []
+        self.years = []
+        self.applybutton = None
         self.progData()
 
     def progTree(self):
@@ -100,6 +107,13 @@ class CurrentPrograms(Gtk.Grid):
         but = Gtk.Button.new_with_mnemonic("_Google")
         but.connect("clicked", self.googleClicked)
         box.pack_start(but, True, True, 0)
+        but = Gtk.Button.new_with_mnemonic("_Year")
+        but.connect("clicked", self.yearClicked)
+        box.pack_start(but, True, True, 0)
+        self.applybutton = Gtk.Button.new_with_mnemonic("_Apply")
+        self.applybutton.connect("clicked", self.applyClicked)
+        self.applybutton.set_sensitive(False)
+        box.pack_start(self.applybutton, True, True, 0)
         but = Gtk.Button.new_with_mnemonic("_Quit")
         but.connect("clicked", self.quitClicked)
         box.pack_start(but, True, True, 0)
@@ -126,25 +140,28 @@ class CurrentPrograms(Gtk.Grid):
     def on_changed(self, selection):
         log.debug("CurrentPrograms on_change")
         # get the model and the iterator that points at the data in the model
-        (model, iter) = selection.get_selected()
+        (self.model, self.iter) = selection.get_selected()
         # set the label to a new value depending on the selection
         desc = 5
         filename = 6
         uuid = 7
-        self.cuuid = f"{model[iter][uuid]}"
-        self.label.set_text(f"{model[iter][desc]}")
+        self.cuuid = f"{self.model[self.iter][uuid]}"
+        self.label.set_text(f"{self.model[self.iter][desc]}")
         # self.label.set_text(f"{model[iter][desc]}\n{self.cuuid}")
         # self.label.set_text(f"{model[iter][desc]}\n{model[iter][filename]}")
         return True
 
     def dramaClicked(self, button):
         log.debug("drama clicked")
+        self.applybutton.set_sensitive(True)
 
     def documentaryClicked(self, button):
         log.debug("documentary clicked")
+        self.applybutton.set_sensitive(True)
 
     def musicClicked(self, button):
         log.debug("music clicked")
+        self.applybutton.set_sensitive(True)
 
     def googleClicked(self, button):
         log.debug("google clicked")
@@ -153,6 +170,13 @@ class CurrentPrograms(Gtk.Grid):
         if cprog is not None:
             log.debug(f"finding {title}")
             CATS.movieSearch(title)
+
+    def yearClicked(self, button):
+        log.debug("year clicked")
+        self.applybutton.set_sensitive(True)
+
+    def applyClicked(self, button):
+        log.debug("apply clicked")
 
     def quitClicked(self, button):
         log.debug("quit clicked")
@@ -213,25 +237,6 @@ class tvhg(Gtk.Application):
 
         self.window.present()
         log.debug(f"{self.window.grid.progs[0]}")
-
-    def on_quit(self, action, param):
-        log.debug("tvhg Application on_quit")
-        self.quit()
-
-    def on_tvhgdrama(self, action, param):
-        log.debug("tvhg Application on_tvhgdrama")
-        self.applyaction.set_enabled(True)
-
-    def on_tvhgdocumentary(self, action, param):
-        log.debug("tvhg Application on_tvhgdocumentary")
-        self.applyaction.set_enabled(True)
-
-    def on_tvhgmusic(self, action, param):
-        log.debug("tvhg Application on_tvhgmusic")
-        self.applyaction.set_enabled(True)
-
-    def on_tvhgapply(self, action, param):
-        log.debug("tvhg Application on_tvhgapply")
 
 
 def main():
