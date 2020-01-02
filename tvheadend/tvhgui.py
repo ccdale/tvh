@@ -43,6 +43,7 @@ class CurrentPrograms(Gtk.Grid):
         self.iter = None
         self.drama = []
         self.documentary = []
+        self.comedy = []
         self.music = []
         self.years = []
         self.applybutton = None
@@ -101,6 +102,9 @@ class CurrentPrograms(Gtk.Grid):
         but = Gtk.Button.new_with_mnemonic("D_ocumentary")
         but.connect("clicked", self.documentaryClicked)
         box.pack_start(but, True, True, 0)
+        but = Gtk.Button.new_with_mnemonic("_Comedy")
+        but.connect("clicked", self.comedyClicked)
+        box.pack_start(but, True, True, 0)
         but = Gtk.Button.new_with_mnemonic("_Music")
         but.connect("clicked", self.musicClicked)
         box.pack_start(but, True, True, 0)
@@ -155,6 +159,7 @@ class CurrentPrograms(Gtk.Grid):
         if (
             len(self.drama)
             or len(self.documentary)
+            or len(self.comedy)
             or len(self.music)
             or len(self.years)
         ):
@@ -162,7 +167,7 @@ class CurrentPrograms(Gtk.Grid):
         else:
             self.applybutton.set_sensitive(False)
 
-    def addTo(xlist, prog):
+    def addTo(self, xlist, prog):
         if self.model is not None and self.iter is not None and self.cuuid is not None:
             self.removeFromTree()
             self.removeCurrentProg(prog)
@@ -178,6 +183,12 @@ class CurrentPrograms(Gtk.Grid):
         log.debug("documentary clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.documentary, cprog)
+        self.enableApply()
+
+    def comedyClicked(self, button):
+        log.debug("comedy clicked")
+        cprog = self.findCurrentProg()
+        self.addTo(self.comedy, cprog)
         self.enableApply()
 
     def musicClicked(self, button):
