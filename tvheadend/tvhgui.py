@@ -12,6 +12,7 @@ from tvheadend import __version__ as verstr
 import tvheadend.tvh as TVH
 import tvheadend.tvhlog
 import tvheadend.config as CONF
+import tvheadend.categories as CATS
 import tvheadend.fileutils as FUT
 import tvheadend.utils as UT
 from tvheadend.errors import errorRaise
@@ -131,7 +132,8 @@ class CurrentPrograms(Gtk.Grid):
         filename = 6
         uuid = 7
         self.cuuid = f"{model[iter][uuid]}"
-        self.label.set_text(f"{model[iter][desc]}\n{self.cuuid}")
+        self.label.set_text(f"{model[iter][desc]}")
+        # self.label.set_text(f"{model[iter][desc]}\n{self.cuuid}")
         # self.label.set_text(f"{model[iter][desc]}\n{model[iter][filename]}")
         return True
 
@@ -146,10 +148,24 @@ class CurrentPrograms(Gtk.Grid):
 
     def googleClicked(self, button):
         log.debug("google clicked")
+        cprog = self.findCurrentProg()
+        title = cprog["disp_title"]
+        if cprog is not None:
+            log.debug(f"finding {title}")
+            CATS.movieSearch(title)
 
     def quitClicked(self, button):
         log.debug("quit clicked")
         self.win.doQuit()
+
+    def findCurrentProg(self):
+        cprog = None
+        if self.cuuid is not None:
+            for prog in self.progs:
+                if prog["uuid"] == self.cuuid:
+                    cprog = prog
+                    break
+        return cprog
 
 
 class AppMainWindow(Gtk.ApplicationWindow):
