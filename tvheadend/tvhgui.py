@@ -95,7 +95,7 @@ class CurrentPrograms(Gtk.Grid):
 
     def progButtons(self):
         labels = ["_Drama", "D_ocumentary", "_Music", "_Google", "_Quit"]
-        box = Gtk.Box()
+        box = Gtk.Box(spacing=6)
         but = Gtk.Button.new_with_mnemonic("_Drama")
         but.connect("clicked", self.dramaClicked)
         box.pack_start(but, True, True, 0)
