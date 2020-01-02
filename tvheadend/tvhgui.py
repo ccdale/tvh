@@ -19,6 +19,7 @@ from tvheadend.errors import errorNotify
 from tvheadend.errors import errorExit
 
 log = tvheadend.tvhlog.log
+tvheadend.tvhlog.setDebug()
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 menufn = "/".join([dir_path, "menu.xml"])
@@ -90,16 +91,16 @@ class CurrentPrograms(Gtk.Grid):
         but.connect("clicked", self.dramaClicked)
         box.pack_start(but, True, True, 0)
         but = Gtk.Button.new_with_mnemonic("D_ocumentary")
-        but.connect("clicked", self.dramaClicked)
+        but.connect("clicked", self.documentaryClicked)
         box.pack_start(but, True, True, 0)
         but = Gtk.Button.new_with_mnemonic("_Music")
-        but.connect("clicked", self.dramaClicked)
+        but.connect("clicked", self.musicClicked)
         box.pack_start(but, True, True, 0)
         but = Gtk.Button.new_with_mnemonic("_Google")
-        but.connect("clicked", self.dramaClicked)
+        but.connect("clicked", self.googleClicked)
         box.pack_start(but, True, True, 0)
         but = Gtk.Button.new_with_mnemonic("_Quit")
-        but.connect("clicked", self.dramaClicked)
+        but.connect("clicked", self.quitClicked)
         box.pack_start(but, True, True, 0)
         return box
 
@@ -146,20 +147,20 @@ class CurrentPrograms(Gtk.Grid):
         return True
 
     def dramaClicked(self, button):
-        pass
+        log.debug("drama clicked")
 
     def documentaryClicked(self, button):
-        pass
+        log.debug("documentary clicked")
 
     def musicClicked(self, button):
-        pass
+        log.debug("music clicked")
 
     def googleClicked(self, button):
-        pass
+        log.debug("google clicked")
 
     def quitClicked(self, button):
         log.debug("quit clicked")
-        Gtk.main_quit()
+        self.win.doQuit()
 
 
 class AppMainWindow(Gtk.ApplicationWindow):
@@ -177,6 +178,10 @@ class AppMainWindow(Gtk.ApplicationWindow):
         self.add(self.grid)
         log.debug("showing grid")
         self.grid.show_all()
+
+    def doQuit(self):
+        log.debug("AppMainWindow.doQuit()")
+        self.application.quit()
 
 
 class tvhg(Gtk.Application):
