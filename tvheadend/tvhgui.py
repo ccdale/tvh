@@ -36,11 +36,12 @@ class CurrentPrograms(Gtk.Grid):
         self.set_column_spacing(10)
         self.set_column_homogeneous(True)
         self.progs = None
+        self.cuuid = None
         self.progData()
 
     def progTree(self):
         sprogs = sorted(self.progs, key=lambda i: (i["start"], i["channelname"]))
-        store = Gtk.ListStore(str, str, str, str, str, str, str, dict)
+        store = Gtk.ListStore(str, str, str, str, str, str, str, str)
         cols = [
             "Channel",
             "Time",
@@ -49,7 +50,7 @@ class CurrentPrograms(Gtk.Grid):
             "Sub-Title",
             "Description",
             "filename",
-            "prog",
+            "uuid",
         ]
         for prog in sprogs:
             tstr, durstr = UT.progFullStartAndDur(prog["start"], prog["stop"])
@@ -66,7 +67,7 @@ class CurrentPrograms(Gtk.Grid):
                     subtitle,
                     prog["disp_description"],
                     prog["filename"],
-                    prog,
+                    prog["uuid"],
                 ]
             )
         tree = Gtk.TreeView(model=store)
@@ -81,6 +82,26 @@ class CurrentPrograms(Gtk.Grid):
                 col = Gtk.TreeViewColumn(coltitle, rend, text=i)
                 tree.append_column(col)
         return tree
+
+    def progButtons(self):
+        labels = ["_Drama", "D_ocumentary", "_Music", "_Google", "_Quit"]
+        box = Gtk.Box()
+        but = Gtk.Button.new_with_mnemonic("_Drama")
+        but.connect("clicked", self.dramaClicked)
+        box.pack_start(but, True, True, 0)
+        but = Gtk.Button.new_with_mnemonic("D_ocumentary")
+        but.connect("clicked", self.dramaClicked)
+        box.pack_start(but, True, True, 0)
+        but = Gtk.Button.new_with_mnemonic("_Music")
+        but.connect("clicked", self.dramaClicked)
+        box.pack_start(but, True, True, 0)
+        but = Gtk.Button.new_with_mnemonic("_Google")
+        but.connect("clicked", self.dramaClicked)
+        box.pack_start(but, True, True, 0)
+        but = Gtk.Button.new_with_mnemonic("_Quit")
+        but.connect("clicked", self.dramaClicked)
+        box.pack_start(but, True, True, 0)
+        return box
 
     def progData(self):
         log.debug("progData")
@@ -100,14 +121,16 @@ class CurrentPrograms(Gtk.Grid):
         # swin.show()
         self.attach(self.label, 0, 1, 1, 1)
         # self.label.show()
-        builder = Gtk.Builder.new_from_file(menufn)
-        menu = builder.get_object("app-menu")
-        button = Gtk.MenuButton.new()
-        popover = Gtk.Popover.new_from_model(button, menu)
-        button.set_popover(popover)
-        self.attach(button, 0, 2, 1, 1)
+        # builder = Gtk.Builder.new_from_file(menufn)
+        # menu = builder.get_object("app-menu")
+        # button = Gtk.MenuButton.new()
+        # popover = Gtk.Popover.new_from_model(button, menu)
+        # button.set_popover(popover)
+        # self.attach(button, 0, 2, 1, 1)
         # button.show()
         # self.show_all()
+        bbox = self.progButtons()
+        self.attach(bbox, 0, 2, 1, 1)
 
     def on_changed(self, selection):
         log.debug("CurrentPrograms on_change")
@@ -117,25 +140,26 @@ class CurrentPrograms(Gtk.Grid):
         desc = 5
         filename = 6
         uuid = 7
-        # self.label.set_text(f"{model[iter][desc]}")
-        self.label.set_text(f"{model[iter][desc]}\n{model[iter][filename]}")
+        self.cuuid = f"{model[iter][uuid]}"
+        self.label.set_text(f"{model[iter][desc]}\n{self.cuuid}")
+        # self.label.set_text(f"{model[iter][desc]}\n{model[iter][filename]}")
         return True
 
+    def dramaClicked(self, button):
+        pass
 
-# class MainWindow(Gtk.Window):
-#     def __init__(self):
-#         super().__init__(title="tvhg" + verstr)
-#         self.set_default_size(800, 600)
-#         self.set_border_width(10)
-#         self.page = None
-#
-#     def setTitle(self, title):
-#         self.set_title(title + " " + verstr)
-#
-#     def CurrRecs(self):
-#         self.page = CurrentPrograms(self)
-#         self.add(self.page)
-#         self.show_all()
+    def documentaryClicked(self, button):
+        pass
+
+    def musicClicked(self, button):
+        pass
+
+    def googleClicked(self, button):
+        pass
+
+    def quitClicked(self, button):
+        log.debug("quit clicked")
+        Gtk.main_quit()
 
 
 class AppMainWindow(Gtk.ApplicationWindow):
