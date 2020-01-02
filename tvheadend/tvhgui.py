@@ -172,7 +172,6 @@ class CurrentPrograms(Gtk.Grid):
         log.debug("drama clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.drama, cprog)
-        self.removeCurrentProg(cprog)
         self.enableApply()
 
     def documentaryClicked(self, button):
