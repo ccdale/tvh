@@ -151,17 +151,41 @@ class CurrentPrograms(Gtk.Grid):
         # self.label.set_text(f"{model[iter][desc]}\n{model[iter][filename]}")
         return True
 
+    def enableApply(self):
+        if (
+            len(self.drama)
+            or len(self.documentary)
+            or len(self.music)
+            or len(self.years)
+        ):
+            self.applybutton.set_sensitive(True)
+        else:
+            self.applybutton.set_sensitive(False)
+
+    def addTo(xlist, prog):
+        if self.model is not None and self.iter is not None and self.cuuid is not None:
+            self.removeFromTree()
+            self.removeCurrentProg(prog)
+            xlist.append(prog)
+
     def dramaClicked(self, button):
         log.debug("drama clicked")
-        self.applybutton.set_sensitive(True)
+        cprog = self.findCurrentProg()
+        self.addTo(self.drama, cprog)
+        self.removeCurrentProg(cprog)
+        self.enableApply()
 
     def documentaryClicked(self, button):
         log.debug("documentary clicked")
-        self.applybutton.set_sensitive(True)
+        cprog = self.findCurrentProg()
+        self.addTo(self.documentary, cprog)
+        self.enableApply()
 
     def musicClicked(self, button):
         log.debug("music clicked")
-        self.applybutton.set_sensitive(True)
+        cprog = self.findCurrentProg()
+        self.addTo(self.music, cprog)
+        self.enableApply()
 
     def googleClicked(self, button):
         log.debug("google clicked")
@@ -173,7 +197,7 @@ class CurrentPrograms(Gtk.Grid):
 
     def yearClicked(self, button):
         log.debug("year clicked")
-        self.applybutton.set_sensitive(True)
+        self.enableApply()
 
     def applyClicked(self, button):
         log.debug("apply clicked")
@@ -190,6 +214,23 @@ class CurrentPrograms(Gtk.Grid):
                     cprog = prog
                     break
         return cprog
+
+    def removeFromTree(self):
+        self.model.remove(self.iter)
+
+    def removeCurrentProg(self, cprog):
+        log.debug(f"attempting to remove {self.cuuid}")
+        ret = False
+        icn = len(self.progs)
+        if cprog is not None:
+            self.progs.remove(cprog)
+            ocn = len(self.progs)
+            if ocn == (icn - 1):
+                log.debug("programme removed ok")
+                ret = True
+            else:
+                log.debug("failed to remove programmed")
+        return ret
 
 
 class AppMainWindow(Gtk.ApplicationWindow):
