@@ -60,7 +60,13 @@ class CurrentPrograms(Gtk.Grid):
         self.cuuid = None
         self.model = None
         self.iter = None
-        self.xlists = {"drama": [], "documentary": [], "comedy": [], "music": [], "years": []}
+        self.xlists = {
+            "drama": [],
+            "documentary": [],
+            "comedy": [],
+            "music": [],
+            "years": [],
+        }
         self.drama = []
         self.documentary = []
         self.comedy = []
@@ -115,7 +121,16 @@ class CurrentPrograms(Gtk.Grid):
 
     def progButtons(self):
         box = Gtk.Box(spacing=6)
-        labels = ["_Drama", "D_ocumentary", "_Comedy", "_Music", "_Google", "_Year", "_Apply", "_Quit"]
+        labels = [
+            "_Drama",
+            "D_ocumentary",
+            "_Comedy",
+            "_Music",
+            "_Google",
+            "_Year",
+            "_Apply",
+            "_Quit",
+        ]
         for lab in labels:
             but = Gtk.Button.new_with_mnemonic(lab)
             but.connect("clicked", self.doButtonClicked)
@@ -204,80 +219,106 @@ class CurrentPrograms(Gtk.Grid):
 
     def doButtonClicked(self, button):
         blab = button.get_label()
-        log.debug(f"{blab} clicked")
-        if blab in self.xlists:
-
-    def dramaClicked(self, button):
-        log.debug("drama clicked")
-        cprog = self.findCurrentProg()
-        self.addTo(self.drama, cprog)
-        log.debug(f"{len(self.drama)}")
-        self.enableApply()
-
-    def documentaryClicked(self, button):
-        log.debug("documentary clicked")
-        cprog = self.findCurrentProg()
-        self.addTo(self.documentary, cprog)
-        log.debug(f"{len(self.documentary)}")
-        self.enableApply()
-
-    def comedyClicked(self, button):
-        log.debug("comedy clicked")
-        cprog = self.findCurrentProg()
-        self.addTo(self.comedy, cprog)
-        log.debug(f"{len(self.comedy)}")
-        self.enableApply()
-
-    def musicClicked(self, button):
-        log.debug("music clicked")
-        cprog = self.findCurrentProg()
-        self.addTo(self.music, cprog)
-        log.debug(f"{len(self.music)}")
-        self.enableApply()
-
-    def doYearDialog(self, prog):
-        title = prog["disp_title"]
-        dialog = YearDialog(self.win, title)
-        resp = dialog.run()
-        if resp == Gtk.ResponseType.OK:
-            year = dialog.txt.get_text().strip()
-            log.debug(f"{title}: {year}")
-            prog["year"] = year
-            self.addTo(self.years, prog)
-            log.debug(f"{len(self.years)}")
-            self.enableApply()
-        dialog.destroy()
-
-    def googleClicked(self, button):
-        log.debug("google clicked")
+        tmp = blab.split("_")
+        tblab = "".join(tmp).lower()
+        log.debug(f"{tblab} clicked")
         cprog = self.findCurrentProg()
         if cprog is not None:
-            title = cprog["disp_title"]
-            log.debug(f"finding {title}")
-            CATS.movieSearch(title)
-            self.doYearDialog(cprog)
+            if tblab in self.xlists:
+                self.addTo(self.xlist[tblab], cprog)
+            elif tblab == "google":
+                title = cprog["disp_title"]
+                log.debug(f"finding {title}")
+                CATS.movieSearch(title)
+                self.doYearDialog(cprog)
+            elif tblab == "year":
+                self.doYearDialog(cprog)
+            elif tblab == "apply":
+                self.win.destroyPage()
+                kwargs = {
+                    "drama": self.drama,
+                    "documentary": self.documentary,
+                    "music": self.music,
+                    "comedy": self.comedy,
+                    "films": self.years,
+                }
+                self.win.doTranscodeWindow(**kwargs)
+            elif tblab == "quit":
+                self.win.doQuit()
+        else:
+            log.error(f"{tblab} Button clicked but cprog is none")
 
-    def yearClicked(self, button):
-        log.debug("year clicked")
-        cprog = self.findCurrentProg()
-        if cprog is not None:
-            self.doYearDialog(cprog)
+    # def dramaClicked(self, button):
+    #     log.debug("drama clicked")
+    #     cprog = self.findCurrentProg()
+    #     self.addTo(self.drama, cprog)
+    #     log.debug(f"{len(self.drama)}")
+    #     self.enableApply()
 
-    def applyClicked(self, button):
-        log.debug("apply clicked")
-        self.win.destroyPage()
-        kwargs = {
-            "drama": self.drama,
-            "documentary": self.documentary,
-            "music": self.music,
-            "comedy": self.comedy,
-            "films": self.years,
-        }
-        self.win.doTranscodeWindow(**kwargs)
+    # def documentaryClicked(self, button):
+    #     log.debug("documentary clicked")
+    #     cprog = self.findCurrentProg()
+    #     self.addTo(self.documentary, cprog)
+    #     log.debug(f"{len(self.documentary)}")
+    #     self.enableApply()
 
-    def quitClicked(self, button):
-        log.debug("quit clicked")
-        self.win.doQuit()
+    # def comedyClicked(self, button):
+    #     log.debug("comedy clicked")
+    #     cprog = self.findCurrentProg()
+    #     self.addTo(self.comedy, cprog)
+    #     log.debug(f"{len(self.comedy)}")
+    #     self.enableApply()
+
+    # def musicClicked(self, button):
+    #     log.debug("music clicked")
+    #     cprog = self.findCurrentProg()
+    #     self.addTo(self.music, cprog)
+    #     log.debug(f"{len(self.music)}")
+    #     self.enableApply()
+
+    # def doYearDialog(self, prog):
+    #     title = prog["disp_title"]
+    #     dialog = YearDialog(self.win, title)
+    #     resp = dialog.run()
+    #     if resp == Gtk.ResponseType.OK:
+    #         year = dialog.txt.get_text().strip()
+    #         log.debug(f"{title}: {year}")
+    #         prog["year"] = year
+    #         self.addTo(self.years, prog)
+    #         log.debug(f"{len(self.years)}")
+    #         self.enableApply()
+    #     dialog.destroy()
+
+    # def googleClicked(self, button):
+    #     log.debug("google clicked")
+    #     cprog = self.findCurrentProg()
+    #     if cprog is not None:
+    #         title = cprog["disp_title"]
+    #         log.debug(f"finding {title}")
+    #         CATS.movieSearch(title)
+    #         self.doYearDialog(cprog)
+
+    # def yearClicked(self, button):
+    #     log.debug("year clicked")
+    #     cprog = self.findCurrentProg()
+    #     if cprog is not None:
+    #         self.doYearDialog(cprog)
+
+    # def applyClicked(self, button):
+    #     log.debug("apply clicked")
+    #     self.win.destroyPage()
+    #     kwargs = {
+    #         "drama": self.drama,
+    #         "documentary": self.documentary,
+    #         "music": self.music,
+    #         "comedy": self.comedy,
+    #         "films": self.years,
+    #     }
+    #     self.win.doTranscodeWindow(**kwargs)
+
+    # def quitClicked(self, button):
+    #     log.debug("quit clicked")
+    #     self.win.doQuit()
 
     def findCurrentProg(self):
         cprog = None
