@@ -52,9 +52,7 @@ class TranscodeWindow(Gtk.Grid):
             "filename",
             "year",
         ]
-        for xl in self.xlists:
-            tlab = xl[0].upper() + xl[1:]
-            self.addListToStore(self.xlists[xl], tlab)
+        self.addListsToStore()
         tree = Gtk.TreeView(model=self.store)
         tree.set_hexpand(True)
         tree.set_vexpand(True)
@@ -65,7 +63,7 @@ class TranscodeWindow(Gtk.Grid):
                 tree.append_column(col)
         return tree
 
-    def addListsToStore(self, xlist, listname):
+    def addListsToStore(self):
         for xl in self.xlists:
             if len(self.xlists[xl]) > 0:
                 tlab = xl[0].upper() + xl[1:]
