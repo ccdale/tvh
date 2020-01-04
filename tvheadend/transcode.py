@@ -6,6 +6,7 @@ from gi.repository import Gtk
 import tvheadend
 from tvheadend import __version__ as verstr
 import tvheadend.tvh as TVH
+import tvheadend.utils as UT
 import tvheadend.tvhlog
 
 log = tvheadend.tvhlog.log
