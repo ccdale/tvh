@@ -104,6 +104,7 @@ def main():
         tvheadend.user = config["user"]
         tvheadend.passw = config["pass"]
         tvheadend.ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
+        tvheadend.videohome = config["videohome"]
         app = tvhg()
         app.run(sys.argv)
         # win = MainWindow()
