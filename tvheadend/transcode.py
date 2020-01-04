@@ -180,7 +180,7 @@ class TranscodeWindow(Gtk.Grid):
                         log.info("deleting from tvheadend")
                         TVH.deleteRecording(show["uuid"])
                         log.info("updating DB")
-                        db = tvheadend.tvhdb.TVHDb(dbfn)
+                        db = tvheadend.tvhdb.TVHDb(tvheadend.dbfn)
                         sql = "insert into files (name,size,hash) values (?, ?, ?)"
                         return db.doInsertSql(sql, (opfn, fsize, fhash,))
                 else:

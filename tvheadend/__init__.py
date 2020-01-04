@@ -20,7 +20,7 @@ init module for tvh application
 """
 majorv = 1
 minorv = 8
-buildv = 39
+buildv = 40
 versionl = (majorv, minorv, buildv)
 __version__ = ".".join(str(x) for x in versionl)
 
@@ -29,3 +29,4 @@ passw = "unset"
 ipaddr = "unset"
 videohome = "unset"
 filmhome = "unset"
+dbfn = "/home/chris/Videos/kmedia/tvh/tvh.db"
