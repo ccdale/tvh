@@ -3,7 +3,10 @@ import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
+import os
 import sys
+import time
+import shutil
 import tvheadend
 from tvheadend import __version__ as verstr
 import tvheadend.tvh as TVH
@@ -12,8 +15,9 @@ import tvheadend.fileutils as FUT
 import tvheadend.nfo as NFO
 import tvheadend.tvhlog
 import tvheadend.tvhdb
-import time
-import shutil
+from tvheadend.errors import errorRaise
+from tvheadend.errors import errorNotify
+from tvheadend.errors import errorExit
 
 log = tvheadend.tvhlog.log
 
