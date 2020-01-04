@@ -16,6 +16,7 @@ import tvheadend.categories as CATS
 import tvheadend.fileutils as FUT
 import tvheadend.utils as UT
 from tvheadend.recordedprograms import CurrentPrograms
+from tvheadend.transcode import TranscodeWindow
 from tvheadend.errors import errorRaise
 from tvheadend.errors import errorNotify
 from tvheadend.errors import errorExit
@@ -37,12 +38,34 @@ class AppMainWindow(Gtk.ApplicationWindow):
         self.application = kwargs["application"]
         self.set_default_size(1024, 800)
         self.set_border_width(10)
-        log.debug("getting grid")
-        self.grid = CurrentPrograms(self)
-        log.debug("adding grid to window")
-        self.add(self.grid)
-        log.debug("showing grid")
-        self.grid.show_all()
+        self.page = None
+        self.doCurrentRecordings()
+
+    def destroyPage(self):
+        self.page.destroy()
+        self.page = None
+
+    def doCurrentRecordings(self):
+        if self.page is None:
+            log.debug("getting current recordings page")
+            self.page = CurrentPrograms(self)
+            log.debug("adding current recordings page to window")
+            self.add(self.page)
+            log.debug("showing current recordings page")
+            self.page.show_all()
+        else:
+            log.error("Showing current recordings page failed as self.page is not none")
+
+    def doTranscodeWindow(self, **kwargs):
+        if self.page is None:
+            log.debug("Getting transcode window page")
+            self.page = TranscodeWindow(self, **kwargs)
+            log.debug("adding transcode window page to window")
+            self.add(self.page)
+            log.debug("showing transcode window page")
+            self.page.show_all()
+        else:
+            log.error("Showing transcode window page failed as self.page is not none")
 
     def doQuit(self):
         log.debug("AppMainWindow.doQuit()")
