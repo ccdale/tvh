@@ -95,3 +95,5 @@ class TranscodeWindow(Gtk.Grid):
     def doButtonClicked(self, button):
         blab = button.get_label()
         log.debug(f"doButtonClicked: button: {blab}")
+        self.win.destroyPage()
+        self.win.doCurrentRecordings(existinglists=self.xlists)

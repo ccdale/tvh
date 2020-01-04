@@ -45,10 +45,10 @@ class AppMainWindow(Gtk.ApplicationWindow):
         self.page.destroy()
         self.page = None
 
-    def doCurrentRecordings(self):
+    def doCurrentRecordings(self, existinglists=None):
         if self.page is None:
             log.debug("getting current recordings page")
-            self.page = CurrentPrograms(self)
+            self.page = CurrentPrograms(self, currlists=existing)
             log.debug("adding current recordings page to window")
             self.add(self.page)
             log.debug("showing current recordings page")
