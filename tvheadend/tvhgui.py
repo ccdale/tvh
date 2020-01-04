@@ -71,7 +71,7 @@ class tvhg(Gtk.Application):
             self.window = AppMainWindow(application=self, title="Main Window")
 
         self.window.present()
-        log.debug(f"{self.window.grid.progs[0]}")
+        # log.debug(f"{self.window.grid.progs[0]}")
 
 
 def main():
