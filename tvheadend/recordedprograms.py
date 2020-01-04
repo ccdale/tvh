@@ -232,8 +232,8 @@ class CurrentPrograms(Gtk.Grid):
             if resp == Gtk.ResponseType.OK:
                 year = dialog.txt.get_text().strip()
                 log.debug(f"{title}: {year}")
-                xd = [{year: cprog}]
-                self.years = self.years + xd
+                cprog["year"] = year
+                self.years.append(cprog)
                 log.debug(f"{self.years}")
                 self.enableApply()
             dialog.destroy()
@@ -248,8 +248,8 @@ class CurrentPrograms(Gtk.Grid):
             if resp == Gtk.ResponseType.OK:
                 year = dialog.txt.get_text().strip()
                 log.debug(f"{title}: {year}")
-                xd = [{year: cprog}]
-                self.years = self.years + xd
+                cprog["year"] = year
+                self.years.append(cprog)
                 log.debug(f"{self.years}")
                 self.enableApply()
             dialog.destroy()
