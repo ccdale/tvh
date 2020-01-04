@@ -81,7 +81,7 @@ class CurrentPrograms(Gtk.Grid):
         self.applybutton = None
         self.makePage(removeexisting)
 
-    def findExisting(prog):
+    def findExisting(self, prog):
         for xl in self.xlists:
             for xp in self.xlists[xl]:
                 if xp["uuid"] == prog["uuid"]:
