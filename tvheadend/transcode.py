@@ -16,15 +16,11 @@ class TranscodeWindow(Gtk.Grid):
     """ displays the list of programs to move to kodi and to be transcoded
     """
 
-    def __init__(self, window, drama=[], documentary=[], comedy=[], music=[], films=[]):
+    def __init__(self, window, xlists):
         log.debug("Transcode Window init")
         super().__init__()
         self.win = window
-        self.drama = drama
-        self.documentary = documentary
-        self.comedy = comedy
-        self.music = music
-        self.films = films
+        self.xlists = xlists
         self.store = None
         self.makePage()
 
@@ -40,7 +36,7 @@ class TranscodeWindow(Gtk.Grid):
     def transButtons(self):
         box = Gtk.Box(spacing=6)
         but = Gtk.Button.new_with_mnemonic("Current Recordings")
-        but.connect("clicked", self.crecsClicked)
+        but.connect("clicked", self.doButtonClicked)
         box.pack_start(but, True, True, 0)
         return box
 
@@ -56,11 +52,9 @@ class TranscodeWindow(Gtk.Grid):
             "filename",
             "year",
         ]
-        self.addListToStore(self.drama, "Drama")
-        self.addListToStore(self.documentary, "Documentary")
-        self.addListToStore(self.music, "Music")
-        self.addListToStore(self.comedy, "Comedy")
-        self.addListToStore(self.films, "Films")
+        for xl in self.xlists:
+            tlab = xl[0].upper() + xl[1:]
+            self.addListToStore(self.xlists[xl], tlab)
         tree = Gtk.TreeView(model=self.store)
         tree.set_hexpand(True)
         tree.set_vexpand(True)
@@ -71,32 +65,35 @@ class TranscodeWindow(Gtk.Grid):
                 tree.append_column(col)
         return tree
 
-    def addListToStore(self, xlist, listname):
-        if len(xlist) > 0:
-            ti = self.store.append(["", "", "", f"{listname}", "", "", "", ""])
-            for prog in xlist:
-                tstr, durstr = UT.progFullStartAndDur(prog["start"], prog["stop"])
-                if "year" in prog:
-                    subtitle = prog["year"]
-                    year = prog["year"]
-                elif prog["disp_subtitle"] == prog["disp_description"]:
-                    subtitle = ""
-                    year = ""
-                else:
-                    subtitle = prog["disp_subtitle"]
-                    year = ""
-                treeiter = self.store.append(
-                    [
-                        prog["channelname"],
-                        tstr,
-                        durstr,
-                        prog["disp_title"],
-                        subtitle,
-                        prog["disp_description"],
-                        prog["filename"],
-                        year,
-                    ]
-                )
+    def addListsToStore(self, xlist, listname):
+        for xl in self.xlists:
+            if len(self.xlists[xl]) > 0:
+                tlab = xl[0].upper() + xl[1:]
+                ti = self.store.append(["", "", "", f"{tlab}", "", "", "", ""])
+                for prog in self.xlists[xl]:
+                    tstr, durstr = UT.progFullStartAndDur(prog["start"], prog["stop"])
+                    if "year" in prog:
+                        subtitle = prog["year"]
+                        year = prog["year"]
+                    elif prog["disp_subtitle"] == prog["disp_description"]:
+                        subtitle = ""
+                        year = ""
+                    else:
+                        subtitle = prog["disp_subtitle"]
+                        year = ""
+                    treeiter = self.store.append(
+                        [
+                            prog["channelname"],
+                            tstr,
+                            durstr,
+                            prog["disp_title"],
+                            subtitle,
+                            prog["disp_description"],
+                            prog["filename"],
+                            year,
+                        ]
+                    )
 
-    def crecsClicked(self, button):
-        log.debug(f"crecsClicked: button: {button}")
+    def doButtonClicked(self, button):
+        blab = button.get_label()
+        log.debug(f"doButtonClicked: button: {blab}")

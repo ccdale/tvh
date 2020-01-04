@@ -65,13 +65,13 @@ class CurrentPrograms(Gtk.Grid):
             "documentary": [],
             "comedy": [],
             "music": [],
-            "years": [],
+            "films": [],
         }
-        self.drama = []
-        self.documentary = []
-        self.comedy = []
-        self.music = []
-        self.years = []
+        # self.drama = []
+        # self.documentary = []
+        # self.comedy = []
+        # self.music = []
+        # self.years = []
         self.applybutton = None
         self.makePage()
 
@@ -201,16 +201,12 @@ class CurrentPrograms(Gtk.Grid):
         return True
 
     def enableApply(self):
-        if (
-            len(self.drama)
-            or len(self.documentary)
-            or len(self.comedy)
-            or len(self.music)
-            or len(self.years)
-        ):
-            self.applybutton.set_sensitive(True)
-        else:
-            self.applybutton.set_sensitive(False)
+        enable = False
+        for lab in self.xlists:
+            if len(self.xlists[lab]) > 0:
+                enable = True
+                break
+        self.applybutton.set_sensitive(enable)
 
     def addTo(self, xlist, prog):
         if self.model is not None and self.iter is not None and self.cuuid is not None:
@@ -225,7 +221,7 @@ class CurrentPrograms(Gtk.Grid):
         cprog = self.findCurrentProg()
         if cprog is not None:
             if tblab in self.xlists:
-                self.addTo(self.xlist[tblab], cprog)
+                self.addTo(self.xlists[tblab], cprog)
             elif tblab == "google":
                 title = cprog["disp_title"]
                 log.debug(f"finding {title}")
@@ -235,14 +231,7 @@ class CurrentPrograms(Gtk.Grid):
                 self.doYearDialog(cprog)
             elif tblab == "apply":
                 self.win.destroyPage()
-                kwargs = {
-                    "drama": self.drama,
-                    "documentary": self.documentary,
-                    "music": self.music,
-                    "comedy": self.comedy,
-                    "films": self.years,
-                }
-                self.win.doTranscodeWindow(**kwargs)
+                self.win.doTranscodeWindow(self.xlists)
             elif tblab == "quit":
                 self.win.doQuit()
         else:
@@ -354,11 +343,8 @@ class CurrentPrograms(Gtk.Grid):
     def doTitle(self):
         cn = len(self.progs)
         scn = 0
-        scn += len(self.drama)
-        scn += len(self.documentary)
-        scn += len(self.music)
-        scn += len(self.comedy)
-        scn += len(self.years)
+        for xl in self.xlists:
+            scn += len(self.xlists[xl])
         smsg = f" ({scn}) " if scn > 0 else ""
         msg = f"{cn}{smsg} Current Recordings"
         self.win.set_title(msg)
