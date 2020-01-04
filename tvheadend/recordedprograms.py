@@ -238,24 +238,25 @@ class CurrentPrograms(Gtk.Grid):
         log.debug(f"{tblab} clicked")
         if tblab == "quit":
             self.win.doQuit()
-        cprog = self.findCurrentProg()
-        if cprog is not None:
-            if tblab in self.xlists:
-                self.addTo(self.xlists[tblab], cprog)
-                log.debug(f"{tblab}: {len(self.xlists[tblab])}")
-                self.xenableApply()
-            elif tblab == "google":
-                title = cprog["disp_title"]
-                log.debug(f"finding {title}")
-                CATS.movieSearch(title)
-                self.doYearDialog(cprog)
-            elif tblab == "year":
-                self.doYearDialog(cprog)
-            elif tblab == "apply":
-                self.win.destroyPage()
-                self.win.doTranscodeWindow(self.xlists)
         else:
-            log.error(f"{tblab} Button clicked but cprog is none")
+            cprog = self.findCurrentProg()
+            if cprog is not None:
+                if tblab in self.xlists:
+                    self.addTo(self.xlists[tblab], cprog)
+                    log.debug(f"{tblab}: {len(self.xlists[tblab])}")
+                    self.xenableApply()
+                elif tblab == "google":
+                    title = cprog["disp_title"]
+                    log.debug(f"finding {title}")
+                    CATS.movieSearch(title)
+                    self.doYearDialog(cprog)
+                elif tblab == "year":
+                    self.doYearDialog(cprog)
+                elif tblab == "apply":
+                    self.win.destroyPage()
+                    self.win.doTranscodeWindow(self.xlists)
+            else:
+                log.error(f"{tblab} Button clicked but cprog is none")
 
     # def dramaClicked(self, button):
     #     log.debug("drama clicked")
