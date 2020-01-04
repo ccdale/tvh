@@ -37,7 +37,7 @@ class YearDialog(Gtk.Dialog):
         self.set_default_size(150, 100)
 
         label = Gtk.Label(title)
-        self.txt = Gtk.entry()
+        self.txt = Gtk.Entry()
 
         box = self.get_content_area()
         box.add(label)
