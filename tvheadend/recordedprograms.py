@@ -80,6 +80,8 @@ class CurrentPrograms(Gtk.Grid):
         # self.years = []
         self.applybutton = None
         self.makePage(removeexisting)
+        self.doTitle()
+        self.xenableApply()
 
     def findExisting(self, prog):
         for xl in self.xlists:
@@ -216,13 +218,13 @@ class CurrentPrograms(Gtk.Grid):
         # self.label.set_text(f"{model[iter][desc]}\n{model[iter][filename]}")
         return True
 
-    def enableApply(self):
-        enable = False
+    def xenableApply(self):
+        xenable = False
         for lab in self.xlists:
             if len(self.xlists[lab]) > 0:
-                enable = True
+                xenable = True
                 break
-        self.applybutton.set_sensitive(enable)
+        self.applybutton.set_sensitive(xenable)
 
     def addTo(self, xlist, prog):
         if self.model is not None and self.iter is not None and self.cuuid is not None:
@@ -234,12 +236,14 @@ class CurrentPrograms(Gtk.Grid):
         tmp = blab.split("_")
         tblab = "".join(tmp).lower()
         log.debug(f"{tblab} clicked")
+        if tblab == "quit":
+            self.win.doQuit()
         cprog = self.findCurrentProg()
         if cprog is not None:
             if tblab in self.xlists:
                 self.addTo(self.xlists[tblab], cprog)
                 log.debug(f"{tblab}: {len(self.xlists[tblab])}")
-                self.enableApply()
+                self.xenableApply()
             elif tblab == "google":
                 title = cprog["disp_title"]
                 log.debug(f"finding {title}")
@@ -250,8 +254,6 @@ class CurrentPrograms(Gtk.Grid):
             elif tblab == "apply":
                 self.win.destroyPage()
                 self.win.doTranscodeWindow(self.xlists)
-            elif tblab == "quit":
-                self.win.doQuit()
         else:
             log.error(f"{tblab} Button clicked but cprog is none")
 
@@ -294,7 +296,7 @@ class CurrentPrograms(Gtk.Grid):
             self.addTo(self.xlists["films"], prog)
             label = "films"
             log.debug(f"films: {len(self.xlists[label])}")
-            self.enableApply()
+            self.xenableApply()
         dialog.destroy()
 
     # def googleClicked(self, button):
