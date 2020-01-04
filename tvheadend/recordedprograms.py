@@ -212,6 +212,10 @@ class CurrentPrograms(Gtk.Grid):
             cprog = self.findCurrentProg()
             if cprog is not None:
                 if tblab in self.xlists:
+                    if tblab == "Drama":
+                        cprog["category"] = "drama"
+                    else:
+                        cprog["category"] = tblab
                     self.addTo(self.xlists[tblab], cprog)
                     log.debug(f"{tblab}: {len(self.xlists[tblab])}")
                     self.xenableApply()
