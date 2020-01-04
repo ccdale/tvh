@@ -31,6 +31,7 @@ class TranscodeWindow(Gtk.Grid):
         self.win = window
         self.xlists = xlists
         self.store = None
+        self.progressbar = None
         self.makePage()
 
     def makePage(self):
@@ -38,9 +39,11 @@ class TranscodeWindow(Gtk.Grid):
         tree = self.progTree()
         swin = Gtk.ScrolledWindow()
         swin.add(tree)
+        self.progressbar = Gtk.ProgressBar()
         bbox = self.transButtons()
         self.attach(swin, 0, 0, 1, 1)
-        self.attach(bbox, 0, 1, 1, 1)
+        self.attach(self.progressbar, 0, 1, 1, 1)
+        self.attach(bbox, 0, 2, 1, 1)
 
     def transButtons(self):
         box = Gtk.Box(spacing=6)
@@ -115,7 +118,8 @@ class TranscodeWindow(Gtk.Grid):
             self.win.destroyPage()
             self.win.doCurrentRecordings(existinglists=self.xlists)
         elif tblab == "run":
-            pass
+            log.debug("running transcode")
+            self.runTranscode()
         else:
             log.info(f"Unhandled button {tblab} clicked")
 
@@ -185,8 +189,21 @@ class TranscodeWindow(Gtk.Grid):
             fname = sys._getframe().f_code.co_name
             errorExit(fname, e)
 
+    def countLists(self):
+        cn = 0
+        for xl in self.xlists:
+            for prog in self.xlists:
+                cn += 1
+        return cn
+
     def runTranscode(self):
+        todo = self.countLists()
+        progress = 0
         for xl in self.xlists:
             for prog in self.xlists[xl]:
                 if self.moveShow(prog):
-                    pass
+                    progress += 1
+                    pc = progress / todo
+                    self.progressbar.set_fraction(pc)
+        self.win.destroyPage()
+        self.win.doCurrentRecordings()
