@@ -223,7 +223,7 @@ class CurrentPrograms(Gtk.Grid):
             title = cprog["disp_title"]
             log.debug(f"finding {title}")
             CATS.movieSearch(title)
-            dialog = YearDialog(self, title)
+            dialog = YearDialog(self.win, title)
             resp = dialog.run()
             if response == Gtk.ResponseType.OK:
                 year = dialog.txt.text().strip()
@@ -237,7 +237,7 @@ class CurrentPrograms(Gtk.Grid):
         cprog = self.findCurrentProg()
         if cprog is not None:
             title = cprog["disp_title"]
-            dialog = YearDialog(self, title)
+            dialog = YearDialog(self.win, title)
             resp = dialog.run()
             if response == Gtk.ResponseType.OK:
                 year = dialog.txt.text().strip()
