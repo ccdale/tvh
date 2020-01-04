@@ -142,6 +142,7 @@ class CurrentPrograms(Gtk.Grid):
             "_Google",
             "_Year",
             "_Apply",
+            "D_elete",
             "_Quit",
         ]
         for lab in labels:
@@ -229,6 +230,11 @@ class CurrentPrograms(Gtk.Grid):
                 elif tblab == "apply":
                     self.win.destroyPage()
                     self.win.doTranscodeWindow(self.xlists)
+                elif tblab == "delete":
+                    title = cprog["disp_title"]
+                    log.info(f"deleting {title} from tvheadend")
+                    self.removeProgFromDisplay(cprog)
+                    TVH.deleteRecording(cprog["uuid"])
             else:
                 log.error(f"{tblab} Button clicked but cprog is none")
 
