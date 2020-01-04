@@ -195,29 +195,42 @@ class CurrentPrograms(Gtk.Grid):
         log.debug("drama clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.drama, cprog)
-        log.debug(f"{self.drama}")
+        log.debug(f"{len(self.drama)}")
         self.enableApply()
 
     def documentaryClicked(self, button):
         log.debug("documentary clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.documentary, cprog)
-        log.debug(f"{self.documentary}")
+        log.debug(f"{len(self.documentary)}")
         self.enableApply()
 
     def comedyClicked(self, button):
         log.debug("comedy clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.comedy, cprog)
-        log.debug(f"{self.comedy}")
+        log.debug(f"{len(self.comedy)}")
         self.enableApply()
 
     def musicClicked(self, button):
         log.debug("music clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.music, cprog)
-        log.debug(f"{self.music}")
+        log.debug(f"{len(self.music)}")
         self.enableApply()
+
+    def doYearDialog(self, prog):
+        title = prog["disp_title"]
+        dialog = YearDialog(self.win, title)
+        resp = dialog.run()
+        if resp == Gtk.ResponseType.OK:
+            year = dialog.txt.get_text().strip()
+            log.debug(f"{title}: {year}")
+            prog["year"] = year
+            self.years.append(prog)
+            log.debug(f"{len(self.years)}")
+            self.enableApply()
+        dialog.destroy()
 
     def googleClicked(self, button):
         log.debug("google clicked")
@@ -226,32 +239,13 @@ class CurrentPrograms(Gtk.Grid):
             title = cprog["disp_title"]
             log.debug(f"finding {title}")
             CATS.movieSearch(title)
-            dialog = YearDialog(self.win, title)
-            resp = dialog.run()
-            if resp == Gtk.ResponseType.OK:
-                year = dialog.txt.get_text().strip()
-                log.debug(f"{title}: {year}")
-                cprog["year"] = year
-                self.years.append(cprog)
-                log.debug(f"{self.years}")
-                self.enableApply()
-            dialog.destroy()
+            self.doYearDialog(cprog)
 
     def yearClicked(self, button):
         log.debug("year clicked")
         cprog = self.findCurrentProg()
         if cprog is not None:
-            title = cprog["disp_title"]
-            dialog = YearDialog(self.win, title)
-            resp = dialog.run()
-            if resp == Gtk.ResponseType.OK:
-                year = dialog.txt.get_text().strip()
-                log.debug(f"{title}: {year}")
-                cprog["year"] = year
-                self.years.append(cprog)
-                log.debug(f"{self.years}")
-                self.enableApply()
-            dialog.destroy()
+            self.doYearDialog(cprog)
 
     def applyClicked(self, button):
         log.debug("apply clicked")
