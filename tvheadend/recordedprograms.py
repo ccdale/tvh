@@ -188,9 +188,8 @@ class CurrentPrograms(Gtk.Grid):
 
     def addTo(self, xlist, prog):
         if self.model is not None and self.iter is not None and self.cuuid is not None:
-            self.removeFromTree()
-            self.removeCurrentProg(prog)
             xlist.append(prog)
+            self.removeProgFromDisplay(prog)
 
     def dramaClicked(self, button):
         log.debug("drama clicked")
@@ -270,6 +269,11 @@ class CurrentPrograms(Gtk.Grid):
                     break
         return cprog
 
+    def removeProgFromDisplay(self, cprog):
+        self.removeFromTree()
+        self.removeCurrentProg(cprog)
+        self.doTitle()
+
     def removeFromTree(self):
         self.model.remove(self.iter)
 
@@ -286,3 +290,15 @@ class CurrentPrograms(Gtk.Grid):
             else:
                 log.debug("failed to remove programmed")
         return ret
+
+    def doTitle(self):
+        cn = len(self.progs)
+        scn = 0
+        scn += len(self.drama)
+        scn += len(self.documentary)
+        scn += len(self.music)
+        scn += len(self.comedy)
+        scn += len(self.years)
+        smsg = f" ({scn}) " if scn > 0 else ""
+        msg = f"{cn}{smsg} Current Recordings"
+        self.win.set_title(msg)
