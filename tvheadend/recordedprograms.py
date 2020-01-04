@@ -34,6 +34,7 @@ class YearDialog(Gtk.Dialog):
             ),
         )
 
+        self.set_modal(True)
         self.set_default_size(150, 100)
 
         label = Gtk.Label(title)
@@ -49,7 +50,7 @@ class CurrentPrograms(Gtk.Grid):
     """ displays the current list of programs in a grid
     """
 
-    def __init__(self, window):
+    def __init__(self, window, currlists=None):
         log.debug("CurrentPrograms __init__")
         super().__init__()
         self.win = window
@@ -60,22 +61,34 @@ class CurrentPrograms(Gtk.Grid):
         self.cuuid = None
         self.model = None
         self.iter = None
-        self.xlists = {
-            "drama": [],
-            "documentary": [],
-            "comedy": [],
-            "music": [],
-            "films": [],
-        }
+        if currlists is None:
+            self.xlists = {
+                "drama": [],
+                "documentary": [],
+                "comedy": [],
+                "music": [],
+                "films": [],
+            }
+            removeexisting = False
+        else:
+            self.xlists = currlists
+            removeexisting = True
         # self.drama = []
         # self.documentary = []
         # self.comedy = []
         # self.music = []
         # self.years = []
         self.applybutton = None
-        self.makePage()
+        self.makePage(removeexisting)
 
-    def progTree(self):
+    def findExisting(prog):
+        for xl in self.xlists:
+            for xp in self.xlists[xl]:
+                if xp["uuid"] == prog["uuid"]:
+                    return True
+        return False
+
+    def progTree(self, removeexisting=True):
         sprogs = sorted(self.progs, key=lambda i: (i["start"], i["channelname"]))
         store = Gtk.ListStore(str, str, str, str, str, str, str, str)
         cols = [
@@ -89,23 +102,26 @@ class CurrentPrograms(Gtk.Grid):
             "uuid",
         ]
         for prog in sprogs:
-            tstr, durstr = UT.progFullStartAndDur(prog["start"], prog["stop"])
-            if prog["disp_subtitle"] == prog["disp_description"]:
-                subtitle = ""
+            if removeexisting and self.findExisting(prog):
+                continue
             else:
-                subtitle = prog["disp_subtitle"]
-            treeiter = store.append(
-                [
-                    prog["channelname"],
-                    tstr,
-                    durstr,
-                    prog["disp_title"],
-                    subtitle,
-                    prog["disp_description"],
-                    prog["filename"],
-                    prog["uuid"],
-                ]
-            )
+                tstr, durstr = UT.progFullStartAndDur(prog["start"], prog["stop"])
+                if prog["disp_subtitle"] == prog["disp_description"]:
+                    subtitle = ""
+                else:
+                    subtitle = prog["disp_subtitle"]
+                treeiter = store.append(
+                    [
+                        prog["channelname"],
+                        tstr,
+                        durstr,
+                        prog["disp_title"],
+                        subtitle,
+                        prog["disp_description"],
+                        prog["filename"],
+                        prog["uuid"],
+                    ]
+                )
         tree = Gtk.TreeView(model=store)
         # when a row is selected, it emits a signal
         tree.get_selection().connect("changed", self.on_changed)
@@ -165,15 +181,15 @@ class CurrentPrograms(Gtk.Grid):
         # box.pack_start(but, True, True, 0)
         return box
 
-    def makePage(self):
+    def makePage(self, removeexisting=True):
         log.debug("CurrentRecordings makePage")
-        self.progData()
+        self.progData(removeexisting)
 
-    def progData(self):
+    def progData(self, removeexisting=True):
         log.debug("progData")
         total, self.progs = TVH.finishedRecordings()
         self.win.set_title(f"{total} Current Recordings")
-        tree = self.progTree()
+        tree = self.progTree(removeexisting)
         swin = Gtk.ScrolledWindow()
         swin.add(tree)
         # label for description
