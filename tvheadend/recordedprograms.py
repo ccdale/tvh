@@ -276,18 +276,18 @@ class CurrentPrograms(Gtk.Grid):
     #     log.debug(f"{len(self.music)}")
     #     self.enableApply()
 
-    # def doYearDialog(self, prog):
-    #     title = prog["disp_title"]
-    #     dialog = YearDialog(self.win, title)
-    #     resp = dialog.run()
-    #     if resp == Gtk.ResponseType.OK:
-    #         year = dialog.txt.get_text().strip()
-    #         log.debug(f"{title}: {year}")
-    #         prog["year"] = year
-    #         self.addTo(self.years, prog)
-    #         log.debug(f"{len(self.years)}")
-    #         self.enableApply()
-    #     dialog.destroy()
+    def doYearDialog(self, prog):
+        title = prog["disp_title"]
+        dialog = YearDialog(self.win, title)
+        resp = dialog.run()
+        if resp == Gtk.ResponseType.OK:
+            year = dialog.txt.get_text().strip()
+            log.debug(f"{title}: {year}")
+            prog["year"] = year
+            self.addTo(self.years, prog)
+            log.debug(f"{len(self.years)}")
+            self.enableApply()
+        dialog.destroy()
 
     # def googleClicked(self, button):
     #     log.debug("google clicked")
