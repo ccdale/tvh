@@ -16,6 +16,35 @@ from tvheadend.errors import errorExit
 log = tvheadend.tvhlog.log
 
 
+class YearDialog(Gtk.Dialog):
+    """ displays the year request dialog box
+    """
+
+    def __init__(self, parent, title):
+        Gtk.Dialog.__init__(
+            self,
+            "Enter Year",
+            parent,
+            0,
+            (
+                Gtk.STOCK_CANCEL,
+                Gtk.ResponseType.CANCEL,
+                Gtk.STOCK_OK,
+                Gtk.ResponseType.OK,
+            ),
+        )
+
+        self.set_default_size(150, 100)
+
+        label = Gtk.Label(title)
+        self.txt = Gtk.entry()
+
+        box = self.get_content_area()
+        box.add(label)
+        box.add(self.txt)
+        self.show_all()
+
+
 class CurrentPrograms(Gtk.Grid):
     """ displays the current list of programs in a grid
     """
@@ -190,14 +219,32 @@ class CurrentPrograms(Gtk.Grid):
     def googleClicked(self, button):
         log.debug("google clicked")
         cprog = self.findCurrentProg()
-        title = cprog["disp_title"]
         if cprog is not None:
+            title = cprog["disp_title"]
             log.debug(f"finding {title}")
             CATS.movieSearch(title)
+            dialog = YearDialog(self, title)
+            resp = dialog.run()
+            if response == Gtk.ResponseType.OK:
+                year = dialog.txt.text().strip()
+                xd = [{year: cprog}]
+                self.years = self.years + xd
+                self.enableApply()
+            dialog.destroy()
 
     def yearClicked(self, button):
         log.debug("year clicked")
-        self.enableApply()
+        cprog = self.findCurrentProg()
+        if cprog is not None:
+            title = cprog["disp_title"]
+            dialog = YearDialog(self, title)
+            resp = dialog.run()
+            if response == Gtk.ResponseType.OK:
+                year = dialog.txt.text().strip()
+                xd = [{year: cprog}]
+                self.years = self.years + xd
+                self.enableApply()
+            dialog.destroy()
 
     def applyClicked(self, button):
         log.debug("apply clicked")
