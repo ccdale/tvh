@@ -222,6 +222,7 @@ class CurrentPrograms(Gtk.Grid):
         if cprog is not None:
             if tblab in self.xlists:
                 self.addTo(self.xlists[tblab], cprog)
+                log.debug(f"{tblab}: {len(self.xlists[tblab])}")
             elif tblab == "google":
                 title = cprog["disp_title"]
                 log.debug(f"finding {title}")
@@ -273,8 +274,9 @@ class CurrentPrograms(Gtk.Grid):
             year = dialog.txt.get_text().strip()
             log.debug(f"{title}: {year}")
             prog["year"] = year
-            self.addTo(self.years, prog)
-            log.debug(f"{len(self.years)}")
+            self.addTo(self.xlists["films"], prog)
+            label = "films"
+            log.debug(f"films: {len(self.xlists[label])}")
             self.enableApply()
         dialog.destroy()
 
