@@ -56,10 +56,10 @@ class AppMainWindow(Gtk.ApplicationWindow):
         else:
             log.error("Showing current recordings page failed as self.page is not none")
 
-    def doTranscodeWindow(self, **kwargs):
+    def doTranscodeWindow(self, xlists):
         if self.page is None:
             log.debug("Getting transcode window page")
-            self.page = TranscodeWindow(self, **kwargs)
+            self.page = TranscodeWindow(self, xlists)
             log.debug("adding transcode window page to window")
             self.add(self.page)
             log.debug("showing transcode window page")
