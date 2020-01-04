@@ -227,7 +227,7 @@ class CurrentPrograms(Gtk.Grid):
             year = dialog.txt.get_text().strip()
             log.debug(f"{title}: {year}")
             prog["year"] = year
-            self.years.append(prog)
+            self.addTo(self.years, prog)
             log.debug(f"{len(self.years)}")
             self.enableApply()
         dialog.destroy()
