@@ -25,6 +25,7 @@ class TranscodeWindow(Gtk.Grid):
         self.music = music
         self.films = films
         self.store = None
+        self.makePage()
 
     def makePage(self):
         log.debug("TranscodeWindow makePage")
