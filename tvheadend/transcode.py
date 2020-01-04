@@ -98,5 +98,5 @@ class TranscodeWindow(Gtk.Grid):
                     ]
                 )
 
-    def crecsClicked(self):
-        pass
+    def crecsClicked(self, button):
+        log.debug(f"crecsClicked: button: {button}")

@@ -60,6 +60,7 @@ class CurrentPrograms(Gtk.Grid):
         self.cuuid = None
         self.model = None
         self.iter = None
+        self.xlists = {"drama": [], "documentary": [], "comedy": [], "music": [], "years": []}
         self.drama = []
         self.documentary = []
         self.comedy = []
@@ -113,33 +114,40 @@ class CurrentPrograms(Gtk.Grid):
         return tree
 
     def progButtons(self):
-        labels = ["_Drama", "D_ocumentary", "_Music", "_Google", "_Quit"]
         box = Gtk.Box(spacing=6)
-        but = Gtk.Button.new_with_mnemonic("_Drama")
-        but.connect("clicked", self.dramaClicked)
-        box.pack_start(but, True, True, 0)
-        but = Gtk.Button.new_with_mnemonic("D_ocumentary")
-        but.connect("clicked", self.documentaryClicked)
-        box.pack_start(but, True, True, 0)
-        but = Gtk.Button.new_with_mnemonic("_Comedy")
-        but.connect("clicked", self.comedyClicked)
-        box.pack_start(but, True, True, 0)
-        but = Gtk.Button.new_with_mnemonic("_Music")
-        but.connect("clicked", self.musicClicked)
-        box.pack_start(but, True, True, 0)
-        but = Gtk.Button.new_with_mnemonic("_Google")
-        but.connect("clicked", self.googleClicked)
-        box.pack_start(but, True, True, 0)
-        but = Gtk.Button.new_with_mnemonic("_Year")
-        but.connect("clicked", self.yearClicked)
-        box.pack_start(but, True, True, 0)
-        self.applybutton = Gtk.Button.new_with_mnemonic("_Apply")
-        self.applybutton.connect("clicked", self.applyClicked)
-        self.applybutton.set_sensitive(False)
-        box.pack_start(self.applybutton, True, True, 0)
-        but = Gtk.Button.new_with_mnemonic("_Quit")
-        but.connect("clicked", self.quitClicked)
-        box.pack_start(but, True, True, 0)
+        labels = ["_Drama", "D_ocumentary", "_Comedy", "_Music", "_Google", "_Year", "_Apply", "_Quit"]
+        for lab in labels:
+            but = Gtk.Button.new_with_mnemonic(lab)
+            but.connect("clicked", self.doButtonClicked)
+            box.pack_start(but, True, True, 0)
+            if lab == "_Apply":
+                self.applybutton = but
+                self.applybutton.set_sensitive(False)
+        # but = Gtk.Button.new_with_mnemonic("_Drama")
+        # but.connect("clicked", self.dramaClicked)
+        # box.pack_start(but, True, True, 0)
+        # but = Gtk.Button.new_with_mnemonic("D_ocumentary")
+        # but.connect("clicked", self.documentaryClicked)
+        # box.pack_start(but, True, True, 0)
+        # but = Gtk.Button.new_with_mnemonic("_Comedy")
+        # but.connect("clicked", self.comedyClicked)
+        # box.pack_start(but, True, True, 0)
+        # but = Gtk.Button.new_with_mnemonic("_Music")
+        # but.connect("clicked", self.musicClicked)
+        # box.pack_start(but, True, True, 0)
+        # but = Gtk.Button.new_with_mnemonic("_Google")
+        # but.connect("clicked", self.googleClicked)
+        # box.pack_start(but, True, True, 0)
+        # but = Gtk.Button.new_with_mnemonic("_Year")
+        # but.connect("clicked", self.yearClicked)
+        # box.pack_start(but, True, True, 0)
+        # self.applybutton = Gtk.Button.new_with_mnemonic("_Apply")
+        # self.applybutton.connect("clicked", self.applyClicked)
+        # self.applybutton.set_sensitive(False)
+        # box.pack_start(self.applybutton, True, True, 0)
+        # but = Gtk.Button.new_with_mnemonic("_Quit")
+        # but.connect("clicked", self.quitClicked)
+        # box.pack_start(but, True, True, 0)
         return box
 
     def makePage(self):
@@ -193,6 +201,11 @@ class CurrentPrograms(Gtk.Grid):
         if self.model is not None and self.iter is not None and self.cuuid is not None:
             xlist.append(prog)
             self.removeProgFromDisplay(prog)
+
+    def doButtonClicked(self, button):
+        blab = button.get_label()
+        log.debug(f"{blab} clicked")
+        if blab in self.xlists:
 
     def dramaClicked(self, button):
         log.debug("drama clicked")
