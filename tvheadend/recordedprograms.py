@@ -252,6 +252,15 @@ class CurrentPrograms(Gtk.Grid):
 
     def applyClicked(self, button):
         log.debug("apply clicked")
+        self.win.destroyPage()
+        kwargs = {
+            "drama": self.drama,
+            "documentary": self.documentary,
+            "music": self.music,
+            "comedy": self.comedy,
+            "films": self.years,
+        }
+        self.win.doTranscodeWindow(**kwargs)
 
     def quitClicked(self, button):
         log.debug("quit clicked")
