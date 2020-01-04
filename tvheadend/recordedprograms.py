@@ -235,6 +235,7 @@ class CurrentPrograms(Gtk.Grid):
     def doYearDialog(self, prog):
         title = prog["disp_title"]
         dialog = YearDialog(self.win, title)
+        dialog.set_default_response(Gtk.ResponseType.OK)
         resp = dialog.run()
         if resp == Gtk.ResponseType.OK:
             year = dialog.txt.get_text().strip()
