@@ -239,6 +239,7 @@ class CurrentPrograms(Gtk.Grid):
             if tblab in self.xlists:
                 self.addTo(self.xlists[tblab], cprog)
                 log.debug(f"{tblab}: {len(self.xlists[tblab])}")
+                self.enableApply()
             elif tblab == "google":
                 title = cprog["disp_title"]
                 log.debug(f"finding {title}")
