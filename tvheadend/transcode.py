@@ -26,6 +26,22 @@ class TranscodeWindow(Gtk.Grid):
         self.films = films
         self.store = None
 
+    def makePage(self):
+        log.debug("TranscodeWindow makePage")
+        tree = self.progTree()
+        swin = Gtk.ScrolledWindow()
+        swin.add(tree)
+        bbox = self.transButtons()
+        self.attach(swin, 0, 0, 1, 1)
+        self.attach(bbox, 0, 1, 1, 1)
+
+    def transButtons(self):
+        box = Gtk.Box(spacing=6)
+        but = Gtk.Button.new_with_mnemonic("Current Recordings")
+        but.connect("clicked", self.crecsClicked)
+        box.pack_start(but, True, True, 0)
+        return box
+
     def progTree(self):
         self.store = Gtk.ListStore(str, str, str, str, str, str, str, str)
         cols = [
@@ -79,3 +95,6 @@ class TranscodeWindow(Gtk.Grid):
                         year,
                     ]
                 )
+
+    def crecsClicked(self):
+        pass

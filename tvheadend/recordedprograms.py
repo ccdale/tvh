@@ -66,7 +66,7 @@ class CurrentPrograms(Gtk.Grid):
         self.music = []
         self.years = []
         self.applybutton = None
-        self.progData()
+        self.makePage()
 
     def progTree(self):
         sprogs = sorted(self.progs, key=lambda i: (i["start"], i["channelname"]))
@@ -141,6 +141,10 @@ class CurrentPrograms(Gtk.Grid):
         but.connect("clicked", self.quitClicked)
         box.pack_start(but, True, True, 0)
         return box
+
+    def makePage(self):
+        log.debug("CurrentRecordings makePage")
+        self.progData()
 
     def progData(self):
         log.debug("progData")
