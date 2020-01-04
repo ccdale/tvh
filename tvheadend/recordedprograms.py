@@ -73,11 +73,6 @@ class CurrentPrograms(Gtk.Grid):
         else:
             self.xlists = currlists
             removeexisting = True
-        # self.drama = []
-        # self.documentary = []
-        # self.comedy = []
-        # self.music = []
-        # self.years = []
         self.applybutton = None
         self.makePage(removeexisting)
         self.doTitle()
@@ -156,31 +151,6 @@ class CurrentPrograms(Gtk.Grid):
             if lab == "_Apply":
                 self.applybutton = but
                 self.applybutton.set_sensitive(False)
-        # but = Gtk.Button.new_with_mnemonic("_Drama")
-        # but.connect("clicked", self.dramaClicked)
-        # box.pack_start(but, True, True, 0)
-        # but = Gtk.Button.new_with_mnemonic("D_ocumentary")
-        # but.connect("clicked", self.documentaryClicked)
-        # box.pack_start(but, True, True, 0)
-        # but = Gtk.Button.new_with_mnemonic("_Comedy")
-        # but.connect("clicked", self.comedyClicked)
-        # box.pack_start(but, True, True, 0)
-        # but = Gtk.Button.new_with_mnemonic("_Music")
-        # but.connect("clicked", self.musicClicked)
-        # box.pack_start(but, True, True, 0)
-        # but = Gtk.Button.new_with_mnemonic("_Google")
-        # but.connect("clicked", self.googleClicked)
-        # box.pack_start(but, True, True, 0)
-        # but = Gtk.Button.new_with_mnemonic("_Year")
-        # but.connect("clicked", self.yearClicked)
-        # box.pack_start(but, True, True, 0)
-        # self.applybutton = Gtk.Button.new_with_mnemonic("_Apply")
-        # self.applybutton.connect("clicked", self.applyClicked)
-        # self.applybutton.set_sensitive(False)
-        # box.pack_start(self.applybutton, True, True, 0)
-        # but = Gtk.Button.new_with_mnemonic("_Quit")
-        # but.connect("clicked", self.quitClicked)
-        # box.pack_start(but, True, True, 0)
         return box
 
     def makePage(self, removeexisting=True):
@@ -258,34 +228,6 @@ class CurrentPrograms(Gtk.Grid):
             else:
                 log.error(f"{tblab} Button clicked but cprog is none")
 
-    # def dramaClicked(self, button):
-    #     log.debug("drama clicked")
-    #     cprog = self.findCurrentProg()
-    #     self.addTo(self.drama, cprog)
-    #     log.debug(f"{len(self.drama)}")
-    #     self.enableApply()
-
-    # def documentaryClicked(self, button):
-    #     log.debug("documentary clicked")
-    #     cprog = self.findCurrentProg()
-    #     self.addTo(self.documentary, cprog)
-    #     log.debug(f"{len(self.documentary)}")
-    #     self.enableApply()
-
-    # def comedyClicked(self, button):
-    #     log.debug("comedy clicked")
-    #     cprog = self.findCurrentProg()
-    #     self.addTo(self.comedy, cprog)
-    #     log.debug(f"{len(self.comedy)}")
-    #     self.enableApply()
-
-    # def musicClicked(self, button):
-    #     log.debug("music clicked")
-    #     cprog = self.findCurrentProg()
-    #     self.addTo(self.music, cprog)
-    #     log.debug(f"{len(self.music)}")
-    #     self.enableApply()
-
     def doYearDialog(self, prog):
         title = prog["disp_title"]
         dialog = YearDialog(self.win, title)
@@ -299,37 +241,6 @@ class CurrentPrograms(Gtk.Grid):
             log.debug(f"films: {len(self.xlists[label])}")
             self.xenableApply()
         dialog.destroy()
-
-    # def googleClicked(self, button):
-    #     log.debug("google clicked")
-    #     cprog = self.findCurrentProg()
-    #     if cprog is not None:
-    #         title = cprog["disp_title"]
-    #         log.debug(f"finding {title}")
-    #         CATS.movieSearch(title)
-    #         self.doYearDialog(cprog)
-
-    # def yearClicked(self, button):
-    #     log.debug("year clicked")
-    #     cprog = self.findCurrentProg()
-    #     if cprog is not None:
-    #         self.doYearDialog(cprog)
-
-    # def applyClicked(self, button):
-    #     log.debug("apply clicked")
-    #     self.win.destroyPage()
-    #     kwargs = {
-    #         "drama": self.drama,
-    #         "documentary": self.documentary,
-    #         "music": self.music,
-    #         "comedy": self.comedy,
-    #         "films": self.years,
-    #     }
-    #     self.win.doTranscodeWindow(**kwargs)
-
-    # def quitClicked(self, button):
-    #     log.debug("quit clicked")
-    #     self.win.doQuit()
 
     def findCurrentProg(self):
         cprog = None
