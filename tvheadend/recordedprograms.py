@@ -196,24 +196,28 @@ class CurrentPrograms(Gtk.Grid):
         log.debug("drama clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.drama, cprog)
+        log.debug(f"{self.drama}")
         self.enableApply()
 
     def documentaryClicked(self, button):
         log.debug("documentary clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.documentary, cprog)
+        log.debug(f"{self.documentary}")
         self.enableApply()
 
     def comedyClicked(self, button):
         log.debug("comedy clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.comedy, cprog)
+        log.debug(f"{self.comedy}")
         self.enableApply()
 
     def musicClicked(self, button):
         log.debug("music clicked")
         cprog = self.findCurrentProg()
         self.addTo(self.music, cprog)
+        log.debug(f"{self.music}")
         self.enableApply()
 
     def googleClicked(self, button):
@@ -225,10 +229,12 @@ class CurrentPrograms(Gtk.Grid):
             CATS.movieSearch(title)
             dialog = YearDialog(self.win, title)
             resp = dialog.run()
-            if response == Gtk.ResponseType.OK:
-                year = dialog.txt.text().strip()
+            if resp == Gtk.ResponseType.OK:
+                year = dialog.txt.get_text().strip()
+                log.debug(f"{title}: {year}")
                 xd = [{year: cprog}]
                 self.years = self.years + xd
+                log.debug(f"{self.years}")
                 self.enableApply()
             dialog.destroy()
 
@@ -239,10 +245,12 @@ class CurrentPrograms(Gtk.Grid):
             title = cprog["disp_title"]
             dialog = YearDialog(self.win, title)
             resp = dialog.run()
-            if response == Gtk.ResponseType.OK:
-                year = dialog.txt.text().strip()
+            if resp == Gtk.ResponseType.OK:
+                year = dialog.txt.get_text().strip()
+                log.debug(f"{title}: {year}")
                 xd = [{year: cprog}]
                 self.years = self.years + xd
+                log.debug(f"{self.years}")
                 self.enableApply()
             dialog.destroy()
 
