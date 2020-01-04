@@ -144,7 +144,6 @@ class CurrentPrograms(Gtk.Grid):
 
     def progData(self):
         log.debug("progData")
-        global menufn
         total, self.progs = TVH.finishedRecordings()
         self.win.set_title(f"{total} Current Recordings")
         tree = self.progTree()
