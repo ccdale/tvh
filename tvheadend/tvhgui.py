@@ -22,7 +22,7 @@ from tvheadend.errors import errorNotify
 from tvheadend.errors import errorExit
 
 log = tvheadend.tvhlog.log
-tvheadend.tvhlog.setDebug()
+tvheadend.tvhlog.setInfo()
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
 menufn = "/".join([dir_path, "menu.xml"])
