@@ -1,0 +1,11 @@
+[Desktop Entry]
+Version=1.9.0
+Name=tvhg
+GenericName=TvHeadend Gui
+Comment=tvhg is a graphical front end to the tvh suite
+Exec=/home/chris/.local/bin/tvhg
+Path=/home/chris/.local/bin/
+Icon=/usr/share/tvheadend/src/webui/static/img/doc/index/logo.png
+Terminal=false
+Type=Application
+Categories=Video
