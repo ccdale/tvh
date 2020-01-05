@@ -8,4 +8,4 @@ Path=/home/chris/.local/bin/
 Icon=/usr/share/tvheadend/src/webui/static/img/doc/index/logo.png
 Terminal=false
 Type=Application
-Categories=Video
+Categories=Application;AudioVideo;TV
