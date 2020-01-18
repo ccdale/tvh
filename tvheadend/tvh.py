@@ -218,11 +218,16 @@ def timeSlotPrograms(start=0, length=2):
         if start == 0:
             start = int(time.time())
         xfilter = [
-            {"field": "stop", "type": "numeric", "value": str(now), "comparison": "gt"},
+            {
+                "field": "stop",
+                "type": "numeric",
+                "value": str(start),
+                "comparison": "gt",
+            },
             {
                 "field": "start",
                 "type": "numeric",
-                "value": str(now + (3600 * length)),
+                "value": str(start + (3600 * length)),
                 "comparison": "lt",
             },
         ]
