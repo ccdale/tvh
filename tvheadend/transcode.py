@@ -141,7 +141,10 @@ class TranscodeWindow(Gtk.Grid):
                 opdir = "/".join([tvheadend.filmhome, letter, show["opbase"]])
                 snfo = NFO.makeFilmNfo(show)
             else:
-                opdir = "/".join([tvheadend.videohome, show["category"], show["title"]])
+                category = show["category"]
+                if category == "drama":
+                    category = "Drama"
+                opdir = "/".join([tvheadend.videohome, category, show["title"]])
                 snfo = NFO.makeProgNfo(show)
             basefn = "/".join([opdir, show["opbase"]])
             opfn = basefn + ".mpg"
