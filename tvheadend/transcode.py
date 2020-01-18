@@ -6,6 +6,7 @@ from gi.repository import Gtk
 import os
 import sys
 import time
+import threading
 import shutil
 import tvheadend
 from tvheadend import __version__ as verstr
@@ -168,7 +169,14 @@ class TranscodeWindow(Gtk.Grid):
                 with open(nfofn, "w") as nfn:
                     nfn.write(snfo)
                 log.info("copying {} to {}".format(show["filename"], opfn))
-                shutil.copy2(show["filename"], opfn)
+                t = threading.Thread(target=copyFile, args=(show["filename"], opfn))
+                t.start()
+                while t.is_alive():
+                    time.sleep(1)
+                # wait for thread to complete
+                t.join()
+
+                # shutil.copy2(show["filename"], opfn)
                 if FUT.fileExists(opfn):
                     cstat = os.stat(opfn)
                     if cstat.st_size == tvhstat.st_size:
@@ -215,3 +223,7 @@ class TranscodeWindow(Gtk.Grid):
                     self.progressbar.set_fraction(pc)
         self.win.destroyPage()
         self.win.doCurrentRecordings()
+
+
+def copyFile(ifn, opfn):
+    shutil.copy2(ifn, opfn)
