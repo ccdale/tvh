@@ -239,3 +239,18 @@ def timeSlotPrograms(start=0, length=2):
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorNotify(fname, e)
+
+
+def getEpg():
+    try:
+        total = entries = None
+        data = {"limit": "9999"}
+        j = sendToTVH("epg/events/grid", data)
+        if "totalCount" in j:
+            total = j["totalCount"]
+        if "entries" in j:
+            entries = j["entries"]
+        return (total, entries)
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorNotify(fname, e)

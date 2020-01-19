@@ -11,6 +11,7 @@ import tvheadend
 from tvheadend import __version__ as verstr
 import tvheadend.tvh as TVH
 import tvheadend.config as CONF
+import tvheadend.tvhlog
 from tvheadend.errors import errorRaise
 from tvheadend.errors import errorNotify
 from tvheadend.errors import errorExit
