@@ -27,9 +27,14 @@ import json
 from operator import attrgetter, itemgetter
 import tvheadend.utils as UT
 from tvheadend.errors import errorNotify
+from tvheadend.errors import errorRaise
 
 
 class TVHError(Exception):
+    pass
+
+
+class TVHNoEPG(Exception):
     pass
 
 
@@ -238,7 +243,46 @@ def timeSlotPrograms(start=0, length=2):
             mindur, minprog = UT.displayProgramList(j["entries"], length)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
-        errorNotify(fname, e)
+        errorRaise(fname, e)
+
+
+def channelFilter(epg, channel):
+    try:
+        cevents = []
+        for event in epg:
+            if event["channel"] == channel:
+                cevents.append(event)
+        return cevents
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorRaise(fname, e)
+
+
+def timeFilter(epg, start, length):
+    try:
+        fevents = []
+        if length is None:
+            length = 2
+        stop = start + (3600 * length)
+        for event in epg:
+            if event["stop"] > start and event["start"] < stop:
+                fevents.append(event)
+        return fevents
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorRaise(fname, e)
+
+
+def filterPrograms(channel=None, start=None, length=None):
+    try:
+        total, entries = getEpg()
+        if channel is not None:
+            return channelFilter(entries, channel)
+        if start is not None:
+            return timeFilter(entries, start, length)
+    except Exception as e:
+        fname = sys._getframe().f_code.co_name
+        errorRaise(fname, e)
 
 
 def getEpg():
@@ -249,7 +293,9 @@ def getEpg():
             total = j["totalCount"]
         if "entries" in j:
             entries = j["entries"]
+        else:
+            raise TVHNoEPG("Failed to retrieve data from TVHeadend")
         return (total, entries)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
-        errorNotify(fname, e)
+        errorRaise(fname, e)
