@@ -319,7 +319,8 @@ def getEpg():
     """
     try:
         total = entries = None
-        j = sendToTVH("epg/events/grid")
+        data = {"limit": "9999"}
+        j = sendToTVH("epg/events/grid", data=data)
         if "totalCount" in j:
             total = j["totalCount"]
         if "entries" in j:
