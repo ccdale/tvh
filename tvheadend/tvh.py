@@ -244,8 +244,7 @@ def timeSlotPrograms(start=0, length=2):
 def getEpg():
     try:
         total = entries = None
-        data = {"limit": "9999"}
-        j = sendToTVH("epg/events/grid", data)
+        j = sendToTVH("epg/events/grid")
         if "totalCount" in j:
             total = j["totalCount"]
         if "entries" in j:

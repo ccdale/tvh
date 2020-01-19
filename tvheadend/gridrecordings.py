@@ -39,8 +39,11 @@ def gobabe():
         tvheadend.user = config["user"]
         tvheadend.passw = config["pass"]
         tvheadend.ipaddr = str(config["tvhipaddr"]) + ":" + str(config["tvhport"])
-        start, length = getStartLength()
-        TVH.timeSlotPrograms(start, length)
+        total, entries = TVH.getEpg()
+        if total is not None and entries is not None:
+            print(f"received {total} entries")
+        # start, length = getStartLength()
+        # TVH.timeSlotPrograms(start, length)
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
