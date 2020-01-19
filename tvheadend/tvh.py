@@ -276,6 +276,9 @@ def timeFilter(epg, start, length):
 def filterPrograms(channel=None, start=None, length=None):
     try:
         total, entries = getEpg()
+        if channel is not None and start is not None:
+            epg = channelFilter(entries, channel)
+            return timeFilter(epg, start, length)
         if channel is not None:
             return channelFilter(entries, channel)
         if start is not None:
