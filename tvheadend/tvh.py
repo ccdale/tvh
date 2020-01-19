@@ -250,7 +250,7 @@ def channelFilter(epg, channel):
     try:
         cevents = []
         for event in epg:
-            if event["channel"] == channel:
+            if event["channelName"] == channel:
                 cevents.append(event)
         return cevents
     except Exception as e:
@@ -260,12 +260,15 @@ def channelFilter(epg, channel):
 
 def timeFilter(epg, start, length):
     try:
+        print(f"start: {start}, length: {length}")
         fevents = []
         if length is None:
             length = 2
+        print(f"start: {start}, length: {length}")
         stop = start + (3600 * length)
+        print(f"start: {start}, length: {length}, stop: {stop}")
         for event in epg:
-            if event["stop"] > start and event["start"] < stop:
+            if int(event["stop"]) > start and int(event["start"]) < stop:
                 fevents.append(event)
         return fevents
     except Exception as e:
@@ -289,6 +292,31 @@ def filterPrograms(channel=None, start=None, length=None):
 
 
 def getEpg():
+    """ obtain the epg from tvheadend
+
+    returns as much data as it can (as tvheadend filtering
+    doesn't seem to work to well)
+
+    [
+        {
+            'eventId': 6008447,
+            'episodeId': 6059918,
+            'episodeUri': 'ddprogid:///usr/bin/tv_grab_zz_sdjson/EP013053180396',
+            'channelName': 'BBC Two HD',
+            'channelUuid': 'b5ae8b7cd3c1653d66ccfe89710ec067',
+            'channelNumber': '102',
+            'channelIcon': 'https://s3.amazonaws.com/schedulesdirect/assets/stationLogos/s50059_h3_aa.png',
+            'start': 1579428000,
+            'stop': 1579433400,
+            'title': 'Saturday Kitchen Best Bites',
+            'description': 'Matt Tebbutt takes a look back at some of his favourite recipes and best moments from "Saturday Kitchen".',
+            'new': 1,
+            'repeat': 1,
+            'genre': [165],
+            'nextEventId': 6008459
+        }
+    ]
+    """
     try:
         total = entries = None
         j = sendToTVH("epg/events/grid")
