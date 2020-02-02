@@ -172,7 +172,8 @@ class TranscodeWindow(Gtk.Grid):
                 t = threading.Thread(target=copyFile, args=(show["filename"], opfn))
                 t.start()
                 while t.is_alive():
-                    time.sleep(1)
+                    Gtk.main_iteration()
+                    # time.sleep(1)
                 # wait for thread to complete
                 t.join()
 
