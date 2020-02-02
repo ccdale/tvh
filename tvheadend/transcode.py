@@ -63,7 +63,7 @@ class TranscodeWindow(Gtk.Grid):
         return box
 
     def progTree(self):
-        self.store = Gtk.ListStore(str, str, str, str, str, str, str, str)
+        self.store = Gtk.ListStore(str, str, str, str, str, str, str, str, str)
         cols = [
             "Channel",
             "Time",
@@ -73,6 +73,7 @@ class TranscodeWindow(Gtk.Grid):
             "Description",
             "filename",
             "year",
+            "uuid",
         ]
         self.addListsToStore()
         tree = Gtk.TreeView(model=self.store)
