@@ -233,14 +233,13 @@ class TranscodeWindow(Gtk.Grid):
         progress = 0
         for xl in self.xlists:
             for prog in self.xlists[xl]:
-                if self.moveShow(prog):
-                    progress += 1
-                    pc = progress / todo
-                    self.progressbar.set_fraction(pc)
-                    findUuidIter(prog["uuid"])
-                    if self.iter is not None:
-                        self.store.remove(self.iter)
-
+                self.moveShow(prog)
+                progress += 1
+                pc = progress / todo
+                self.progressbar.set_fraction(pc)
+                self.findUuidIter(prog["uuid"])
+                if self.iter is not None:
+                    self.store.remove(self.iter)
         self.currrecsbutton.set_sensitive(True)
         self.win.destroyPage()
         self.win.doCurrentRecordings()
