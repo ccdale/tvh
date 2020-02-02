@@ -5,6 +5,7 @@ from gi.repository import Gtk
 
 import os
 import sys
+import logging
 import time
 import threading
 import shutil
@@ -27,6 +28,35 @@ class CopyFailure(Exception):
     pass
 
 
+class myHandler(logging.Handler):
+    def __init__(self, label):
+        super().__init__()
+        self.label = label
+
+    def handle(self, rec):
+        original = self.label.get_text()
+        self.label.set_text(rec.msg + "\n" + original)
+
+
+class myLogger:
+    def __init__(self, label):
+        self.logger = logging.getLogger("tvhg")
+        self.handler = myHandler(label)
+        self.logger.addHandler(self.handler)
+
+    def error(self, msg):
+        self.logger.error(msg)
+
+    def warning(self, msg):
+        self.logger.warning(msg)
+
+    def info(self, msg):
+        self.logger.info(msg)
+
+    def debug(self, msg):
+        self.logger.debug(msg)
+
+
 class TranscodeWindow(Gtk.Grid):
     """ displays the list of programs to move to kodi and to be transcoded
     """
@@ -40,6 +70,7 @@ class TranscodeWindow(Gtk.Grid):
         self.iter = None
         self.progressbar = None
         self.currrecsbutton = None
+        self.loglabel = None
         self.makePage()
 
     def makePage(self):
@@ -47,11 +78,20 @@ class TranscodeWindow(Gtk.Grid):
         tree = self.progTree()
         swin = Gtk.ScrolledWindow()
         swin.add(tree)
+        lbox = self.loggingLabel()
         self.progressbar = Gtk.ProgressBar()
         bbox = self.transButtons()
         self.attach(swin, 0, 0, 1, 1)
         self.attach(self.progressbar, 0, 1, 1, 1)
         self.attach(bbox, 0, 2, 1, 1)
+        self.attach(lbox, 0, 3, 1, 4)
+
+    def loggingLabel(self):
+        box = Gtk.Box()
+        self.loglabel = Gtk.Label()
+        box.pack_start(self.loglabel, True, True, 0)
+        log = myLogger(self.loglabel)
+        return box
 
     def transButtons(self):
         box = Gtk.Box(spacing=6)
