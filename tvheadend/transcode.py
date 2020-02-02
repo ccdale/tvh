@@ -37,6 +37,7 @@ class TranscodeWindow(Gtk.Grid):
         self.win = window
         self.xlists = xlists
         self.store = None
+        self.iter = None
         self.progressbar = None
         self.currrecsbutton = None
         self.makePage()
@@ -210,6 +211,16 @@ class TranscodeWindow(Gtk.Grid):
             fname = sys._getframe().f_code.co_name
             errorExit(fname, e)
 
+    def findUuidIter(self, uuid):
+        self.iter = store.get_iter_first()
+        found = False
+        while not found:
+            self.iter = self.store.iter_next(self.iter)
+            if self.store[self.iter][8] == uuid:
+                found = True
+        if not found:
+            self.iter = None
+
     def countLists(self):
         cn = 0
         for xl in self.xlists:
@@ -226,6 +237,10 @@ class TranscodeWindow(Gtk.Grid):
                     progress += 1
                     pc = progress / todo
                     self.progressbar.set_fraction(pc)
+                    findUuidIter(prog["uuid"])
+                    if self.iter is not None:
+                        self.store.remove(self.iter)
+
         self.currrecsbutton.set_sensitive(True)
         self.win.destroyPage()
         self.win.doCurrentRecordings()
