@@ -20,7 +20,7 @@ init module for tvh application
 """
 majorv = 1
 minorv = 9
-buildv = 9
+buildv = 10
 versionl = (majorv, minorv, buildv)
 __version__ = ".".join(str(x) for x in versionl)
 
