@@ -113,6 +113,7 @@ class TranscodeWindow(Gtk.Grid):
                             prog["disp_description"],
                             prog["filename"],
                             year,
+                            prog["uuid"],
                         ]
                     )
 
