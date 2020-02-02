@@ -91,7 +91,7 @@ class TranscodeWindow(Gtk.Grid):
         for xl in self.xlists:
             if len(self.xlists[xl]) > 0:
                 tlab = xl[0].upper() + xl[1:]
-                ti = self.store.append(["", "", "", f"{tlab}", "", "", "", ""])
+                ti = self.store.append(["", "", "", f"{tlab}", "", "", "", "", ""])
                 for prog in self.xlists[xl]:
                     if "opbase" not in prog:
                         UT.addBaseFn(prog)
