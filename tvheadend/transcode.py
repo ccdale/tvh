@@ -57,7 +57,7 @@ class TranscodeWindow(Gtk.Grid):
         box = Gtk.Box(spacing=6)
         self.currrecsbutton = Gtk.Button.new_with_mnemonic("_Current Recordings")
         self.currrecsbutton.connect("clicked", self.doButtonClicked)
-        box.pack_start(but, True, True, 0)
+        box.pack_start(self.currrecsbutton, True, True, 0)
         but = Gtk.Button.new_with_mnemonic("_Run")
         but.connect("clicked", self.doButtonClicked)
         box.pack_start(but, True, True, 0)
