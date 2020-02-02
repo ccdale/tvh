@@ -82,11 +82,13 @@ class TranscodeWindow(Gtk.Grid):
         self.progressbar = Gtk.ProgressBar()
         bbox = self.transButtons()
         self.attach(swin, 0, 0, 1, 1)
-        self.attach(self.progressbar, 0, 1, 1, 1)
-        self.attach(bbox, 0, 2, 1, 1)
-        self.attach(lbox, 0, 3, 1, 4)
+        self.attach(lbox, 0, 1, 1, 4)
+        self.attach(self.progressbar, 0, 5, 1, 1)
+        self.attach(bbox, 0, 6, 1, 1)
+        log.info("tvhg " + verstr)
 
     def loggingLabel(self):
+        global log
         box = Gtk.Box()
         self.loglabel = Gtk.Label()
         box.pack_start(self.loglabel, True, True, 0)
@@ -169,6 +171,7 @@ class TranscodeWindow(Gtk.Grid):
             self.win.doCurrentRecordings(existinglists=self.xlists)
         elif tblab == "run":
             self.currrecsbutton.set_sensitive(False)
+            button.set_sensitive(False)
             log.debug("running transcode")
             self.runTranscode()
         else:
