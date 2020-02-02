@@ -38,6 +38,7 @@ class TranscodeWindow(Gtk.Grid):
         self.xlists = xlists
         self.store = None
         self.progressbar = None
+        self.currrecsbutton = None
         self.makePage()
 
     def makePage(self):
@@ -53,8 +54,8 @@ class TranscodeWindow(Gtk.Grid):
 
     def transButtons(self):
         box = Gtk.Box(spacing=6)
-        but = Gtk.Button.new_with_mnemonic("_Current Recordings")
-        but.connect("clicked", self.doButtonClicked)
+        self.currrecsbutton = Gtk.Button.new_with_mnemonic("_Current Recordings")
+        self.currrecsbutton.connect("clicked", self.doButtonClicked)
         box.pack_start(but, True, True, 0)
         but = Gtk.Button.new_with_mnemonic("_Run")
         but.connect("clicked", self.doButtonClicked)
@@ -124,6 +125,7 @@ class TranscodeWindow(Gtk.Grid):
             self.win.destroyPage()
             self.win.doCurrentRecordings(existinglists=self.xlists)
         elif tblab == "run":
+            self.currrecsbutton.set_sensitive(False)
             log.debug("running transcode")
             self.runTranscode()
         else:
@@ -222,6 +224,7 @@ class TranscodeWindow(Gtk.Grid):
                     progress += 1
                     pc = progress / todo
                     self.progressbar.set_fraction(pc)
+        self.currrecsbutton.set_sensitive(True)
         self.win.destroyPage()
         self.win.doCurrentRecordings()
 
