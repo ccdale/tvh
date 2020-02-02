@@ -71,6 +71,7 @@ class TranscodeWindow(Gtk.Grid):
         self.progressbar = None
         self.currrecsbutton = None
         self.loglabel = None
+        self.log = None
         self.makePage()
 
     def makePage(self):
@@ -85,14 +86,13 @@ class TranscodeWindow(Gtk.Grid):
         self.attach(lbox, 0, 1, 1, 4)
         self.attach(self.progressbar, 0, 5, 1, 1)
         self.attach(bbox, 0, 6, 1, 1)
-        log.info("tvhg " + verstr)
+        self.log.info("tvhg " + verstr)
 
     def loggingLabel(self):
-        global log
         box = Gtk.Box()
         self.loglabel = Gtk.Label()
         box.pack_start(self.loglabel, True, True, 0)
-        log = myLogger(self.loglabel)
+        self.log = myLogger(self.loglabel)
         return box
 
     def transButtons(self):
@@ -165,23 +165,25 @@ class TranscodeWindow(Gtk.Grid):
         blab = button.get_label()
         tmp = blab.split("_")
         tblab = "".join(tmp).lower()
-        log.debug(f"{tblab} clicked")
+        self.log.debug(f"{tblab} clicked")
         if tblab == "current recordings":
             self.win.destroyPage()
             self.win.doCurrentRecordings(existinglists=self.xlists)
         elif tblab == "run":
             self.currrecsbutton.set_sensitive(False)
             button.set_sensitive(False)
-            log.debug("running transcode")
+            self.log.debug("running transcode")
             self.runTranscode()
         else:
-            log.info(f"Unhandled button {tblab} clicked")
+            self.log.info(f"Unhandled button {tblab} clicked")
 
     def moveShow(self, show):
         try:
             then = time.time()
             tvhstat = os.stat(show["filename"])
-            log.info("{}: {}".format(show["opbase"], FUT.sizeof_fmt(tvhstat.st_size)))
+            self.log.info(
+                "{}: {}".format(show["opbase"], FUT.sizeof_fmt(tvhstat.st_size))
+            )
             if "year" in show:
                 if show["title"].startswith("The "):
                     letter = show["title"][4:5].upper()
@@ -204,19 +206,19 @@ class TranscodeWindow(Gtk.Grid):
             elif FUT.fileExists(mkopfn):
                 existingfile = mkopfn
             if existingfile is not None:
-                log.info(
+                self.log.info(
                     "kodi file already exists, not copying {}".format(existingfile)
                 )
-                log.info("deleting from tvheadend")
+                self.log.info("deleting from tvheadend")
                 TVH.deleteRecording(show["uuid"])
             else:
-                log.info("making directory {}".format(opdir))
+                self.log.info("making directory {}".format(opdir))
                 FUT.makePath(opdir)
                 nfofn = basefn + ".nfo"
-                log.info("writing nfo to {}".format(nfofn))
+                self.log.info("writing nfo to {}".format(nfofn))
                 with open(nfofn, "w") as nfn:
                     nfn.write(snfo)
-                log.info("copying {} to {}".format(show["filename"], opfn))
+                self.log.info("copying {} to {}".format(show["filename"], opfn))
                 t = threading.Thread(target=copyFile, args=(show["filename"], opfn))
                 t.start()
                 while t.is_alive():
@@ -229,17 +231,17 @@ class TranscodeWindow(Gtk.Grid):
                 if FUT.fileExists(opfn):
                     cstat = os.stat(opfn)
                     if cstat.st_size == tvhstat.st_size:
-                        log.info(
+                        self.log.info(
                             "copying {} took: {}".format(
                                 FUT.sizeof_fmt(cstat.st_size),
                                 NFO.hmsDisplay(int(time.time() - then)),
                             )
                         )
-                        log.info("show copied to {} OK.".format(opfn))
+                        self.log.info("show copied to {} OK.".format(opfn))
                         fhash, fsize = FUT.getFileHash(show["filename"])
-                        log.info("deleting from tvheadend")
+                        self.log.info("deleting from tvheadend")
                         TVH.deleteRecording(show["uuid"])
-                        log.info("updating DB")
+                        self.log.info("updating DB")
                         db = tvheadend.tvhdb.TVHDb(tvheadend.dbfn)
                         sql = "insert into files (name,size,hash) values (?, ?, ?)"
                         return db.doInsertSql(sql, (opfn, fsize, fhash,))
