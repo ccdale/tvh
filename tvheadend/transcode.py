@@ -212,7 +212,7 @@ class TranscodeWindow(Gtk.Grid):
             errorExit(fname, e)
 
     def findUuidIter(self, uuid):
-        self.iter = store.get_iter_first()
+        self.iter = self.store.get_iter_first()
         found = False
         while not found:
             self.iter = self.store.iter_next(self.iter)
