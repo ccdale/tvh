@@ -118,5 +118,12 @@ def tvhwatch():
         errorExit(fname, e)
 
 
+def sigHandler(signal, frame):
+    log.warning(f"Signal: {signal} caught, touching stopfile.")
+    FUT.fileTouch(stopnext)
+
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, sigHandler)
+    signal.signal(signal.SIGTERM, sigHandler)
     tvhwatch()
