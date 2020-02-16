@@ -106,13 +106,17 @@ def tvhwatch():
         log.info("tvheadend watch utility " + tvheadend.__version__)
         config = CONF.readConfig()
         db = tvheadend.tvhdb.TVHDb(config["tvhdb"])
-        while True:
+        stopnow = False
+        while not stopnow:
             stopnow = processFiles(db)
             if stopnow:
                 FUT.fileDelete(stopnext)
                 log.info("Stop file found, stopping now")
                 break
             time.sleep(30)
+    except KeyboardInterrupt:
+        log.info(f"Keyboard interrupt")
+        stopnow = True
     except Exception as e:
         fname = sys._getframe().f_code.co_name
         errorExit(fname, e)
