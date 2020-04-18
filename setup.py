@@ -75,6 +75,7 @@ setup(
             "tvhw = tvheadend.tvhwatch:tvhwatch",
             "tvhfile = tvheadend.doTSfile:doFile",
             "tvhg = tvheadend.tvhgui:main",
+            "tvhfc = tvheadend.filecopy:main",
         ]
     },
 )
