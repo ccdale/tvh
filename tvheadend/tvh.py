@@ -51,18 +51,26 @@ def sendToTVH(route, data=None):
         if r.status_code is not 200:
             raise TVHError("error from tvh: {}".format(r))
         return r.json()
-    except json.decoder.JSONDecodeError as je:
-        # output needs cleaning up
-        # tvh sometimes has character 25 in place of an apostrophe
-        txt = r.text.replace(chr(25), " ")
-        fname = sys._getframe().f_code.co_name
-        errorNotify(fname, je)
-        return json.loads(txt)
     except Exception as e:
-        print("{}".format(e))
-        print("text: {}".format(r.text))
-        fname = sys._getframe().f_code.co_name
-        errorNotify(fname, e)
+        try:
+            print("Exception, trying again")
+            txt = r.text.replace(chr(25), " ")
+            return json.loads(txt)
+        except Exception as xe:
+            print("2nd exception")
+            print("{}".format(xe))
+    # except json.decoder.JSONDecodeError as je:
+    #     # output needs cleaning up
+    #     # tvh sometimes has character 25 in place of an apostrophe
+    #     txt = r.text.replace(chr(25), " ")
+    #     fname = sys._getframe().f_code.co_name
+    #     errorNotify(fname, je)
+    #     return json.loads(txt)
+    # except Exception as e:
+    #     print("{}".format(e))
+    #     print("text: {}".format(r.text))
+    #     fname = sys._getframe().f_code.co_name
+    #     errorNotify(fname, e)
 
 
 def finishedRecordings():

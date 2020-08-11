@@ -14,12 +14,44 @@ log = tvheadend.tvhlog.log
 tvheadend.tvhlog.setDebug()
 
 
+class fcDialog(Gtk.Dialog):
+    """Displays the file copying dialog."""
+
+    def __init__(self, parent, src, dest):
+        Gtk.Dialog.__init__(
+            self,
+            "Copying Files",
+            parent,
+            0,
+            (Gtk.STOCK_CANCEL, Gtk.ResponseType.CANCEL,),
+        )
+
+        self.set_modal(True)
+        self.set_default_size(150, 100)
+
+        msg = f"{src}\n->\n{dest}"
+        label = Gtk.Label(msg)
+        self.progressbar = Gtk.ProgressBar()
+        self.progressbar.set_fraction(0.9)
+
+        box = self.get_content_area()
+        box.add(label)
+        box.add(self.progressbar)
+        self.show_all()
+
+
 class AppMainWindow(Gtk.ApplicationWindow):
     """Filecopy application window."""
 
     def __init__(self, *args, **kwargs):
         log.debug("AppMainWindow __init__")
         super().__init__(*args, **kwargs)
+        src = "/home/chris/Downloads/torrents/The Expendables (2010) [1080p]/The.Expendables.2010.1080p.BrRip.x264.YIFY.mp4"
+        dest = "/home/chris/Videos/kmedia/thebin/the.expendables.mp4"
+        dialog = fcDialog(self, src, dest)
+        dialog.set_default_response(Gtk.ResponseType.CANCEL)
+        resp = dialog.run()
+        dialog.destroy()
 
 
 class tvhfc(Gtk.Application):
