@@ -73,6 +73,7 @@ setup(
             "tvhc = tvheadend.tvhchannels:tvhc",
             "tvhf = tvheadend.ffmpeg:main",
             "tvhw = tvheadend.tvhwatch:tvhwatch",
+            "tvhwl = tvheadend.tvhwlist:tvhwatchlist",
             "tvhfile = tvheadend.doTSfile:doFile",
             "tvhg = tvheadend.tvhgui:main",
             "tvhfc = tvheadend.filecopy:main",
