@@ -1,0 +1,685 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AppMainWindow	tests/tvheadend/filecopy.py	/^class AppMainWindow(Gtk.ApplicationWindow):$/;"	c
+AppMainWindow	tests/tvheadend/tvhgui.py	/^class AppMainWindow(Gtk.ApplicationWindow):$/;"	c
+AppMainWindow	tvheadend/filecopy.py	/^class AppMainWindow(Gtk.ApplicationWindow):$/;"	c
+AppMainWindow	tvheadend/tvhgui.py	/^class AppMainWindow(Gtk.ApplicationWindow):$/;"	c
+AppWindow	test_application.py	/^class AppWindow(Gtk.ApplicationWindow):$/;"	c
+Application	test_application.py	/^class Application(Gtk.Application):$/;"	c
+ConvertFailure	build/lib/tvheadend/ffmpeg.py	/^class ConvertFailure(Exception):$/;"	c
+ConvertFailure	tests/tvheadend/ffmpeg.py	/^class ConvertFailure(Exception):$/;"	c
+ConvertFailure	tvheadend/ffmpeg.py	/^class ConvertFailure(Exception):$/;"	c
+CopyFailure	build/lib/tvheadend/tvhbatch.py	/^class CopyFailure(Exception):$/;"	c
+CopyFailure	tests/tvheadend/transcode.py	/^class CopyFailure(Exception):$/;"	c
+CopyFailure	tests/tvheadend/tvhbatch.py	/^class CopyFailure(Exception):$/;"	c
+CopyFailure	tvheadend/transcode.py	/^class CopyFailure(Exception):$/;"	c
+CopyFailure	tvheadend/tvhbatch.py	/^class CopyFailure(Exception):$/;"	c
+CurrentPrograms	tests/tvheadend/recordedprograms.py	/^class CurrentPrograms(Gtk.Grid):$/;"	c
+CurrentPrograms	tvheadend/recordedprograms.py	/^class CurrentPrograms(Gtk.Grid):$/;"	c
+DBInsertError	build/lib/tvheadend/tvhdb.py	/^class DBInsertError(Exception):$/;"	c
+DBInsertError	tests/tvheadend/tvhdb.py	/^class DBInsertError(Exception):$/;"	c
+DBInsertError	tvheadend/tvhdb.py	/^class DBInsertError(Exception):$/;"	c
+DBLockError	build/lib/tvheadend/tvhdb.py	/^class DBLockError(Exception):$/;"	c
+DBLockError	tests/tvheadend/tvhdb.py	/^class DBLockError(Exception):$/;"	c
+DBLockError	tvheadend/tvhdb.py	/^class DBLockError(Exception):$/;"	c
+DBUpdateError	build/lib/tvheadend/tvhdb.py	/^class DBUpdateError(Exception):$/;"	c
+DBUpdateError	tests/tvheadend/tvhdb.py	/^class DBUpdateError(Exception):$/;"	c
+DBUpdateError	tvheadend/tvhdb.py	/^class DBUpdateError(Exception):$/;"	c
+FileDoesNotExist	build/lib/tvheadend/fileutils.py	/^class FileDoesNotExist(Exception):$/;"	c
+FileDoesNotExist	tests/tvheadend/fileutils.py	/^class FileDoesNotExist(Exception):$/;"	c
+FileDoesNotExist	tvheadend/fileutils.py	/^class FileDoesNotExist(Exception):$/;"	c
+TVHDb	build/lib/tvheadend/tvhdb.py	/^class TVHDb(object):$/;"	c
+TVHDb	tests/tvheadend/tvhdb.py	/^class TVHDb(object):$/;"	c
+TVHDb	tvheadend/tvhdb.py	/^class TVHDb(object):$/;"	c
+TVHError	build/lib/tvheadend/tvh.py	/^class TVHError(Exception):$/;"	c
+TVHError	tests/tvheadend/tvh.py	/^class TVHError(Exception):$/;"	c
+TVHError	tvheadend/tvh.py	/^class TVHError(Exception):$/;"	c
+TVHNoEPG	tests/tvheadend/tvh.py	/^class TVHNoEPG(Exception):$/;"	c
+TVHNoEPG	tvheadend/tvh.py	/^class TVHNoEPG(Exception):$/;"	c
+TranscodeWindow	tests/tvheadend/transcode.py	/^class TranscodeWindow(Gtk.Grid):$/;"	c
+TranscodeWindow	tvheadend/transcode.py	/^class TranscodeWindow(Gtk.Grid):$/;"	c
+TvhInputError	build/lib/tvheadend/tvhchannels.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	build/lib/tvheadend/tvhdelete.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	build/lib/tvheadend/tvhlist.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	build/lib/tvheadend/tvhnfo.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	tests/tvheadend/tvhchannels.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	tests/tvheadend/tvhdelete.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	tests/tvheadend/tvhlist.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	tests/tvheadend/tvhnfo.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	tvheadend/tvhchannels.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	tvheadend/tvhdelete.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	tvheadend/tvhlist.py	/^class TvhInputError(Exception):$/;"	c
+TvhInputError	tvheadend/tvhnfo.py	/^class TvhInputError(Exception):$/;"	c
+YearDialog	tests/tvheadend/recordedprograms.py	/^class YearDialog(Gtk.Dialog):$/;"	c
+YearDialog	tvheadend/recordedprograms.py	/^class YearDialog(Gtk.Dialog):$/;"	c
+__init__	build/lib/tvheadend/tvhdb.py	/^    def __init__(self, dbfilename):$/;"	m	class:TVHDb
+__init__	test_application.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:AppWindow
+__init__	test_application.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:Application
+__init__	tests/tvheadend/filecopy.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:AppMainWindow
+__init__	tests/tvheadend/filecopy.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:tvhfc
+__init__	tests/tvheadend/filecopy.py	/^    def __init__(self, parent, src, dest):$/;"	m	class:fcDialog
+__init__	tests/tvheadend/recordedprograms.py	/^    def __init__(self, parent, title):$/;"	m	class:YearDialog
+__init__	tests/tvheadend/recordedprograms.py	/^    def __init__(self, window, currlists=None):$/;"	m	class:CurrentPrograms
+__init__	tests/tvheadend/transcode.py	/^    def __init__(self, label):$/;"	m	class:myHandler
+__init__	tests/tvheadend/transcode.py	/^    def __init__(self, label):$/;"	m	class:myLogger
+__init__	tests/tvheadend/transcode.py	/^    def __init__(self, window, xlists):$/;"	m	class:TranscodeWindow
+__init__	tests/tvheadend/tvhdb.py	/^    def __init__(self, dbfilename):$/;"	m	class:TVHDb
+__init__	tests/tvheadend/tvhgui.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:AppMainWindow
+__init__	tests/tvheadend/tvhgui.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:tvhg
+__init__	tvheadend/filecopy.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:AppMainWindow
+__init__	tvheadend/filecopy.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:tvhfc
+__init__	tvheadend/filecopy.py	/^    def __init__(self, parent, src, dest):$/;"	m	class:fcDialog
+__init__	tvheadend/recordedprograms.py	/^    def __init__(self, parent, title):$/;"	m	class:YearDialog
+__init__	tvheadend/recordedprograms.py	/^    def __init__(self, window, currlists=None):$/;"	m	class:CurrentPrograms
+__init__	tvheadend/transcode.py	/^    def __init__(self, label):$/;"	m	class:myHandler
+__init__	tvheadend/transcode.py	/^    def __init__(self, label):$/;"	m	class:myLogger
+__init__	tvheadend/transcode.py	/^    def __init__(self, window, xlists):$/;"	m	class:TranscodeWindow
+__init__	tvheadend/tvhdb.py	/^    def __init__(self, dbfilename):$/;"	m	class:TVHDb
+__init__	tvheadend/tvhgui.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:AppMainWindow
+__init__	tvheadend/tvhgui.py	/^    def __init__(self, *args, **kwargs):$/;"	m	class:tvhg
+__version__	build/lib/tvheadend/__init__.py	/^__version__ = ".".join(str(x) for x in versionl)$/;"	v
+__version__	tests/tvheadend/__init__.py	/^__version__ = ".".join(str(x) for x in versionl)$/;"	v
+__version__	tvheadend/__init__.py	/^__version__ = ".".join(str(x) for x in versionl)$/;"	v
+absPath	build/lib/tvheadend/fileutils.py	/^def absPath(fn):$/;"	f
+absPath	tests/tvheadend/fileutils.py	/^def absPath(fn):$/;"	f
+absPath	tvheadend/fileutils.py	/^def absPath(fn):$/;"	f
+addBaseFn	build/lib/tvheadend/utils.py	/^def addBaseFn(show):$/;"	f
+addBaseFn	tests/tvheadend/utils.py	/^def addBaseFn(show):$/;"	f
+addBaseFn	tvheadend/utils.py	/^def addBaseFn(show):$/;"	f
+addListsToStore	tests/tvheadend/transcode.py	/^    def addListsToStore(self):$/;"	m	class:TranscodeWindow
+addListsToStore	tvheadend/transcode.py	/^    def addListsToStore(self):$/;"	m	class:TranscodeWindow
+addTo	tests/tvheadend/recordedprograms.py	/^    def addTo(self, xlist, prog):$/;"	m	class:CurrentPrograms
+addTo	tvheadend/recordedprograms.py	/^    def addTo(self, xlist, prog):$/;"	m	class:CurrentPrograms
+addToCategory	build/lib/tvheadend/categories.py	/^def addToCategory(title, category, config):$/;"	f
+addToCategory	tests/tvheadend/categories.py	/^def addToCategory(title, category, config):$/;"	f
+addToCategory	tvheadend/categories.py	/^def addToCategory(title, category, config):$/;"	f
+addToStr	build/lib/tvheadend/utils.py	/^def addToStr(xstr, addstr, delimiter=" "):$/;"	f
+addToStr	tests/tvheadend/utils.py	/^def addToStr(xstr, addstr, delimiter=" "):$/;"	f
+addToStr	tvheadend/utils.py	/^def addToStr(xstr, addstr, delimiter=" "):$/;"	f
+addToString	build/lib/tvheadend/tvhdb.py	/^    def addToString(self, instr, item, delimeter=","):$/;"	m	class:TVHDb
+addToString	tests/tvheadend/tvhdb.py	/^    def addToString(self, instr, item, delimeter=","):$/;"	m	class:TVHDb
+addToString	tvheadend/tvhdb.py	/^    def addToString(self, instr, item, delimeter=","):$/;"	m	class:TVHDb
+addToYear	build/lib/tvheadend/categories.py	/^def addToYear(title, year, config):$/;"	f
+addToYear	tests/tvheadend/categories.py	/^def addToYear(title, year, config):$/;"	f
+addToYear	tvheadend/categories.py	/^def addToYear(title, year, config):$/;"	f
+app	test_application.py	/^    app = Application()$/;"	v
+aquireLock	build/lib/tvheadend/tvhdb.py	/^    def aquireLock(self):$/;"	m	class:TVHDb
+aquireLock	tests/tvheadend/tvhdb.py	/^    def aquireLock(self):$/;"	m	class:TVHDb
+aquireLock	tvheadend/tvhdb.py	/^    def aquireLock(self):$/;"	m	class:TVHDb
+askMe	build/lib/tvheadend/utils.py	/^def askMe(q, default):$/;"	f
+askMe	tests/tvheadend/utils.py	/^def askMe(q, default):$/;"	f
+askMe	tvheadend/utils.py	/^def askMe(q, default):$/;"	f
+author	setup.py	/^    author="Christopher Allison",$/;"	v
+author_email	setup.py	/^    author_email="chris.charles.allison+tvh@gmail.com",$/;"	v
+buildn	Makefile	/^	buildn=$$(sed -n 's\/buildv = \\([0-9]\\+\\)\/\\1\/p' $(vfn) );\\$/;"	m
+buildv	build/lib/tvheadend/__init__.py	/^buildv = 1$/;"	v
+buildv	tests/tvheadend/__init__.py	/^buildv = 2$/;"	v
+buildv	tvheadend/__init__.py	/^buildv = 2$/;"	v
+canConvert	build/lib/tvheadend/ffmpeg.py	/^def canConvert(finfo):$/;"	f
+canConvert	tests/tvheadend/ffmpeg.py	/^def canConvert(finfo):$/;"	f
+canConvert	tvheadend/ffmpeg.py	/^def canConvert(finfo):$/;"	f
+channelFilter	tests/tvheadend/tvh.py	/^def channelFilter(epg, channel):$/;"	f
+channelFilter	tvheadend/tvh.py	/^def channelFilter(epg, channel):$/;"	f
+channelLogo	build/lib/tvheadend/utils.py	/^def channelLogo(channel, url):$/;"	f
+channelLogo	tests/tvheadend/utils.py	/^def channelLogo(channel, url):$/;"	f
+channelLogo	tvheadend/utils.py	/^def channelLogo(channel, url):$/;"	f
+channelPrograms	build/lib/tvheadend/tvh.py	/^def channelPrograms(channel="BBC Four HD"):$/;"	f
+channelPrograms	tests/tvheadend/tvh.py	/^def channelPrograms(channel="BBC Four HD"):$/;"	f
+channelPrograms	tvheadend/tvh.py	/^def channelPrograms(channel="BBC Four HD"):$/;"	f
+channels	build/lib/tvheadend/tvh.py	/^def channels():$/;"	f
+channels	tests/tvheadend/tvh.py	/^def channels():$/;"	f
+channels	tvheadend/tvh.py	/^def channels():$/;"	f
+checkRemoveOutputFile	build/lib/tvheadend/ffmpeg.py	/^def checkRemoveOutputFile(ofn):$/;"	f
+checkRemoveOutputFile	tests/tvheadend/ffmpeg.py	/^def checkRemoveOutputFile(ofn):$/;"	f
+checkRemoveOutputFile	tvheadend/ffmpeg.py	/^def checkRemoveOutputFile(ofn):$/;"	f
+classifiers	setup.py	/^    classifiers=[$/;"	v
+cleanYaml	cleanyaml.py	/^def cleanYaml():$/;"	f
+cleanYears	build/lib/tvheadend/tvhbatch.py	/^def cleanYears(config):$/;"	f
+cleanYears	cleanyaml.py	/^def cleanYears(config):$/;"	f
+cleanYears	tests/tvheadend/tvhbatch.py	/^def cleanYears(config):$/;"	f
+cleanYears	tvheadend/tvhbatch.py	/^def cleanYears(config):$/;"	f
+close_connection	build/lib/tvheadend/tvhdb.py	/^    def close_connection(self):$/;"	m	class:TVHDb
+close_connection	tests/tvheadend/tvhdb.py	/^    def close_connection(self):$/;"	m	class:TVHDb
+close_connection	tvheadend/tvhdb.py	/^    def close_connection(self):$/;"	m	class:TVHDb
+convert	build/lib/tvheadend/ffmpeg.py	/^def convert(fqfn):$/;"	f
+convert	tests/tvheadend/ffmpeg.py	/^def convert(fqfn):$/;"	f
+convert	tvheadend/ffmpeg.py	/^def convert(fqfn):$/;"	f
+convertToMkv	build/lib/tvheadend/tvhbatch.py	/^def convertToMkv(fqfn):$/;"	f
+convertToMkv	tests/tvheadend/tvhbatch.py	/^def convertToMkv(fqfn):$/;"	f
+convertToMkv	tvheadend/tvhbatch.py	/^def convertToMkv(fqfn):$/;"	f
+copyFile	tests/tvheadend/transcode.py	/^def copyFile(ifn, opfn):$/;"	f
+copyFile	tvheadend/transcode.py	/^def copyFile(ifn, opfn):$/;"	f
+countLists	tests/tvheadend/transcode.py	/^    def countLists(self):$/;"	m	class:TranscodeWindow
+countLists	tvheadend/transcode.py	/^    def countLists(self):$/;"	m	class:TranscodeWindow
+dbfn	build/lib/tvheadend/tvhbatch.py	/^dbfn = "\/home\/chris\/Videos\/kmedia\/tvh\/tvh.db"$/;"	v
+dbfn	tests/tvheadend/__init__.py	/^dbfn = "\/home\/chris\/Videos\/kmedia\/tvh\/tvh.db"$/;"	v
+dbfn	tests/tvheadend/tvhbatch.py	/^dbfn = "\/home\/chris\/Videos\/kmedia\/tvh\/tvh.db"$/;"	v
+dbfn	tvheadend/__init__.py	/^dbfn = "\/home\/chris\/Videos\/kmedia\/tvh\/tvh.db"$/;"	v
+dbfn	tvheadend/tvhbatch.py	/^dbfn = "\/home\/chris\/Videos\/kmedia\/tvh\/tvh.db"$/;"	v
+debug	tests/tvheadend/transcode.py	/^    def debug(self, msg):$/;"	m	class:myLogger
+debug	tvheadend/transcode.py	/^    def debug(self, msg):$/;"	m	class:myLogger
+decideCategory	build/lib/tvheadend/categories.py	/^def decideCategory(response):$/;"	f
+decideCategory	tests/tvheadend/categories.py	/^def decideCategory(response):$/;"	f
+decideCategory	tvheadend/categories.py	/^def decideCategory(response):$/;"	f
+deleteFirstFile	build/lib/tvheadend/tvhwatch.py	/^def deleteFirstFile(db, name, xhash):$/;"	f
+deleteFirstFile	tests/tvheadend/tvhwatch.py	/^def deleteFirstFile(db, name, xhash):$/;"	f
+deleteFirstFile	tvheadend/tvhwatch.py	/^def deleteFirstFile(db, name, xhash):$/;"	f
+deleteRecording	build/lib/tvheadend/tvh.py	/^def deleteRecording(uuid):$/;"	f
+deleteRecording	tests/tvheadend/tvh.py	/^def deleteRecording(uuid):$/;"	f
+deleteRecording	tvheadend/tvh.py	/^def deleteRecording(uuid):$/;"	f
+delimitString	build/lib/tvheadend/utils.py	/^def delimitString(xstr, addstr, delimeter=" - "):$/;"	f
+delimitString	tests/tvheadend/utils.py	/^def delimitString(xstr, addstr, delimeter=" - "):$/;"	f
+delimitString	tvheadend/utils.py	/^def delimitString(xstr, addstr, delimeter=" - "):$/;"	f
+description	setup.py	/^    description="tvheadend file management utility",$/;"	v
+destroyPage	tests/tvheadend/tvhgui.py	/^    def destroyPage(self):$/;"	m	class:AppMainWindow
+destroyPage	tvheadend/tvhgui.py	/^    def destroyPage(self):$/;"	m	class:AppMainWindow
+dfExists	build/lib/tvheadend/fileutils.py	/^def dfExists(dfn):$/;"	f
+dfExists	tests/tvheadend/fileutils.py	/^def dfExists(dfn):$/;"	f
+dfExists	tvheadend/fileutils.py	/^def dfExists(dfn):$/;"	f
+dirExists	build/lib/tvheadend/fileutils.py	/^def dirExists(dn):$/;"	f
+dirExists	tests/tvheadend/fileutils.py	/^def dirExists(dn):$/;"	f
+dirExists	tvheadend/fileutils.py	/^def dirExists(dn):$/;"	f
+dir_path	tests/tvheadend/tvhgui.py	/^dir_path = os.path.dirname(os.path.realpath(__file__))$/;"	v
+dir_path	tvheadend/tvhgui.py	/^dir_path = os.path.dirname(os.path.realpath(__file__))$/;"	v
+displayNumberedShows	build/lib/tvheadend/utils.py	/^def displayNumberedShows(xdict):$/;"	f
+displayNumberedShows	tests/tvheadend/utils.py	/^def displayNumberedShows(xdict):$/;"	f
+displayNumberedShows	tvheadend/utils.py	/^def displayNumberedShows(xdict):$/;"	f
+displayProgramList	build/lib/tvheadend/utils.py	/^def displayProgramList(plist, hours=4, singlechannel=None):$/;"	f
+displayProgramList	tests/tvheadend/utils.py	/^def displayProgramList(plist, hours=4, singlechannel=None):$/;"	f
+displayProgramList	tvheadend/utils.py	/^def displayProgramList(plist, hours=4, singlechannel=None):$/;"	f
+displayValue	build/lib/tvheadend/utils.py	/^def displayValue(val, label, zero=True):$/;"	f
+displayValue	tests/tvheadend/utils.py	/^def displayValue(val, label, zero=True):$/;"	f
+displayValue	tvheadend/utils.py	/^def displayValue(val, label, zero=True):$/;"	f
+displayWord	build/lib/tvheadend/nfo.py	/^def displayWord(value, word):$/;"	f
+displayWord	tests/tvheadend/nfo.py	/^def displayWord(value, word):$/;"	f
+displayWord	tvheadend/nfo.py	/^def displayWord(value, word):$/;"	f
+doButtonClicked	tests/tvheadend/recordedprograms.py	/^    def doButtonClicked(self, button):$/;"	m	class:CurrentPrograms
+doButtonClicked	tests/tvheadend/transcode.py	/^    def doButtonClicked(self, button):$/;"	m	class:TranscodeWindow
+doButtonClicked	tvheadend/recordedprograms.py	/^    def doButtonClicked(self, button):$/;"	m	class:CurrentPrograms
+doButtonClicked	tvheadend/transcode.py	/^    def doButtonClicked(self, button):$/;"	m	class:TranscodeWindow
+doCurrentRecordings	tests/tvheadend/tvhgui.py	/^    def doCurrentRecordings(self, existinglists=None):$/;"	m	class:AppMainWindow
+doCurrentRecordings	tvheadend/tvhgui.py	/^    def doCurrentRecordings(self, existinglists=None):$/;"	m	class:AppMainWindow
+doDeleteSql	build/lib/tvheadend/tvhdb.py	/^    def doDeleteSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doDeleteSql	tests/tvheadend/tvhdb.py	/^    def doDeleteSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doDeleteSql	tvheadend/tvhdb.py	/^    def doDeleteSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doFile	build/lib/tvheadend/doTSfile.py	/^def doFile():$/;"	f
+doFile	tests/tvheadend/doTSfile.py	/^def doFile():$/;"	f
+doFile	tvheadend/doTSfile.py	/^def doFile():$/;"	f
+doInsertSql	build/lib/tvheadend/tvhdb.py	/^    def doInsertSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doInsertSql	tests/tvheadend/tvhdb.py	/^    def doInsertSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doInsertSql	tvheadend/tvhdb.py	/^    def doInsertSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doQuit	tests/tvheadend/tvhgui.py	/^    def doQuit(self):$/;"	m	class:AppMainWindow
+doQuit	tvheadend/tvhgui.py	/^    def doQuit(self):$/;"	m	class:AppMainWindow
+doReplaceSql	build/lib/tvheadend/tvhdb.py	/^    def doReplaceSql(self, sql):$/;"	m	class:TVHDb
+doReplaceSql	tests/tvheadend/tvhdb.py	/^    def doReplaceSql(self, sql):$/;"	m	class:TVHDb
+doReplaceSql	tvheadend/tvhdb.py	/^    def doReplaceSql(self, sql):$/;"	m	class:TVHDb
+doSql	build/lib/tvheadend/tvhdb.py	/^    def doSql(self, sql, dictionary=1, one=0):$/;"	m	class:TVHDb
+doSql	tests/tvheadend/tvhdb.py	/^    def doSql(self, sql, dictionary=1, one=0):$/;"	m	class:TVHDb
+doSql	tvheadend/tvhdb.py	/^    def doSql(self, sql, dictionary=1, one=0):$/;"	m	class:TVHDb
+doTitle	tests/tvheadend/recordedprograms.py	/^    def doTitle(self):$/;"	m	class:CurrentPrograms
+doTitle	tvheadend/recordedprograms.py	/^    def doTitle(self):$/;"	m	class:CurrentPrograms
+doTranscodeWindow	tests/tvheadend/tvhgui.py	/^    def doTranscodeWindow(self, xlists):$/;"	m	class:AppMainWindow
+doTranscodeWindow	tvheadend/tvhgui.py	/^    def doTranscodeWindow(self, xlists):$/;"	m	class:AppMainWindow
+doUpdateSql	build/lib/tvheadend/tvhdb.py	/^    def doUpdateSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doUpdateSql	tests/tvheadend/tvhdb.py	/^    def doUpdateSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doUpdateSql	tvheadend/tvhdb.py	/^    def doUpdateSql(self, sql, squence=None):$/;"	m	class:TVHDb
+doYearDialog	tests/tvheadend/recordedprograms.py	/^    def doYearDialog(self, prog):$/;"	m	class:CurrentPrograms
+doYearDialog	tvheadend/recordedprograms.py	/^    def doYearDialog(self, prog):$/;"	m	class:CurrentPrograms
+do_activate	test_application.py	/^    def do_activate(self):$/;"	m	class:Application
+do_activate	tests/tvheadend/filecopy.py	/^    def do_activate(self):$/;"	m	class:tvhfc
+do_activate	tests/tvheadend/tvhgui.py	/^    def do_activate(self):$/;"	m	class:tvhg
+do_activate	tvheadend/filecopy.py	/^    def do_activate(self):$/;"	m	class:tvhfc
+do_activate	tvheadend/tvhgui.py	/^    def do_activate(self):$/;"	m	class:tvhg
+do_command_line	test_application.py	/^    def do_command_line(self, command_line):$/;"	m	class:Application
+do_startup	test_application.py	/^    def do_startup(self):$/;"	m	class:Application
+do_startup	tests/tvheadend/filecopy.py	/^    def do_startup(self):$/;"	m	class:tvhfc
+do_startup	tests/tvheadend/tvhgui.py	/^    def do_startup(self):$/;"	m	class:tvhg
+do_startup	tvheadend/filecopy.py	/^    def do_startup(self):$/;"	m	class:tvhfc
+do_startup	tvheadend/tvhgui.py	/^    def do_startup(self):$/;"	m	class:tvhg
+entry_points	setup.py	/^    entry_points={$/;"	v
+error	tests/tvheadend/transcode.py	/^    def error(self, msg):$/;"	m	class:myLogger
+error	tvheadend/transcode.py	/^    def error(self, msg):$/;"	m	class:myLogger
+errorExit	build/lib/tvheadend/errors.py	/^def errorExit(funcname, exc, errorvalue=1):$/;"	f
+errorExit	tests/tvheadend/errors.py	/^def errorExit(funcname, exc, errorvalue=1):$/;"	f
+errorExit	tvheadend/errors.py	/^def errorExit(funcname, exc, errorvalue=1):$/;"	f
+errorNotify	build/lib/tvheadend/errors.py	/^def errorNotify(funcname, exc):$/;"	f
+errorNotify	tests/tvheadend/errors.py	/^def errorNotify(funcname, exc):$/;"	f
+errorNotify	tvheadend/errors.py	/^def errorNotify(funcname, exc):$/;"	f
+errorRaise	build/lib/tvheadend/errors.py	/^def errorRaise(funcname, exc):$/;"	f
+errorRaise	tests/tvheadend/errors.py	/^def errorRaise(funcname, exc):$/;"	f
+errorRaise	tvheadend/errors.py	/^def errorRaise(funcname, exc):$/;"	f
+fcDialog	tests/tvheadend/filecopy.py	/^class fcDialog(Gtk.Dialog):$/;"	c
+fcDialog	tvheadend/filecopy.py	/^class fcDialog(Gtk.Dialog):$/;"	c
+fileDelete	build/lib/tvheadend/fileutils.py	/^def fileDelete(fqfn):$/;"	f
+fileDelete	tests/tvheadend/fileutils.py	/^def fileDelete(fqfn):$/;"	f
+fileDelete	tvheadend/fileutils.py	/^def fileDelete(fqfn):$/;"	f
+fileDuration	build/lib/tvheadend/ffmpeg.py	/^def fileDuration(finfo):$/;"	f
+fileDuration	tests/tvheadend/ffmpeg.py	/^def fileDuration(finfo):$/;"	f
+fileDuration	tvheadend/ffmpeg.py	/^def fileDuration(finfo):$/;"	f
+fileExists	build/lib/tvheadend/fileutils.py	/^def fileExists(fn):$/;"	f
+fileExists	tests/tvheadend/fileutils.py	/^def fileExists(fn):$/;"	f
+fileExists	tvheadend/fileutils.py	/^def fileExists(fn):$/;"	f
+fileInfo	build/lib/tvheadend/ffmpeg.py	/^def fileInfo(fqfn):$/;"	f
+fileInfo	tests/tvheadend/ffmpeg.py	/^def fileInfo(fqfn):$/;"	f
+fileInfo	tvheadend/ffmpeg.py	/^def fileInfo(fqfn):$/;"	f
+fileSize	build/lib/tvheadend/fileutils.py	/^def fileSize(fqfn):$/;"	f
+fileSize	tests/tvheadend/fileutils.py	/^def fileSize(fqfn):$/;"	f
+fileSize	tvheadend/fileutils.py	/^def fileSize(fqfn):$/;"	f
+fileTouch	build/lib/tvheadend/fileutils.py	/^def fileTouch(fqfn, exists=True):$/;"	f
+fileTouch	tests/tvheadend/fileutils.py	/^def fileTouch(fqfn, exists=True):$/;"	f
+fileTouch	tvheadend/fileutils.py	/^def fileTouch(fqfn, exists=True):$/;"	f
+files	tests/tvheadend/tvhdb.sql	/^create table files ($/;"	t
+files	tvheadend/tvhdb.sql	/^create table files ($/;"	t
+files.filename_idx	tests/tvheadend/tvhdb.sql	/^create index filename_idx on files(name);$/;"	i
+files.filename_idx	tvheadend/tvhdb.sql	/^create index filename_idx on files(name);$/;"	i
+files.hash	tests/tvheadend/tvhdb.sql	/^    hash text null default "",$/;"	F
+files.hash	tvheadend/tvhdb.sql	/^    hash text null default "",$/;"	F
+files.id	tests/tvheadend/tvhdb.sql	/^    id integer auto increment,$/;"	F
+files.id	tvheadend/tvhdb.sql	/^    id integer auto increment,$/;"	F
+files.name	tests/tvheadend/tvhdb.sql	/^    name text not null,$/;"	F
+files.name	tvheadend/tvhdb.sql	/^    name text not null,$/;"	F
+files.size	tests/tvheadend/tvhdb.sql	/^    size integer null default 0,$/;"	F
+files.size	tvheadend/tvhdb.sql	/^    size integer null default 0,$/;"	F
+files.status	tests/tvheadend/tvhdb.sql	/^    status integer null default 0$/;"	F
+files.status	tvheadend/tvhdb.sql	/^    status integer null default 0$/;"	F
+filesWaiting	build/lib/tvheadend/tvhwatch.py	/^def filesWaiting(db):$/;"	f
+filesWaiting	tests/tvheadend/tvhwatch.py	/^def filesWaiting(db):$/;"	f
+filesWaiting	tvheadend/tvhwatch.py	/^def filesWaiting(db):$/;"	f
+filmhome	tests/tvheadend/__init__.py	/^filmhome = "unset"$/;"	v
+filmhome	tvheadend/__init__.py	/^filmhome = "unset"$/;"	v
+filterPrograms	tests/tvheadend/tvh.py	/^def filterPrograms(channel=None, start=None, length=None):$/;"	f
+filterPrograms	tvheadend/tvh.py	/^def filterPrograms(channel=None, start=None, length=None):$/;"	f
+findCategoryForTitle	build/lib/tvheadend/categories.py	/^def findCategoryForTitle(title, config):$/;"	f
+findCategoryForTitle	tests/tvheadend/categories.py	/^def findCategoryForTitle(title, config):$/;"	f
+findCategoryForTitle	tvheadend/categories.py	/^def findCategoryForTitle(title, config):$/;"	f
+findCurrentProg	tests/tvheadend/recordedprograms.py	/^    def findCurrentProg(self):$/;"	m	class:CurrentPrograms
+findCurrentProg	tvheadend/recordedprograms.py	/^    def findCurrentProg(self):$/;"	m	class:CurrentPrograms
+findExisting	tests/tvheadend/recordedprograms.py	/^    def findExisting(self, prog):$/;"	m	class:CurrentPrograms
+findExisting	tvheadend/recordedprograms.py	/^    def findExisting(self, prog):$/;"	m	class:CurrentPrograms
+findUuidIter	tests/tvheadend/transcode.py	/^    def findUuidIter(self, uuid):$/;"	m	class:TranscodeWindow
+findUuidIter	tvheadend/transcode.py	/^    def findUuidIter(self, uuid):$/;"	m	class:TranscodeWindow
+finishedRecordings	build/lib/tvheadend/tvh.py	/^def finishedRecordings():$/;"	f
+finishedRecordings	tests/tvheadend/tvh.py	/^def finishedRecordings():$/;"	f
+finishedRecordings	tvheadend/tvh.py	/^def finishedRecordings():$/;"	f
+formatErrorMsg	build/lib/tvheadend/errors.py	/^def formatErrorMsg(funcname, exc):$/;"	f
+formatErrorMsg	tests/tvheadend/errors.py	/^def formatErrorMsg(funcname, exc):$/;"	f
+formatErrorMsg	tvheadend/errors.py	/^def formatErrorMsg(funcname, exc):$/;"	f
+getEpg	tests/tvheadend/tvh.py	/^def getEpg():$/;"	f
+getEpg	tvheadend/tvh.py	/^def getEpg():$/;"	f
+getFileHash	build/lib/tvheadend/fileutils.py	/^def getFileHash(fqfn, blocksize=65536):$/;"	f
+getFileHash	tests/tvheadend/fileutils.py	/^def getFileHash(fqfn, blocksize=65536):$/;"	f
+getFileHash	tvheadend/fileutils.py	/^def getFileHash(fqfn, blocksize=65536):$/;"	f
+getFirstFile	build/lib/tvheadend/tvhwatch.py	/^def getFirstFile(db):$/;"	f
+getFirstFile	tests/tvheadend/tvhwatch.py	/^def getFirstFile(db):$/;"	f
+getFirstFile	tvheadend/tvhwatch.py	/^def getFirstFile(db):$/;"	f
+getStartLength	tests/tvheadend/gridrecordings.py	/^def getStartLength():$/;"	f
+getStartLength	tvheadend/gridrecordings.py	/^def getStartLength():$/;"	f
+getStreamType	build/lib/tvheadend/ffmpeg.py	/^def getStreamType(finfo, stype="video"):$/;"	f
+getStreamType	tests/tvheadend/ffmpeg.py	/^def getStreamType(finfo, stype="video"):$/;"	f
+getStreamType	tvheadend/ffmpeg.py	/^def getStreamType(finfo, stype="video"):$/;"	f
+get_connection	build/lib/tvheadend/tvhdb.py	/^    def get_connection(self):$/;"	m	class:TVHDb
+get_connection	tests/tvheadend/tvhdb.py	/^    def get_connection(self):$/;"	m	class:TVHDb
+get_connection	tvheadend/tvhdb.py	/^    def get_connection(self):$/;"	m	class:TVHDb
+gobabe	tests/tvheadend/gridrecordings.py	/^def gobabe():$/;"	f
+gobabe	tvheadend/gridrecordings.py	/^def gobabe():$/;"	f
+gpid	tests/tvheadend/ffmpeg.py	/^gpid = -1$/;"	v
+gpid	tvheadend/ffmpeg.py	/^gpid = -1$/;"	v
+handle	tests/tvheadend/transcode.py	/^    def handle(self, rec):$/;"	m	class:myHandler
+handle	tvheadend/transcode.py	/^    def handle(self, rec):$/;"	m	class:myHandler
+hasSubtitles	build/lib/tvheadend/ffmpeg.py	/^def hasSubtitles(finfo):$/;"	f
+hasSubtitles	tests/tvheadend/ffmpeg.py	/^def hasSubtitles(finfo):$/;"	f
+hasSubtitles	tvheadend/ffmpeg.py	/^def hasSubtitles(finfo):$/;"	f
+here	setup.py	/^here = path.abspath(path.dirname(__file__))$/;"	v
+hms	build/lib/tvheadend/nfo.py	/^def hms(seconds):$/;"	f
+hms	build/lib/tvheadend/utils.py	/^def hms(secs):$/;"	f
+hms	tests/tvheadend/nfo.py	/^def hms(seconds):$/;"	f
+hms	tests/tvheadend/utils.py	/^def hms(secs):$/;"	f
+hms	tvheadend/nfo.py	/^def hms(seconds):$/;"	f
+hms	tvheadend/utils.py	/^def hms(secs):$/;"	f
+hmsDisplay	build/lib/tvheadend/nfo.py	/^def hmsDisplay(seconds):$/;"	f
+hmsDisplay	tests/tvheadend/nfo.py	/^def hmsDisplay(seconds):$/;"	f
+hmsDisplay	tvheadend/nfo.py	/^def hmsDisplay(seconds):$/;"	f
+info	tests/tvheadend/transcode.py	/^    def info(self, msg):$/;"	m	class:myLogger
+info	tvheadend/transcode.py	/^    def info(self, msg):$/;"	m	class:myLogger
+install_requires	setup.py	/^    install_requires=["requests", "pyyaml", "PyGObject"],$/;"	v
+ipaddr	build/lib/tvheadend/__init__.py	/^ipaddr = "unset"$/;"	v
+ipaddr	tests/tvheadend/__init__.py	/^ipaddr = "unset"$/;"	v
+ipaddr	tvheadend/__init__.py	/^ipaddr = "unset"$/;"	v
+keywords	setup.py	/^    keywords="tvheadend",$/;"	v
+listFilesWaiting	tests/tvheadend/tvhwlist.py	/^def listFilesWaiting(db):$/;"	f
+listFilesWaiting	tvheadend/tvhwlist.py	/^def listFilesWaiting(db):$/;"	f
+log	build/lib/tvheadend/doTSfile.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	build/lib/tvheadend/ffmpeg.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	build/lib/tvheadend/tvhbatch.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	build/lib/tvheadend/tvhdb.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	build/lib/tvheadend/tvhfind.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	build/lib/tvheadend/tvhlog.py	/^log = logging.getLogger(__name__)$/;"	v
+log	build/lib/tvheadend/tvhwatch.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	doMpeg-todo.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/doTSfile.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/ffmpeg.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/filecopy.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/gridrecordings.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/recordedprograms.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/transcode.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/tvhbatch.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/tvhdb.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/tvhfind.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/tvhgui.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/tvhlog.py	/^log = logging.getLogger(__name__)$/;"	v
+log	tests/tvheadend/tvhwatch.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tests/tvheadend/tvhwlist.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/doTSfile.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/ffmpeg.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/filecopy.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/gridrecordings.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/recordedprograms.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/transcode.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/tvhbatch.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/tvhdb.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/tvhfind.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/tvhgui.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/tvhlog.py	/^log = logging.getLogger(__name__)$/;"	v
+log	tvheadend/tvhwatch.py	/^log = tvheadend.tvhlog.log$/;"	v
+log	tvheadend/tvhwlist.py	/^log = tvheadend.tvhlog.log$/;"	v
+loggingLabel	tests/tvheadend/transcode.py	/^    def loggingLabel(self):$/;"	m	class:TranscodeWindow
+loggingLabel	tvheadend/transcode.py	/^    def loggingLabel(self):$/;"	m	class:TranscodeWindow
+logout	build/lib/tvheadend/ffmpeg.py	/^def logout(msg):$/;"	f
+logout	build/lib/tvheadend/tvhbatch.py	/^def logout(msg):$/;"	f
+logout	tests/tvheadend/tvhbatch.py	/^def logout(msg):$/;"	f
+logout	tvheadend/tvhbatch.py	/^def logout(msg):$/;"	f
+long_description	setup.py	/^    long_description = f.read()$/;"	v
+long_description	setup.py	/^    long_description=long_description,$/;"	v
+long_description_content_type	setup.py	/^    long_description_content_type="text\/markdown",$/;"	v
+m	testregex.py	/^    m = regex.match(line)$/;"	v
+main	build/lib/tvheadend/ffmpeg.py	/^def main():$/;"	f
+main	build/lib/tvheadend/tvhfind.py	/^def main():$/;"	f
+main	build/lib/tvheadend/tvhlog.py	/^def main():$/;"	f
+main	doMpeg-todo.py	/^def main():$/;"	f
+main	tests/tvheadend/ffmpeg.py	/^def main():$/;"	f
+main	tests/tvheadend/filecopy.py	/^def main():$/;"	f
+main	tests/tvheadend/tvhfind.py	/^def main():$/;"	f
+main	tests/tvheadend/tvhgui.py	/^def main():$/;"	f
+main	tests/tvheadend/tvhlog.py	/^def main():$/;"	f
+main	tvheadend/ffmpeg.py	/^def main():$/;"	f
+main	tvheadend/filecopy.py	/^def main():$/;"	f
+main	tvheadend/tvhfind.py	/^def main():$/;"	f
+main	tvheadend/tvhgui.py	/^def main():$/;"	f
+main	tvheadend/tvhlog.py	/^def main():$/;"	f
+mainMenu	build/lib/tvheadend/utils.py	/^def mainMenu(shows, config):$/;"	f
+mainMenu	tests/tvheadend/utils.py	/^def mainMenu(shows, config):$/;"	f
+mainMenu	tvheadend/utils.py	/^def mainMenu(shows, config):$/;"	f
+majorv	build/lib/tvheadend/__init__.py	/^majorv = 1$/;"	v
+majorv	tests/tvheadend/__init__.py	/^majorv = 1$/;"	v
+majorv	tvheadend/__init__.py	/^majorv = 1$/;"	v
+makeCheckSelect	build/lib/tvheadend/tvhdb.py	/^    def makeCheckSelect(self, keys, xdict, table):$/;"	m	class:TVHDb
+makeCheckSelect	tests/tvheadend/tvhdb.py	/^    def makeCheckSelect(self, keys, xdict, table):$/;"	m	class:TVHDb
+makeCheckSelect	tvheadend/tvhdb.py	/^    def makeCheckSelect(self, keys, xdict, table):$/;"	m	class:TVHDb
+makeCmd	build/lib/tvheadend/ffmpeg.py	/^def makeCmd(tracks, fqfn, ofn):$/;"	f
+makeCmd	tests/tvheadend/ffmpeg.py	/^def makeCmd(tracks, fqfn, ofn):$/;"	f
+makeCmd	tvheadend/ffmpeg.py	/^def makeCmd(tracks, fqfn, ofn):$/;"	f
+makeColumns	build/lib/tvheadend/tvhdb.py	/^    def makeColumns(self, keys, xdict):$/;"	m	class:TVHDb
+makeColumns	tests/tvheadend/tvhdb.py	/^    def makeColumns(self, keys, xdict):$/;"	m	class:TVHDb
+makeColumns	tvheadend/tvhdb.py	/^    def makeColumns(self, keys, xdict):$/;"	m	class:TVHDb
+makeFilePath	build/lib/tvheadend/fileutils.py	/^def makeFilePath(fn):$/;"	f
+makeFilePath	tests/tvheadend/fileutils.py	/^def makeFilePath(fn):$/;"	f
+makeFilePath	tvheadend/fileutils.py	/^def makeFilePath(fn):$/;"	f
+makeFilmNfo	build/lib/tvheadend/nfo.py	/^def makeFilmNfo(show):$/;"	f
+makeFilmNfo	tests/tvheadend/nfo.py	/^def makeFilmNfo(show):$/;"	f
+makeFilmNfo	tvheadend/nfo.py	/^def makeFilmNfo(show):$/;"	f
+makeHDCmd	build/lib/tvheadend/ffmpeg.py	/^def makeHDCmd(tracks, fqfn, ofn):$/;"	f
+makeHDCmd	tests/tvheadend/ffmpeg.py	/^def makeHDCmd(tracks, fqfn, ofn):$/;"	f
+makeHDCmd	tvheadend/ffmpeg.py	/^def makeHDCmd(tracks, fqfn, ofn):$/;"	f
+makeInsertSql	build/lib/tvheadend/tvhdb.py	/^    def makeInsertSql(self, table, data):$/;"	m	class:TVHDb
+makeInsertSql	tests/tvheadend/tvhdb.py	/^    def makeInsertSql(self, table, data):$/;"	m	class:TVHDb
+makeInsertSql	tvheadend/tvhdb.py	/^    def makeInsertSql(self, table, data):$/;"	m	class:TVHDb
+makeNfoString	build/lib/tvheadend/nfo.py	/^def makeNfoString(nfodict, maintag="episodedetails"):$/;"	f
+makeNfoString	tests/tvheadend/nfo.py	/^def makeNfoString(nfodict, maintag="episodedetails"):$/;"	f
+makeNfoString	tvheadend/nfo.py	/^def makeNfoString(nfodict, maintag="episodedetails"):$/;"	f
+makePage	tests/tvheadend/recordedprograms.py	/^    def makePage(self, removeexisting=True):$/;"	m	class:CurrentPrograms
+makePage	tests/tvheadend/transcode.py	/^    def makePage(self):$/;"	m	class:TranscodeWindow
+makePage	tvheadend/recordedprograms.py	/^    def makePage(self, removeexisting=True):$/;"	m	class:CurrentPrograms
+makePage	tvheadend/transcode.py	/^    def makePage(self):$/;"	m	class:TranscodeWindow
+makePath	build/lib/tvheadend/fileutils.py	/^def makePath(pn):$/;"	f
+makePath	tests/tvheadend/fileutils.py	/^def makePath(pn):$/;"	f
+makePath	tvheadend/fileutils.py	/^def makePath(pn):$/;"	f
+makeProgNfo	build/lib/tvheadend/nfo.py	/^def makeProgNfo(show):$/;"	f
+makeProgNfo	tests/tvheadend/nfo.py	/^def makeProgNfo(show):$/;"	f
+makeProgNfo	tvheadend/nfo.py	/^def makeProgNfo(show):$/;"	f
+makeStub	build/lib/tvheadend/ffmpeg.py	/^def makeStub(tracks, fqfn):$/;"	f
+makeStub	tests/tvheadend/ffmpeg.py	/^def makeStub(tracks, fqfn):$/;"	f
+makeStub	tvheadend/ffmpeg.py	/^def makeStub(tracks, fqfn):$/;"	f
+makeTimeStrings	tests/tvheadend/utils.py	/^def makeTimeStrings(tm):$/;"	f
+makeTimeStrings	tvheadend/utils.py	/^def makeTimeStrings(tm):$/;"	f
+makeUpdateSql	build/lib/tvheadend/tvhdb.py	/^    def makeUpdateSql(self, table, indexdict, data):$/;"	m	class:TVHDb
+makeUpdateSql	tests/tvheadend/tvhdb.py	/^    def makeUpdateSql(self, table, indexdict, data):$/;"	m	class:TVHDb
+makeUpdateSql	tvheadend/tvhdb.py	/^    def makeUpdateSql(self, table, indexdict, data):$/;"	m	class:TVHDb
+makeUpdateStr	build/lib/tvheadend/tvhdb.py	/^    def makeUpdateStr(self, data):$/;"	m	class:TVHDb
+makeUpdateStr	tests/tvheadend/tvhdb.py	/^    def makeUpdateStr(self, data):$/;"	m	class:TVHDb
+makeUpdateStr	tvheadend/tvhdb.py	/^    def makeUpdateStr(self, data):$/;"	m	class:TVHDb
+makeWhere	build/lib/tvheadend/tvhdb.py	/^    def makeWhere(self, data):$/;"	m	class:TVHDb
+makeWhere	tests/tvheadend/tvhdb.py	/^    def makeWhere(self, data):$/;"	m	class:TVHDb
+makeWhere	tvheadend/tvhdb.py	/^    def makeWhere(self, data):$/;"	m	class:TVHDb
+makeXmlAtts	build/lib/tvheadend/nfo.py	/^def makeXmlAtts(attrs):$/;"	f
+makeXmlAtts	tests/tvheadend/nfo.py	/^def makeXmlAtts(attrs):$/;"	f
+makeXmlAtts	tvheadend/nfo.py	/^def makeXmlAtts(attrs):$/;"	f
+makeXmlTag	build/lib/tvheadend/nfo.py	/^def makeXmlTag(tag, content, attrs=None, oneline=False, newline=True):$/;"	f
+makeXmlTag	tests/tvheadend/nfo.py	/^def makeXmlTag(tag, content, attrs=None, oneline=False, newline=True):$/;"	f
+makeXmlTag	tvheadend/nfo.py	/^def makeXmlTag(tag, content, attrs=None, oneline=False, newline=True):$/;"	f
+menufn	tests/tvheadend/tvhgui.py	/^menufn = "\/".join([dir_path, "menu.xml"])$/;"	v
+menufn	tvheadend/tvhgui.py	/^menufn = "\/".join([dir_path, "menu.xml"])$/;"	v
+minorv	build/lib/tvheadend/__init__.py	/^minorv = 6$/;"	v
+minorv	tests/tvheadend/__init__.py	/^minorv = 10$/;"	v
+minorv	tvheadend/__init__.py	/^minorv = 10$/;"	v
+mlines	testregex.py	/^mlines = []$/;"	v
+moveShow	build/lib/tvheadend/tvhbatch.py	/^def moveShow(show, config):$/;"	f
+moveShow	tests/tvheadend/transcode.py	/^    def moveShow(self, show):$/;"	m	class:TranscodeWindow
+moveShow	tests/tvheadend/tvhbatch.py	/^def moveShow(show, config):$/;"	f
+moveShow	tvheadend/transcode.py	/^    def moveShow(self, show):$/;"	m	class:TranscodeWindow
+moveShow	tvheadend/tvhbatch.py	/^def moveShow(show, config):$/;"	f
+movieSearch	build/lib/tvheadend/categories.py	/^def movieSearch(title):$/;"	f
+movieSearch	tests/tvheadend/categories.py	/^def movieSearch(title):$/;"	f
+movieSearch	tvheadend/categories.py	/^def movieSearch(title):$/;"	f
+myHandler	tests/tvheadend/transcode.py	/^class myHandler(logging.Handler):$/;"	c
+myHandler	tvheadend/transcode.py	/^class myHandler(logging.Handler):$/;"	c
+myLogger	tests/tvheadend/transcode.py	/^class myLogger:$/;"	c
+myLogger	tvheadend/transcode.py	/^class myLogger:$/;"	c
+name	setup.py	/^    name="tvh",$/;"	v
+nfoTags	build/lib/tvheadend/nfo.py	/^def nfoTags(show):$/;"	f
+nfoTags	tests/tvheadend/nfo.py	/^def nfoTags(show):$/;"	f
+nfoTags	tvheadend/nfo.py	/^def nfoTags(show):$/;"	f
+olines	tests/tvheadend/ffmpeg.py	/^olines = []$/;"	v
+olines	tvheadend/ffmpeg.py	/^olines = []$/;"	v
+on_about	test_application.py	/^    def on_about(self, action, param):$/;"	m	class:Application
+on_change_label_state	test_application.py	/^    def on_change_label_state(self, action, value):$/;"	m	class:AppWindow
+on_changed	tests/tvheadend/recordedprograms.py	/^    def on_changed(self, selection):$/;"	m	class:CurrentPrograms
+on_changed	tvheadend/recordedprograms.py	/^    def on_changed(self, selection):$/;"	m	class:CurrentPrograms
+on_maximize_toggle	test_application.py	/^    def on_maximize_toggle(self, action, value):$/;"	m	class:AppWindow
+on_quit	test_application.py	/^    def on_quit(self, action, param):$/;"	m	class:Application
+packages	setup.py	/^    packages=["tvheadend"],$/;"	v
+padStr	build/lib/tvheadend/utils.py	/^def padStr(xstr, xlen=2, pad=" ", padleft=True):$/;"	f
+padStr	tests/tvheadend/utils.py	/^def padStr(xstr, xlen=2, pad=" ", padleft=True):$/;"	f
+padStr	tvheadend/utils.py	/^def padStr(xstr, xlen=2, pad=" ", padleft=True):$/;"	f
+passw	build/lib/tvheadend/__init__.py	/^passw = "unset"$/;"	v
+passw	tests/tvheadend/__init__.py	/^passw = "unset"$/;"	v
+passw	tvheadend/__init__.py	/^passw = "unset"$/;"	v
+processFile	build/lib/tvheadend/doTSfile.py	/^def processFile(fn, db):$/;"	f
+processFile	doMpeg-todo.py	/^def processFile(fn, db):$/;"	f
+processFile	tests/tvheadend/doTSfile.py	/^def processFile(fn, db):$/;"	f
+processFile	tvheadend/doTSfile.py	/^def processFile(fn, db):$/;"	f
+processFiles	build/lib/tvheadend/tvhwatch.py	/^def processFiles(db):$/;"	f
+processFiles	tests/tvheadend/tvhwatch.py	/^def processFiles(db):$/;"	f
+processFiles	tvheadend/tvhwatch.py	/^def processFiles(db):$/;"	f
+processProc	build/lib/tvheadend/ffmpeg.py	/^def processProc(proc, regex, duration):$/;"	f
+processProc	tests/tvheadend/ffmpeg.py	/^def processProc(proc, regex, duration, outq):$/;"	f
+processProc	tvheadend/ffmpeg.py	/^def processProc(proc, regex, duration, outq):$/;"	f
+progButtons	tests/tvheadend/recordedprograms.py	/^    def progButtons(self):$/;"	m	class:CurrentPrograms
+progButtons	tvheadend/recordedprograms.py	/^    def progButtons(self):$/;"	m	class:CurrentPrograms
+progData	tests/tvheadend/recordedprograms.py	/^    def progData(self, removeexisting=True):$/;"	m	class:CurrentPrograms
+progData	tvheadend/recordedprograms.py	/^    def progData(self, removeexisting=True):$/;"	m	class:CurrentPrograms
+progFullStartAndDur	tests/tvheadend/utils.py	/^def progFullStartAndDur(start, stop):$/;"	f
+progFullStartAndDur	tvheadend/utils.py	/^def progFullStartAndDur(start, stop):$/;"	f
+progStartAndDur	build/lib/tvheadend/utils.py	/^def progStartAndDur(start, stop):$/;"	f
+progStartAndDur	tests/tvheadend/utils.py	/^def progStartAndDur(start, stop):$/;"	f
+progStartAndDur	tvheadend/utils.py	/^def progStartAndDur(start, stop):$/;"	f
+progTree	tests/tvheadend/recordedprograms.py	/^    def progTree(self, removeexisting=True):$/;"	m	class:CurrentPrograms
+progTree	tests/tvheadend/transcode.py	/^    def progTree(self):$/;"	m	class:TranscodeWindow
+progTree	tvheadend/recordedprograms.py	/^    def progTree(self, removeexisting=True):$/;"	m	class:CurrentPrograms
+progTree	tvheadend/transcode.py	/^    def progTree(self):$/;"	m	class:TranscodeWindow
+project_urls	setup.py	/^    project_urls={$/;"	v
+readConfig	build/lib/tvheadend/config.py	/^def readConfig():$/;"	f
+readConfig	tests/tvheadend/config.py	/^def readConfig():$/;"	f
+readConfig	tvheadend/config.py	/^def readConfig():$/;"	f
+reduceTime	build/lib/tvheadend/utils.py	/^def reduceTime(unit, secs):$/;"	f
+reduceTime	tests/tvheadend/utils.py	/^def reduceTime(unit, secs):$/;"	f
+reduceTime	tvheadend/utils.py	/^def reduceTime(unit, secs):$/;"	f
+regex	testregex.py	/^regex = re.compile(rstr)$/;"	v
+releaseLock	build/lib/tvheadend/tvhdb.py	/^    def releaseLock(self):$/;"	m	class:TVHDb
+releaseLock	tests/tvheadend/tvhdb.py	/^    def releaseLock(self):$/;"	m	class:TVHDb
+releaseLock	tvheadend/tvhdb.py	/^    def releaseLock(self):$/;"	m	class:TVHDb
+removeCurrentProg	tests/tvheadend/recordedprograms.py	/^    def removeCurrentProg(self, cprog):$/;"	m	class:CurrentPrograms
+removeCurrentProg	tvheadend/recordedprograms.py	/^    def removeCurrentProg(self, cprog):$/;"	m	class:CurrentPrograms
+removeFromTree	tests/tvheadend/recordedprograms.py	/^    def removeFromTree(self):$/;"	m	class:CurrentPrograms
+removeFromTree	tvheadend/recordedprograms.py	/^    def removeFromTree(self):$/;"	m	class:CurrentPrograms
+removeFromYear	build/lib/tvheadend/tvhbatch.py	/^def removeFromYear(show, config):$/;"	f
+removeFromYear	tests/tvheadend/tvhbatch.py	/^def removeFromYear(show, config):$/;"	f
+removeFromYear	tvheadend/tvhbatch.py	/^def removeFromYear(show, config):$/;"	f
+removeProgFromDisplay	tests/tvheadend/recordedprograms.py	/^    def removeProgFromDisplay(self, cprog):$/;"	m	class:CurrentPrograms
+removeProgFromDisplay	tvheadend/recordedprograms.py	/^    def removeProgFromDisplay(self, cprog):$/;"	m	class:CurrentPrograms
+rename	build/lib/tvheadend/fileutils.py	/^def rename(src, dest):$/;"	f
+rename	tests/tvheadend/fileutils.py	/^def rename(src, dest):$/;"	f
+rename	tvheadend/fileutils.py	/^def rename(src, dest):$/;"	f
+rowExists	build/lib/tvheadend/tvhdb.py	/^    def rowExists(self, table, data):$/;"	m	class:TVHDb
+rowExists	tests/tvheadend/tvhdb.py	/^    def rowExists(self, table, data):$/;"	m	class:TVHDb
+rowExists	tvheadend/tvhdb.py	/^    def rowExists(self, table, data):$/;"	m	class:TVHDb
+runConvert	build/lib/tvheadend/ffmpeg.py	/^def runConvert(cmd, fqfn, ofn):$/;"	f
+runThreadConvert	build/lib/tvheadend/ffmpeg.py	/^def runThreadConvert(cmd, fqfn, ofn, duration, regex):$/;"	f
+runThreadConvert	tests/tvheadend/ffmpeg.py	/^def runThreadConvert(cmd, fqfn, ofn, duration, regex):$/;"	f
+runThreadConvert	tvheadend/ffmpeg.py	/^def runThreadConvert(cmd, fqfn, ofn, duration, regex):$/;"	f
+runTranscode	tests/tvheadend/transcode.py	/^    def runTranscode(self):$/;"	m	class:TranscodeWindow
+runTranscode	tvheadend/transcode.py	/^    def runTranscode(self):$/;"	m	class:TranscodeWindow
+sample	testregex.py	/^sample = samplestr.split("\\n")$/;"	v
+secondsFromHMS	build/lib/tvheadend/utils.py	/^def secondsFromHMS(shms):$/;"	f
+secondsFromHMS	tests/tvheadend/utils.py	/^def secondsFromHMS(shms):$/;"	f
+secondsFromHMS	tvheadend/utils.py	/^def secondsFromHMS(shms):$/;"	f
+sendToTVH	build/lib/tvheadend/tvh.py	/^def sendToTVH(route,  data=None):$/;"	f
+sendToTVH	tests/tvheadend/tvh.py	/^def sendToTVH(route, data=None):$/;"	f
+sendToTVH	tvheadend/tvh.py	/^def sendToTVH(route, data=None):$/;"	f
+seriesId	build/lib/tvheadend/utils.py	/^def seriesId(show):$/;"	f
+seriesId	tests/tvheadend/utils.py	/^def seriesId(show):$/;"	f
+seriesId	tvheadend/utils.py	/^def seriesId(show):$/;"	f
+setCategories	build/lib/tvheadend/categories.py	/^def setCategories(entries, config):$/;"	f
+setCategories	tests/tvheadend/categories.py	/^def setCategories(entries, config):$/;"	f
+setCategories	tvheadend/categories.py	/^def setCategories(entries, config):$/;"	f
+setCategory	build/lib/tvheadend/categories.py	/^def setCategory(snum, shows, config):$/;"	f
+setCategory	tests/tvheadend/categories.py	/^def setCategory(snum, shows, config):$/;"	f
+setCategory	tvheadend/categories.py	/^def setCategory(snum, shows, config):$/;"	f
+setDebug	tests/tvheadend/tvhlog.py	/^def setDebug():$/;"	f
+setDebug	tvheadend/tvhlog.py	/^def setDebug():$/;"	f
+setInfo	tests/tvheadend/tvhlog.py	/^def setInfo():$/;"	f
+setInfo	tvheadend/tvhlog.py	/^def setInfo():$/;"	f
+showParts	build/lib/tvheadend/utils.py	/^def showParts(show):$/;"	f
+showParts	tests/tvheadend/utils.py	/^def showParts(show):$/;"	f
+showParts	tvheadend/utils.py	/^def showParts(show):$/;"	f
+sigHandler	tests/tvheadend/tvhwatch.py	/^def sigHandler(signal, frame):$/;"	f
+sigHandler	tvheadend/tvhwatch.py	/^def sigHandler(signal, frame):$/;"	f
+sigintHandler	tests/tvheadend/tvhwatch.py	/^def sigintHandler(sig, frame):$/;"	f
+sigintHandler	tvheadend/tvhwatch.py	/^def sigintHandler(sig, frame):$/;"	f
+sizeof_fmt	build/lib/tvheadend/fileutils.py	/^def sizeof_fmt(num, suffix="B"):$/;"	f
+sizeof_fmt	tests/tvheadend/fileutils.py	/^def sizeof_fmt(num, suffix="B"):$/;"	f
+sizeof_fmt	tvheadend/fileutils.py	/^def sizeof_fmt(num, suffix="B"):$/;"	f
+sqlStr	build/lib/tvheadend/tvhdb.py	/^    def sqlStr(self, xstr):$/;"	m	class:TVHDb
+sqlStr	tests/tvheadend/tvhdb.py	/^    def sqlStr(self, xstr):$/;"	m	class:TVHDb
+sqlStr	tvheadend/tvhdb.py	/^    def sqlStr(self, xstr):$/;"	m	class:TVHDb
+ssz	testregex.py	/^                ssz = FUT.sizeof_fmt(sz)$/;"	v
+stopProcessing	tests/tvheadend/ffmpeg.py	/^def stopProcessing():$/;"	f
+stopProcessing	tvheadend/ffmpeg.py	/^def stopProcessing():$/;"	f
+stopnext	build/lib/tvheadend/tvhwatch.py	/^stopnext = "\/home\/chris\/Videos\/kmedia\/tvh\/stopnext"$/;"	v
+stopnext	tests/tvheadend/tvhwatch.py	/^stopnext = "\/home\/chris\/Videos\/kmedia\/tvh\/stopnext"$/;"	v
+stopnext	tvheadend/tvhwatch.py	/^stopnext = "\/home\/chris\/Videos\/kmedia\/tvh\/stopnext"$/;"	v
+sz	testregex.py	/^                sz = int(int(tsz[0]) * 1000)$/;"	v
+test_getFinishedRecordings	tests/test_tvheadend.py	/^def test_getFinishedRecordings():$/;"	f
+thebin	tests/tvheadend/ffmpeg.py	/^thebin = "\/home\/chris\/Videos\/kmedia\/thebin\/"$/;"	v
+thebin	tvheadend/ffmpeg.py	/^thebin = "\/home\/chris\/Videos\/kmedia\/thebin\/"$/;"	v
+tidy	tests/tvheadend/ffmpeg.py	/^def tidy(rc, fqfn, ofn, sizecheck=True):$/;"	f
+tidy	tvheadend/ffmpeg.py	/^def tidy(rc, fqfn, ofn, sizecheck=True):$/;"	f
+timeFilter	tests/tvheadend/tvh.py	/^def timeFilter(epg, start, length):$/;"	f
+timeFilter	tvheadend/tvh.py	/^def timeFilter(epg, start, length):$/;"	f
+timeSlotPrograms	build/lib/tvheadend/tvh.py	/^def timeSlotPrograms(start=0, length=2):$/;"	f
+timeSlotPrograms	tests/tvheadend/tvh.py	/^def timeSlotPrograms(start=0, length=2):$/;"	f
+timeSlotPrograms	tvheadend/tvh.py	/^def timeSlotPrograms(start=0, length=2):$/;"	f
+timestampDisplay	build/lib/tvheadend/nfo.py	/^def timestampDisplay(ts):$/;"	f
+timestampDisplay	tests/tvheadend/nfo.py	/^def timestampDisplay(ts):$/;"	f
+timestampDisplay	tvheadend/nfo.py	/^def timestampDisplay(ts):$/;"	f
+titleAndSubTitle	build/lib/tvheadend/utils.py	/^def titleAndSubTitle(show):$/;"	f
+titleAndSubTitle	tests/tvheadend/utils.py	/^def titleAndSubTitle(show):$/;"	f
+titleAndSubTitle	tvheadend/utils.py	/^def titleAndSubTitle(show):$/;"	f
+trackIndexes	build/lib/tvheadend/ffmpeg.py	/^def trackIndexes(finfo):$/;"	f
+trackIndexes	tests/tvheadend/ffmpeg.py	/^def trackIndexes(finfo):$/;"	f
+trackIndexes	tvheadend/ffmpeg.py	/^def trackIndexes(finfo):$/;"	f
+transButtons	tests/tvheadend/transcode.py	/^    def transButtons(self):$/;"	m	class:TranscodeWindow
+transButtons	tvheadend/transcode.py	/^    def transButtons(self):$/;"	m	class:TranscodeWindow
+tsz	testregex.py	/^                tsz = xd["size"].split("k")$/;"	v
+tvh	build/lib/tvheadend/tvhcmd.py	/^def tvh():$/;"	f
+tvh	tests/tvheadend/tvhcmd.py	/^def tvh():$/;"	f
+tvh	tvheadend/tvhcmd.py	/^def tvh():$/;"	f
+tvhChannels	build/lib/tvheadend/tvhchannels.py	/^def tvhChannels(channel="BBC ONE HD"):$/;"	f
+tvhChannels	tests/tvheadend/tvhchannels.py	/^def tvhChannels(channel="BBC ONE HD"):$/;"	f
+tvhChannels	tvheadend/tvhchannels.py	/^def tvhChannels(channel="BBC ONE HD"):$/;"	f
+tvhPrograms	build/lib/tvheadend/tvhchannels.py	/^def tvhPrograms(start=0, length=2):$/;"	f
+tvhPrograms	tests/tvheadend/tvhchannels.py	/^def tvhPrograms(start=0, length=2):$/;"	f
+tvhPrograms	tvheadend/tvhchannels.py	/^def tvhPrograms(start=0, length=2):$/;"	f
+tvhbatch	build/lib/tvheadend/tvhbatch.py	/^def tvhbatch():$/;"	f
+tvhbatch	tests/tvheadend/tvhbatch.py	/^def tvhbatch():$/;"	f
+tvhbatch	tvheadend/tvhbatch.py	/^def tvhbatch():$/;"	f
+tvhc	build/lib/tvheadend/tvhchannels.py	/^def tvhc():$/;"	f
+tvhc	tests/tvheadend/tvhchannels.py	/^def tvhc():$/;"	f
+tvhc	tvheadend/tvhchannels.py	/^def tvhc():$/;"	f
+tvhdelete	build/lib/tvheadend/tvhdelete.py	/^def tvhdelete():$/;"	f
+tvhdelete	tests/tvheadend/tvhdelete.py	/^def tvhdelete():$/;"	f
+tvhdelete	tvheadend/tvhdelete.py	/^def tvhdelete():$/;"	f
+tvhfc	tests/tvheadend/filecopy.py	/^class tvhfc(Gtk.Application):$/;"	c
+tvhfc	tvheadend/filecopy.py	/^class tvhfc(Gtk.Application):$/;"	c
+tvhg	tests/tvheadend/tvhgui.py	/^class tvhg(Gtk.Application):$/;"	c
+tvhg	tvheadend/tvhgui.py	/^class tvhg(Gtk.Application):$/;"	c
+tvhlist	build/lib/tvheadend/tvhlist.py	/^def tvhlist():$/;"	f
+tvhlist	tests/tvheadend/tvhlist.py	/^def tvhlist():$/;"	f
+tvhlist	tvheadend/tvhlist.py	/^def tvhlist():$/;"	f
+tvhnfo	build/lib/tvheadend/tvhnfo.py	/^def tvhnfo():$/;"	f
+tvhnfo	tests/tvheadend/tvhnfo.py	/^def tvhnfo():$/;"	f
+tvhnfo	tvheadend/tvhnfo.py	/^def tvhnfo():$/;"	f
+tvhwatch	build/lib/tvheadend/tvhwatch.py	/^def tvhwatch():$/;"	f
+tvhwatch	tests/tvheadend/tvhwatch.py	/^def tvhwatch():$/;"	f
+tvhwatch	tvheadend/tvhwatch.py	/^def tvhwatch():$/;"	f
+tvhwatchlist	tests/tvheadend/tvhwlist.py	/^def tvhwatchlist():$/;"	f
+tvhwatchlist	tvheadend/tvhwlist.py	/^def tvhwatchlist():$/;"	f
+ulines	testregex.py	/^ulines = []$/;"	v
+updateKodi	build/lib/tvheadend/tvhbatch.py	/^def updateKodi():$/;"	f
+updateKodi	tests/tvheadend/tvhbatch.py	/^def updateKodi():$/;"	f
+updateKodi	tvheadend/tvhbatch.py	/^def updateKodi():$/;"	f
+url	setup.py	/^    url="https:\/\/github.com\/ccdale\/tvh",$/;"	v
+user	build/lib/tvheadend/__init__.py	/^user = "unset"$/;"	v
+user	tests/tvheadend/__init__.py	/^user = "unset"$/;"	v
+user	tvheadend/__init__.py	/^user = "unset"$/;"	v
+valMod	build/lib/tvheadend/nfo.py	/^def valMod(value, divisor):$/;"	f
+valMod	tests/tvheadend/nfo.py	/^def valMod(value, divisor):$/;"	f
+valMod	tvheadend/nfo.py	/^def valMod(value, divisor):$/;"	f
+version	setup.py	/^    version=__version__,$/;"	v
+versionl	build/lib/tvheadend/__init__.py	/^versionl = (majorv, minorv, buildv)$/;"	v
+versionl	tests/tvheadend/__init__.py	/^versionl = (majorv, minorv, buildv)$/;"	v
+versionl	tvheadend/__init__.py	/^versionl = (majorv, minorv, buildv)$/;"	v
+vfn	Makefile	/^vfn=tvheadend\/__init__.py$/;"	m
+videohome	tests/tvheadend/__init__.py	/^videohome = "unset"$/;"	v
+videohome	tvheadend/__init__.py	/^videohome = "unset"$/;"	v
+warning	tests/tvheadend/transcode.py	/^    def warning(self, msg):$/;"	m	class:myLogger
+warning	tvheadend/transcode.py	/^    def warning(self, msg):$/;"	m	class:myLogger
+writeConfig	build/lib/tvheadend/config.py	/^def writeConfig(config):$/;"	f
+writeConfig	tests/tvheadend/config.py	/^def writeConfig(config):$/;"	f
+writeConfig	tvheadend/config.py	/^def writeConfig(config):$/;"	f
+xd	testregex.py	/^        xd = m.groupdict()$/;"	v
+xenableApply	tests/tvheadend/recordedprograms.py	/^    def xenableApply(self):$/;"	m	class:CurrentPrograms
+xenableApply	tvheadend/recordedprograms.py	/^    def xenableApply(self):$/;"	m	class:CurrentPrograms
