@@ -23,8 +23,7 @@ import requests
 import json
 import time
 import tvheadend
-import json
-from operator import attrgetter, itemgetter
+from operator import itemgetter
 import tvheadend.utils as UT
 from tvheadend.errors import errorNotify
 from tvheadend.errors import errorRaise
@@ -48,10 +47,10 @@ def sendToTVH(route, data=None):
         url = "http://" + tvheadend.ipaddr + "/api/" + route
         r = requests.post(url, data=data, auth=auth)
         # r = requests.get(url, auth=auth)
-        if r.status_code is not 200:
+        if r.status_code != 200:
             raise TVHError("error from tvh: {}".format(r))
         return r.json()
-    except Exception as e:
+    except Exception:
         try:
             print("Exception, trying again")
             txt = r.text.replace(chr(25), " ")
@@ -196,17 +195,17 @@ def channelPrograms(channel="BBC Four HD"):
     """
     try:
         # chans = channels()
-        now = int(time.time())
+        # now = int(time.time())
         # xfilter = [ { "field": "name", "type": "string", "value": channel, "comparison": "eq", } ]
-        xfilter = [
-            {"field": "stop", "type": "numeric", "value": str(now), "comparison": "gt"},
-            {
-                "field": "start",
-                "type": "numeric",
-                "value": str(now + (3600 * 24)),
-                "comparison": "lt",
-            },
-        ]
+        # xfilter = [
+        #     {"field": "stop", "type": "numeric", "value": str(now), "comparison": "gt"},
+        #     {
+        #         "field": "start",
+        #         "type": "numeric",
+        #         "value": str(now + (3600 * 24)),
+        #         "comparison": "lt",
+        #     },
+        # ]
         # if chans is not None:
         # for chan in chans:
         # if chan["name"] == channel:
@@ -227,7 +226,7 @@ def channelPrograms(channel="BBC Four HD"):
 
 def timeSlotPrograms(start=0, length=2):
     try:
-        now = int(time.time())
+        # now = int(time.time())
         if start == 0:
             start = int(time.time())
         xfilter = [
@@ -300,7 +299,7 @@ def filterPrograms(channel=None, start=None, length=None):
 
 
 def getEpg():
-    """ obtain the epg from tvheadend
+    """obtain the epg from tvheadend
 
     returns as much data as it can (as tvheadend filtering
     doesn't seem to work to well)
